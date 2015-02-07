@@ -17,6 +17,10 @@
 		5048646B1A850C5E00655655 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504864691A850C5E00655655 /* LaunchScreen.xib */; };
 		504864771A850C5E00655655 /* Recipe_JournalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 504864761A850C5E00655655 /* Recipe_JournalTests.m */; };
 		504864821A850C8100655655 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 504864811A850C8100655655 /* CloudKit.framework */; };
+		50B8F1901A866F21002D3D51 /* empty_dish.png.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 50B8F18F1A866F21002D3D51 /* empty_dish.png.jpeg */; };
+		50B8F1991A868B2A002D3D51 /* RecipeCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1981A868B2A002D3D51 /* RecipeCloudManager.m */; };
+		50B8F1A11A868DCA002D3D51 /* GroceryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A01A868DCA002D3D51 /* GroceryList.m */; };
+		50B8F1A41A868DF2002D3D51 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A31A868DF2002D3D51 /* Event.m */; };
 		61EB447D6ECE9558859F72C6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23B56200338F9252CFBA1320 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +54,13 @@
 		504864761A850C5E00655655 /* Recipe_JournalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Recipe_JournalTests.m; sourceTree = "<group>"; };
 		504864801A850C7E00655655 /* Recipe Journal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Recipe Journal.entitlements"; sourceTree = "<group>"; };
 		504864811A850C8100655655 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		50B8F18F1A866F21002D3D51 /* empty_dish.png.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = empty_dish.png.jpeg; sourceTree = "<group>"; };
+		50B8F1971A868B2A002D3D51 /* RecipeCloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipeCloudManager.h; sourceTree = "<group>"; };
+		50B8F1981A868B2A002D3D51 /* RecipeCloudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipeCloudManager.m; sourceTree = "<group>"; };
+		50B8F19F1A868DCA002D3D51 /* GroceryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroceryList.h; sourceTree = "<group>"; };
+		50B8F1A01A868DCA002D3D51 /* GroceryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroceryList.m; sourceTree = "<group>"; };
+		50B8F1A21A868DF2002D3D51 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		50B8F1A31A868DF2002D3D51 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		7D55CFD18045FF7C512F61D7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A208A07A2AE044AB26F6A59A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,10 +120,8 @@
 				504864801A850C7E00655655 /* Recipe Journal.entitlements */,
 				504864581A850C5E00655655 /* AppDelegate.h */,
 				504864591A850C5E00655655 /* AppDelegate.m */,
-				5048645E1A850C5E00655655 /* MasterViewController.h */,
-				5048645F1A850C5E00655655 /* MasterViewController.m */,
-				504864611A850C5E00655655 /* DetailViewController.h */,
-				504864621A850C5E00655655 /* DetailViewController.m */,
+				50B8F19B1A868B5A002D3D51 /* ViewControllers */,
+				50B8F19A1A868B4A002D3D51 /* Models */,
 				504864641A850C5E00655655 /* Main.storyboard */,
 				504864671A850C5E00655655 /* Images.xcassets */,
 				504864691A850C5E00655655 /* LaunchScreen.xib */,
@@ -125,6 +134,7 @@
 		504864541A850C5D00655655 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				50B8F18F1A866F21002D3D51 /* empty_dish.png.jpeg */,
 				504864551A850C5D00655655 /* Info.plist */,
 				504864561A850C5D00655655 /* main.m */,
 			);
@@ -146,6 +156,30 @@
 				504864751A850C5E00655655 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		50B8F19A1A868B4A002D3D51 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				50B8F1971A868B2A002D3D51 /* RecipeCloudManager.h */,
+				50B8F1981A868B2A002D3D51 /* RecipeCloudManager.m */,
+				50B8F1A21A868DF2002D3D51 /* Event.h */,
+				50B8F1A31A868DF2002D3D51 /* Event.m */,
+				50B8F19F1A868DCA002D3D51 /* GroceryList.h */,
+				50B8F1A01A868DCA002D3D51 /* GroceryList.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		50B8F19B1A868B5A002D3D51 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				5048645E1A850C5E00655655 /* MasterViewController.h */,
+				5048645F1A850C5E00655655 /* MasterViewController.m */,
+				504864611A850C5E00655655 /* DetailViewController.h */,
+				504864621A850C5E00655655 /* DetailViewController.m */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		83D8AED18403F0DCEF89C1A3 /* Pods */ = {
@@ -248,6 +282,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50B8F1901A866F21002D3D51 /* empty_dish.png.jpeg in Resources */,
 				504864661A850C5E00655655 /* Main.storyboard in Resources */,
 				5048646B1A850C5E00655655 /* LaunchScreen.xib in Resources */,
 				504864681A850C5E00655655 /* Images.xcassets in Resources */,
@@ -302,10 +337,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				504864631A850C5E00655655 /* DetailViewController.m in Sources */,
+				50B8F1991A868B2A002D3D51 /* RecipeCloudManager.m in Sources */,
 				504864601A850C5E00655655 /* MasterViewController.m in Sources */,
 				5048645A1A850C5E00655655 /* AppDelegate.m in Sources */,
+				50B8F1A41A868DF2002D3D51 /* Event.m in Sources */,
 				5048645D1A850C5E00655655 /* Recipe_Journal.xcdatamodeld in Sources */,
 				504864571A850C5E00655655 /* main.m in Sources */,
+				50B8F1A11A868DCA002D3D51 /* GroceryList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
