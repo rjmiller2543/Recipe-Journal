@@ -48,6 +48,12 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 5
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 0
 
+// AXRatingView
+#define COCOAPODS_POD_AVAILABLE_AXRatingView
+#define COCOAPODS_VERSION_MAJOR_AXRatingView 1
+#define COCOAPODS_VERSION_MINOR_AXRatingView 0
+#define COCOAPODS_VERSION_PATCH_AXRatingView 3
+
 // AwesomeMenu
 #define COCOAPODS_POD_AVAILABLE_AwesomeMenu
 #define COCOAPODS_VERSION_MAJOR_AwesomeMenu 1
@@ -59,12 +65,6 @@
 #define COCOAPODS_VERSION_MAJOR_CHTCollectionViewWaterfallLayout 0
 #define COCOAPODS_VERSION_MINOR_CHTCollectionViewWaterfallLayout 8
 #define COCOAPODS_VERSION_PATCH_CHTCollectionViewWaterfallLayout 0
-
-// DLStarRating
-#define COCOAPODS_POD_AVAILABLE_DLStarRating
-#define COCOAPODS_VERSION_MAJOR_DLStarRating 1
-#define COCOAPODS_VERSION_MINOR_DLStarRating 1
-#define COCOAPODS_VERSION_PATCH_DLStarRating 0
 
 // FXBlurView
 #define COCOAPODS_POD_AVAILABLE_FXBlurView
@@ -90,12 +90,6 @@
 #define COCOAPODS_VERSION_MAJOR_MMProgressHUD 0
 #define COCOAPODS_VERSION_MINOR_MMProgressHUD 3
 #define COCOAPODS_VERSION_PATCH_MMProgressHUD 0
-
-// PullToRefreshCoreText
-#define COCOAPODS_POD_AVAILABLE_PullToRefreshCoreText
-#define COCOAPODS_VERSION_MAJOR_PullToRefreshCoreText 0
-#define COCOAPODS_VERSION_MINOR_PullToRefreshCoreText 1
-#define COCOAPODS_VERSION_PATCH_PullToRefreshCoreText 0
 
 // RNFrostedSidebar
 #define COCOAPODS_POD_AVAILABLE_RNFrostedSidebar

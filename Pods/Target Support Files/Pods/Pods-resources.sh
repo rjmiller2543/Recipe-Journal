@@ -61,12 +61,6 @@ install_resource()
                     install_resource "AwesomeMenu/AwesomeMenu/Images/icon-plus@2x.png"
                     install_resource "AwesomeMenu/AwesomeMenu/Images/icon-star.png"
                     install_resource "AwesomeMenu/AwesomeMenu/Images/icon-star@2x.png"
-                    install_resource "DLStarRating/DLStarRating/images/star.png"
-                    install_resource "DLStarRating/DLStarRating/images/star@2x.png"
-                    install_resource "DLStarRating/DLStarRating/images/star_highlighted-darker.png"
-                    install_resource "DLStarRating/DLStarRating/images/star_highlighted-darker@2x.png"
-                    install_resource "DLStarRating/DLStarRating/images/star_highlighted.png"
-                    install_resource "DLStarRating/DLStarRating/images/star_highlighted@2x.png"
           
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 if [[ "${ACTION}" == "install" ]]; then

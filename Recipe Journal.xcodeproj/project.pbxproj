@@ -17,6 +17,7 @@
 		5048646B1A850C5E00655655 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504864691A850C5E00655655 /* LaunchScreen.xib */; };
 		504864771A850C5E00655655 /* Recipe_JournalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 504864761A850C5E00655655 /* Recipe_JournalTests.m */; };
 		504864821A850C8100655655 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 504864811A850C8100655655 /* CloudKit.framework */; };
+		504864881A893FF300655655 /* NewRecipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 504864871A893FF300655655 /* NewRecipeViewController.m */; };
 		50B8F1901A866F21002D3D51 /* empty_dish.png.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 50B8F18F1A866F21002D3D51 /* empty_dish.png.jpeg */; };
 		50B8F1991A868B2A002D3D51 /* RecipeCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1981A868B2A002D3D51 /* RecipeCloudManager.m */; };
 		50B8F1A11A868DCA002D3D51 /* GroceryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A01A868DCA002D3D51 /* GroceryList.m */; };
@@ -54,6 +55,8 @@
 		504864761A850C5E00655655 /* Recipe_JournalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Recipe_JournalTests.m; sourceTree = "<group>"; };
 		504864801A850C7E00655655 /* Recipe Journal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Recipe Journal.entitlements"; sourceTree = "<group>"; };
 		504864811A850C8100655655 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		504864861A893FF300655655 /* NewRecipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewRecipeViewController.h; sourceTree = "<group>"; };
+		504864871A893FF300655655 /* NewRecipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewRecipeViewController.m; sourceTree = "<group>"; };
 		50B8F18F1A866F21002D3D51 /* empty_dish.png.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = empty_dish.png.jpeg; sourceTree = "<group>"; };
 		50B8F1971A868B2A002D3D51 /* RecipeCloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipeCloudManager.h; sourceTree = "<group>"; };
 		50B8F1981A868B2A002D3D51 /* RecipeCloudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipeCloudManager.m; sourceTree = "<group>"; };
@@ -178,6 +181,8 @@
 				5048645F1A850C5E00655655 /* MasterViewController.m */,
 				504864611A850C5E00655655 /* DetailViewController.h */,
 				504864621A850C5E00655655 /* DetailViewController.m */,
+				504864861A893FF300655655 /* NewRecipeViewController.h */,
+				504864871A893FF300655655 /* NewRecipeViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -343,6 +348,7 @@
 				50B8F1A41A868DF2002D3D51 /* Event.m in Sources */,
 				5048645D1A850C5E00655655 /* Recipe_Journal.xcdatamodeld in Sources */,
 				504864571A850C5E00655655 /* main.m in Sources */,
+				504864881A893FF300655655 /* NewRecipeViewController.m in Sources */,
 				50B8F1A11A868DCA002D3D51 /* GroceryList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

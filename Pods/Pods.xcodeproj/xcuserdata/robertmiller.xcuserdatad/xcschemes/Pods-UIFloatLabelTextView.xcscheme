@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "621D86ACBC43CBA9D01C033A"
+               BlueprintIdentifier = "F76F362458441025748531BE"
                BuildableName = "libPods-UIFloatLabelTextView.a"
                BlueprintName = "Pods-UIFloatLabelTextView"
                ReferencedContainer = "container:Pods.xcodeproj">

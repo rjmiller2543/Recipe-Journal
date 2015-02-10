@@ -1,1 +1,0 @@
-../../../PullToRefreshCoreText/PullToRefreshCoreText/AppDelegate.h

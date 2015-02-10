@@ -8,6 +8,7 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "NewRecipeViewController.h"
 
 @interface MasterViewController ()
 
@@ -42,11 +43,15 @@
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
     NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-        
+    
+    NewRecipeViewController *newView = [[NewRecipeViewController alloc] init];
+    //[self.view addSubview:newView.view];
+    [self showViewController:newView sender:self];
     // If appropriate, configure the new managed object.
     // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
+    
     [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
-        
+    
     // Save the context.
     NSError *error = nil;
     if (![context save:&error]) {

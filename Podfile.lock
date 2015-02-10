@@ -21,13 +21,12 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - AwesomeMenu (1.0.0)
+  - AXRatingView (1.0.3)
   - CHTCollectionViewWaterfallLayout (0.8)
-  - DLStarRating (1.1)
   - FXBlurView (1.6.3)
   - IQDropDownTextField (1.0.4.1)
   - JSONModel (1.0.2)
   - MMProgressHUD (0.3.0)
-  - PullToRefreshCoreText (0.1)
   - RNFrostedSidebar (0.2.0)
   - SDWebImage (3.7.1):
     - SDWebImage/Core (= 3.7.1)
@@ -38,13 +37,12 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - AwesomeMenu
+  - AXRatingView
   - CHTCollectionViewWaterfallLayout
-  - DLStarRating
   - FXBlurView
   - IQDropDownTextField
   - JSONModel
   - MMProgressHUD
-  - PullToRefreshCoreText (~> 0.1)
   - RNFrostedSidebar
   - SDWebImage (= 3.7.1)
   - SWTableViewCell
@@ -53,13 +51,12 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
   AwesomeMenu: e151e84da2434b7deb8acd118816a1f5d8794608
+  AXRatingView: 4f6d6c96f6d0efc1deaa6cf493dbb1ffcfa79e55
   CHTCollectionViewWaterfallLayout: 14b7950cbe45ae9297e7759148d69b022bac047d
-  DLStarRating: 3e9f7c81b3ac8a7ae6336d0ffcf37709e7339b02
   FXBlurView: abe1046285813c4f6e9008abbc324fc5ab32af90
   IQDropDownTextField: 3a6709eea98b91900e33368ab31a99fa54cb3021
   JSONModel: cbdef0fdff1cc70e913a860861d3072860efd3a1
   MMProgressHUD: a524179e2ece5ba76f5228f9368a6918f617510e
-  PullToRefreshCoreText: f450080c01c27e4e4f8ea61aa2cf2c2b2ab4f0e4
   RNFrostedSidebar: f1d95d9b2627f13cc10e75d36e751a623eec079c
   SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
   SWTableViewCell: 25de71898e3fcd11cf75707ef90245acf990ec03

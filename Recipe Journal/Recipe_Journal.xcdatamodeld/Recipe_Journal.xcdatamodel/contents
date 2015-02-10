@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14C109" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="GroceryList" representedClassName="GroceryList" syncable="YES">
-        <attribute name="amount" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="marked" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
-    <entity name="Recipe" representedClassName="Event">
+    <entity name="Event" representedClassName="Event">
         <attribute name="cookingProcess" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="cookTimeMinutes" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="difficulty" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -27,8 +21,14 @@
         <attribute name="winePairing" optional="YES" attributeType="String" syncable="YES"/>
         <userInfo/>
     </entity>
+    <entity name="GroceryList" representedClassName="GroceryList" syncable="YES">
+        <attribute name="amount" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="marked" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="Recipe" positionX="261" positionY="189" width="128" height="283"/>
         <element name="GroceryList" positionX="261" positionY="306" width="128" height="105"/>
+        <element name="Event" positionX="261" positionY="189" width="128" height="285"/>
     </elements>
 </model>
