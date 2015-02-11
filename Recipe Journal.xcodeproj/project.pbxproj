@@ -22,6 +22,8 @@
 		50B8F1991A868B2A002D3D51 /* RecipeCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1981A868B2A002D3D51 /* RecipeCloudManager.m */; };
 		50B8F1A11A868DCA002D3D51 /* GroceryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A01A868DCA002D3D51 /* GroceryList.m */; };
 		50B8F1A41A868DF2002D3D51 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A31A868DF2002D3D51 /* Event.m */; };
+		50B8F1AA1A8B172D002D3D51 /* Ingredient.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A91A8B172D002D3D51 /* Ingredient.m */; };
+		50B8F1B01A8B1B27002D3D51 /* NewIngredientsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1AF1A8B1B27002D3D51 /* NewIngredientsView.m */; };
 		61EB447D6ECE9558859F72C6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23B56200338F9252CFBA1320 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +66,10 @@
 		50B8F1A01A868DCA002D3D51 /* GroceryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroceryList.m; sourceTree = "<group>"; };
 		50B8F1A21A868DF2002D3D51 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		50B8F1A31A868DF2002D3D51 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		50B8F1A81A8B172D002D3D51 /* Ingredient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ingredient.h; sourceTree = "<group>"; };
+		50B8F1A91A8B172D002D3D51 /* Ingredient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ingredient.m; sourceTree = "<group>"; };
+		50B8F1AE1A8B1B27002D3D51 /* NewIngredientsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewIngredientsView.h; sourceTree = "<group>"; };
+		50B8F1AF1A8B1B27002D3D51 /* NewIngredientsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewIngredientsView.m; sourceTree = "<group>"; };
 		7D55CFD18045FF7C512F61D7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A208A07A2AE044AB26F6A59A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -170,6 +176,8 @@
 				50B8F1A31A868DF2002D3D51 /* Event.m */,
 				50B8F19F1A868DCA002D3D51 /* GroceryList.h */,
 				50B8F1A01A868DCA002D3D51 /* GroceryList.m */,
+				50B8F1A81A8B172D002D3D51 /* Ingredient.h */,
+				50B8F1A91A8B172D002D3D51 /* Ingredient.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -183,6 +191,8 @@
 				504864621A850C5E00655655 /* DetailViewController.m */,
 				504864861A893FF300655655 /* NewRecipeViewController.h */,
 				504864871A893FF300655655 /* NewRecipeViewController.m */,
+				50B8F1AE1A8B1B27002D3D51 /* NewIngredientsView.h */,
+				50B8F1AF1A8B1B27002D3D51 /* NewIngredientsView.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -341,8 +351,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50B8F1AA1A8B172D002D3D51 /* Ingredient.m in Sources */,
 				504864631A850C5E00655655 /* DetailViewController.m in Sources */,
 				50B8F1991A868B2A002D3D51 /* RecipeCloudManager.m in Sources */,
+				50B8F1B01A8B1B27002D3D51 /* NewIngredientsView.m in Sources */,
 				504864601A850C5E00655655 /* MasterViewController.m in Sources */,
 				5048645A1A850C5E00655655 /* AppDelegate.m in Sources */,
 				50B8F1A41A868DF2002D3D51 /* Event.m in Sources */,

@@ -39,6 +39,10 @@ const float textHeight = 45.0f;
     // Do any additional setup after loading the view.
     
     self.automaticallyAdjustsScrollViewInsets = NO;
+    [self configureView];
+}
+
+-(void)configureView {
     UIFloatLabelTextView *recipeTextView = [UIFloatLabelTextView new];
     [recipeTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
     recipeTextView.delegate = self;
@@ -61,7 +65,7 @@ const float textHeight = 45.0f;
                                                                       options:0
                                                                       metrics:nil
                                                                         views:NSDictionaryOfVariableBindings(recipeTextView)]];
-
+    
     UIFloatLabelTextView *ratingTextView = [UIFloatLabelTextView new];
     [ratingTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
     ratingTextView.delegate = self;
@@ -83,10 +87,10 @@ const float textHeight = 45.0f;
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:0.0 constant:-1.0]];
     
     [ratingTextView addConstraint:[NSLayoutConstraint constraintWithItem:ratingTextView attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
+                                                               relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:ratingTextView attribute:NSLayoutAttributeWidth
-                                                               relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.333 constant:2.0]];
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.333 constant:2.0]];
     
     UIFloatLabelTextView *servingSizeTextView = [UIFloatLabelTextView new];
     [servingSizeTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -109,7 +113,7 @@ const float textHeight = 45.0f;
     
     [servingSizeTextView addConstraint:[NSLayoutConstraint
                                         constraintWithItem:servingSizeTextView attribute:NSLayoutAttributeHeight
-                                                               relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
+                                        relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:servingSizeTextView attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.333 constant:2.0]];
@@ -134,8 +138,8 @@ const float textHeight = 45.0f;
                                                           relatedBy:NSLayoutRelationEqual toItem:servingSizeTextView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-2.0]];
     
     [difficultyTextView addConstraint:[NSLayoutConstraint
-                                        constraintWithItem:difficultyTextView attribute:NSLayoutAttributeHeight
-                                        relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
+                                       constraintWithItem:difficultyTextView attribute:NSLayoutAttributeHeight
+                                       relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:difficultyTextView attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.333 constant:2.0]];
@@ -177,8 +181,8 @@ const float textHeight = 45.0f;
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:0.0 constant:-1.0]];
     
     [prepTimeTextView addConstraint:[NSLayoutConstraint
-                                       constraintWithItem:prepTimeTextView attribute:NSLayoutAttributeHeight
-                                       relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
+                                     constraintWithItem:prepTimeTextView attribute:NSLayoutAttributeHeight
+                                     relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:prepTimeTextView attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.5 constant:2.0]];
@@ -208,6 +212,8 @@ const float textHeight = 45.0f;
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:cookTimeTextView attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.5 constant:2.0]];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
