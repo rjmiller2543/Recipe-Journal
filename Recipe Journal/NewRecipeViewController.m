@@ -9,8 +9,13 @@
 #import "NewRecipeViewController.h"
 #import <UIFloatLabelTextView/UIFloatLabelTextView.h>
 #import <AXRatingView/AXRatingView.h>
+#import "NewIngredientsView.h"
+#import "NewPreparationView.h"
+#import <CSGrowingTextView/CSGrowingTextView.h>
 
 @interface NewRecipeViewController () <UITextViewDelegate>
+
+@property(nonatomic,retain) NSLayoutConstraint *noteViewHeight;
 
 @end
 
@@ -35,6 +40,7 @@ const float textHeight = 45.0f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.frame = CGRectMake(0, 0, 320, 640);
+    self.view.backgroundColor = [UIColor whiteColor];
     
     // Do any additional setup after loading the view.
     
@@ -43,6 +49,11 @@ const float textHeight = 45.0f;
 }
 
 -(void)configureView {
+    
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+    scrollView.backgroundColor = [UIColor whiteColor];
+    //[self.view addSubview:scrollView];
+    
     UIFloatLabelTextView *recipeTextView = [UIFloatLabelTextView new];
     [recipeTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
     recipeTextView.delegate = self;
@@ -70,8 +81,6 @@ const float textHeight = 45.0f;
     [ratingTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
     ratingTextView.delegate = self;
     ratingTextView.tag = RATINGTEXTVIEW;
-    //ratingTextView.placeholder = @"Rating";
-    //[ratingTextView toggleFloatLabel:UIFloatLabelAnimationTypeShow];
     ratingTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
     ratingTextView.floatLabel.font = [UIFont fontWithName:@"Copperplate" size:12.0f];
     ratingTextView.textAlignment = NSTextAlignmentLeft;
@@ -84,13 +93,13 @@ const float textHeight = 45.0f;
                                                           attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:ratingTextView attribute:NSLayoutAttributeLeft
-                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:0.0 constant:-1.0]];
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:0.0 constant:-2.0]];
     
     [ratingTextView addConstraint:[NSLayoutConstraint constraintWithItem:ratingTextView attribute:NSLayoutAttributeHeight
                                                                relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:ratingTextView attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.333 constant:2.0]];
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.333 constant:4.0]];
     
     UIFloatLabelTextView *servingSizeTextView = [UIFloatLabelTextView new];
     [servingSizeTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -116,7 +125,7 @@ const float textHeight = 45.0f;
                                         relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:servingSizeTextView attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.333 constant:2.0]];
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.333 constant:4.0]];
     
     UIFloatLabelTextView *difficultyTextView = [UIFloatLabelTextView new];
     [difficultyTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -142,7 +151,7 @@ const float textHeight = 45.0f;
                                        relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:difficultyTextView attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.333 constant:2.0]];
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.333 constant:4.0]];
     
     //Add star rating to ratingTextView
     [ratingTextView setNeedsLayout];
@@ -178,14 +187,14 @@ const float textHeight = 45.0f;
                                                           attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:prepTimeTextView attribute:NSLayoutAttributeLeft
-                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:0.0 constant:-1.0]];
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:0.0 constant:-2.0]];
     
     [prepTimeTextView addConstraint:[NSLayoutConstraint
                                      constraintWithItem:prepTimeTextView attribute:NSLayoutAttributeHeight
                                      relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:prepTimeTextView attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.5 constant:2.0]];
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
     
     UIFloatLabelTextView *cookTimeTextView = [UIFloatLabelTextView new];
     [cookTimeTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -208,12 +217,183 @@ const float textHeight = 45.0f;
     
     [cookTimeTextView addConstraint:[NSLayoutConstraint
                                      constraintWithItem:cookTimeTextView attribute:NSLayoutAttributeHeight
-                                     relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
+                                     relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:cookTimeTextView attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.5 constant:2.0]];
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
     
+    NewIngredientsView *ingredientsView = [NewIngredientsView new];
+    [ingredientsView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    ingredientsView.backgroundColor = [UIColor whiteColor];
+    ingredientsView.tag = INGREDIENTVIEW;
+    ingredientsView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    ingredientsView.layer.borderWidth = 2.0;
+    [self.view addSubview:ingredientsView];
     
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:ingredientsView attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual toItem:cookTimeTextView
+                                                          attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:ingredientsView attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:0.0 constant:-2.0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:ingredientsView attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:4.0]];
+    
+    UIFloatLabelTextView *cookProcessTextView = [UIFloatLabelTextView new];
+    [cookProcessTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    cookProcessTextView.delegate = self;
+    cookProcessTextView.tag = COOKPROCESSTEXTVIEW;
+    cookProcessTextView.placeholder = @"Cooking Process";
+    cookProcessTextView.floatLabel.text = @"Cooking Process";
+    cookProcessTextView.textColor = [UIColor clearColor];
+    [cookProcessTextView toggleFloatLabel:UIFloatLabelAnimationTypeShow];
+    cookProcessTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
+    cookProcessTextView.floatLabel.font = [UIFont fontWithName:@"Copperplate" size:12.0f];
+    cookProcessTextView.textAlignment = NSTextAlignmentLeft;
+    cookProcessTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    cookProcessTextView.layer.borderWidth = 2.0;
+    UISegmentedControl *processChoice = [[UISegmentedControl alloc]
+                                         initWithItems:@[[UIImage imageNamed:@"cooker-25.png"],
+                                                         [UIImage imageNamed:@"kitchen-25.png"]]];
+    [processChoice setTranslatesAutoresizingMaskIntoConstraints:NO];
+    processChoice.tintColor = [UIColor darkGrayColor];
+    [cookProcessTextView addSubview:processChoice];
+    [self.view addSubview:cookProcessTextView];
+    
+    //Layout Constraints for the CookProcessTextView
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:cookProcessTextView attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual toItem:ingredientsView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:cookProcessTextView attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:0.0 constant:-2.0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:cookProcessTextView attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
+    
+    [cookProcessTextView addConstraint:[NSLayoutConstraint constraintWithItem:cookProcessTextView
+                                                                    attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+    
+    //Layout Constraints for the UISegmented Control
+    [cookProcessTextView setNeedsLayout];
+    [cookProcessTextView layoutIfNeeded];
+    [cookProcessTextView.floatLabel sizeToFit];
+    [cookProcessTextView addConstraint:[NSLayoutConstraint constraintWithItem:processChoice
+                                                                    attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cookProcessTextView.floatLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-1.0]];
+    
+    [cookProcessTextView addConstraint:[NSLayoutConstraint constraintWithItem:processChoice
+                                                                    attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:cookProcessTextView attribute:NSLayoutAttributeWidth multiplier:0.58 constant:0.0]];
+    
+    [cookProcessTextView addConstraint:[NSLayoutConstraint constraintWithItem:processChoice
+                                                                    attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:cookProcessTextView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    
+    [cookProcessTextView addConstraint:[NSLayoutConstraint constraintWithItem:processChoice
+                                                                    attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:cookProcessTextView attribute:NSLayoutAttributeHeight multiplier:0.58 constant:0.0]];
+    
+    UIFloatLabelTextView *winePairingTextView = [UIFloatLabelTextView new];
+    [winePairingTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    winePairingTextView.delegate = self;
+    winePairingTextView.tag = WINEPAIRTEXTVIEW;
+    winePairingTextView.placeholder = @"Wine Pairings";
+    winePairingTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
+    winePairingTextView.floatLabel.font = [UIFont fontWithName:@"Copperplate" size:12.0f];
+    winePairingTextView.textAlignment = NSTextAlignmentLeft;
+    winePairingTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    winePairingTextView.layer.borderWidth = 2.0;
+    [self.view addSubview:winePairingTextView];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:winePairingTextView attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual toItem:ingredientsView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:winePairingTextView attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual toItem:cookProcessTextView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-2.0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:winePairingTextView attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
+    
+    [winePairingTextView addConstraint:[NSLayoutConstraint constraintWithItem:winePairingTextView
+                                                                    attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+    
+    NewPreparationView *preparationView = [[NewPreparationView alloc] init];
+    [preparationView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    preparationView.backgroundColor = [UIColor whiteColor];
+    preparationView.tag = PREPARATIONTEXTVIEW;
+    preparationView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    preparationView.layer.borderWidth = 2.0;
+    [self.view addSubview:preparationView];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:preparationView attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual toItem:cookProcessTextView
+                                                          attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:preparationView attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:0.0 constant:-2.0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:preparationView attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:4.0]];
+    
+    UILabel *notesLabel = [[UILabel alloc] init];
+    [notesLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    notesLabel.text = @"Notes:";
+    notesLabel.font = [UIFont fontWithName:@"Copperplate" size:19.0f];
+    notesLabel.textAlignment = NSTextAlignmentLeft;
+    [notesLabel sizeToFit];
+    [self.view addSubview:notesLabel];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:notesLabel attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual toItem:preparationView attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0 constant:2.0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:notesLabel attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:0.0 constant:5.0]];
+    
+    CSGrowingTextView *notesTextView = [[CSGrowingTextView alloc] init];
+    [notesTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    notesTextView.tag = NOTESTEXTVIEW;
+    notesTextView.internalTextView.text = @"Write Down Notes Here:";
+    notesTextView.growDirection = CSGrowDirectionDown;
+    [self.view addSubview:notesTextView];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:notesTextView attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual toItem:notesLabel
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0 constant:1.0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:notesTextView attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft multiplier:0.0 constant:3.0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:notesTextView attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view
+                                                          attribute:NSLayoutAttributeWidth
+                                                         multiplier:1.0 constant:0.0]];
+    
+    _noteViewHeight = [NSLayoutConstraint constraintWithItem:notesTextView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:notesTextView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0];
+    [notesTextView addConstraint:_noteViewHeight];
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    [imageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    imageView.tag = IMAGEVIEW;
+    imageView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    imageView.layer.borderWidth = 2.0;
+    //imageView.image = [UIImage imageNamed:@"no-photo.png"];
+    [self.view addSubview:imageView];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual toItem:notesTextView
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0 constant:10.0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft multiplier:0.0 constant:-2.0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual toItem:self.view
+                                                          attribute:NSLayoutAttributeWidth
+                                                         multiplier:1.0 constant:4.0]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -226,6 +406,7 @@ const float textHeight = 45.0f;
     UIFloatLabelTextView *tempView = (UIFloatLabelTextView*)textView;
     [tempView toggleFloatLabel:UIFloatLabelAnimationTypeShow];
     textView.text = @"";
+    [tempView.floatLabel sizeToFit];
     textView.textColor = [UIColor blackColor];
 }
 

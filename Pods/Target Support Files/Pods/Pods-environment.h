@@ -66,6 +66,12 @@
 #define COCOAPODS_VERSION_MINOR_CHTCollectionViewWaterfallLayout 8
 #define COCOAPODS_VERSION_PATCH_CHTCollectionViewWaterfallLayout 0
 
+// CSGrowingTextView
+#define COCOAPODS_POD_AVAILABLE_CSGrowingTextView
+#define COCOAPODS_VERSION_MAJOR_CSGrowingTextView 1
+#define COCOAPODS_VERSION_MINOR_CSGrowingTextView 0
+#define COCOAPODS_VERSION_PATCH_CSGrowingTextView 4
+
 // FXBlurView
 #define COCOAPODS_POD_AVAILABLE_FXBlurView
 #define COCOAPODS_VERSION_MAJOR_FXBlurView 1

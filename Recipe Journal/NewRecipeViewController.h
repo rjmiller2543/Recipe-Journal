@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewRecipeViewController : UIViewController
+@interface NewRecipeViewController : UIViewController <UITextViewDelegate>
 
 @end

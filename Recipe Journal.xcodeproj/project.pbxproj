@@ -24,6 +24,10 @@
 		50B8F1A41A868DF2002D3D51 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A31A868DF2002D3D51 /* Event.m */; };
 		50B8F1AA1A8B172D002D3D51 /* Ingredient.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A91A8B172D002D3D51 /* Ingredient.m */; };
 		50B8F1B01A8B1B27002D3D51 /* NewIngredientsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1AF1A8B1B27002D3D51 /* NewIngredientsView.m */; };
+		50C491F31A8D062E00C79983 /* cooker-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F21A8D062E00C79983 /* cooker-25.png */; };
+		50C491F51A8D3FB400C79983 /* kitchen-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F41A8D3FB400C79983 /* kitchen-25.png */; };
+		50C491F81A8D513000C79983 /* NewPreparationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C491F71A8D513000C79983 /* NewPreparationView.m */; };
+		50C491FA1A8D736D00C79983 /* no-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F91A8D736D00C79983 /* no-photo.png */; };
 		61EB447D6ECE9558859F72C6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23B56200338F9252CFBA1320 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +74,11 @@
 		50B8F1A91A8B172D002D3D51 /* Ingredient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ingredient.m; sourceTree = "<group>"; };
 		50B8F1AE1A8B1B27002D3D51 /* NewIngredientsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewIngredientsView.h; sourceTree = "<group>"; };
 		50B8F1AF1A8B1B27002D3D51 /* NewIngredientsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewIngredientsView.m; sourceTree = "<group>"; };
+		50C491F21A8D062E00C79983 /* cooker-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cooker-25.png"; sourceTree = "<group>"; };
+		50C491F41A8D3FB400C79983 /* kitchen-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kitchen-25.png"; sourceTree = "<group>"; };
+		50C491F61A8D513000C79983 /* NewPreparationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewPreparationView.h; sourceTree = "<group>"; };
+		50C491F71A8D513000C79983 /* NewPreparationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewPreparationView.m; sourceTree = "<group>"; };
+		50C491F91A8D736D00C79983 /* no-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-photo.png"; sourceTree = "<group>"; };
 		7D55CFD18045FF7C512F61D7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A208A07A2AE044AB26F6A59A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -129,6 +138,7 @@
 				504864801A850C7E00655655 /* Recipe Journal.entitlements */,
 				504864581A850C5E00655655 /* AppDelegate.h */,
 				504864591A850C5E00655655 /* AppDelegate.m */,
+				50C491F11A8BB3B100C79983 /* Views */,
 				50B8F19B1A868B5A002D3D51 /* ViewControllers */,
 				50B8F19A1A868B4A002D3D51 /* Models */,
 				504864641A850C5E00655655 /* Main.storyboard */,
@@ -143,6 +153,9 @@
 		504864541A850C5D00655655 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				50C491F91A8D736D00C79983 /* no-photo.png */,
+				50C491F41A8D3FB400C79983 /* kitchen-25.png */,
+				50C491F21A8D062E00C79983 /* cooker-25.png */,
 				50B8F18F1A866F21002D3D51 /* empty_dish.png.jpeg */,
 				504864551A850C5D00655655 /* Info.plist */,
 				504864561A850C5D00655655 /* main.m */,
@@ -191,10 +204,19 @@
 				504864621A850C5E00655655 /* DetailViewController.m */,
 				504864861A893FF300655655 /* NewRecipeViewController.h */,
 				504864871A893FF300655655 /* NewRecipeViewController.m */,
-				50B8F1AE1A8B1B27002D3D51 /* NewIngredientsView.h */,
-				50B8F1AF1A8B1B27002D3D51 /* NewIngredientsView.m */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		50C491F11A8BB3B100C79983 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				50B8F1AE1A8B1B27002D3D51 /* NewIngredientsView.h */,
+				50B8F1AF1A8B1B27002D3D51 /* NewIngredientsView.m */,
+				50C491F61A8D513000C79983 /* NewPreparationView.h */,
+				50C491F71A8D513000C79983 /* NewPreparationView.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		83D8AED18403F0DCEF89C1A3 /* Pods */ = {
@@ -298,8 +320,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				50B8F1901A866F21002D3D51 /* empty_dish.png.jpeg in Resources */,
+				50C491F51A8D3FB400C79983 /* kitchen-25.png in Resources */,
 				504864661A850C5E00655655 /* Main.storyboard in Resources */,
+				50C491FA1A8D736D00C79983 /* no-photo.png in Resources */,
 				5048646B1A850C5E00655655 /* LaunchScreen.xib in Resources */,
+				50C491F31A8D062E00C79983 /* cooker-25.png in Resources */,
 				504864681A850C5E00655655 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,6 +385,7 @@
 				50B8F1A41A868DF2002D3D51 /* Event.m in Sources */,
 				5048645D1A850C5E00655655 /* Recipe_Journal.xcdatamodeld in Sources */,
 				504864571A850C5E00655655 /* main.m in Sources */,
+				50C491F81A8D513000C79983 /* NewPreparationView.m in Sources */,
 				504864881A893FF300655655 /* NewRecipeViewController.m in Sources */,
 				50B8F1A11A868DCA002D3D51 /* GroceryList.m in Sources */,
 			);

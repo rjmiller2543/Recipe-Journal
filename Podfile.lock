@@ -23,6 +23,7 @@ PODS:
   - AwesomeMenu (1.0.0)
   - AXRatingView (1.0.3)
   - CHTCollectionViewWaterfallLayout (0.8)
+  - CSGrowingTextView (1.0.4)
   - FXBlurView (1.6.3)
   - IQDropDownTextField (1.0.4.1)
   - JSONModel (1.0.2)
@@ -39,6 +40,7 @@ DEPENDENCIES:
   - AwesomeMenu
   - AXRatingView
   - CHTCollectionViewWaterfallLayout
+  - CSGrowingTextView
   - FXBlurView
   - IQDropDownTextField
   - JSONModel
@@ -53,6 +55,7 @@ SPEC CHECKSUMS:
   AwesomeMenu: e151e84da2434b7deb8acd118816a1f5d8794608
   AXRatingView: 4f6d6c96f6d0efc1deaa6cf493dbb1ffcfa79e55
   CHTCollectionViewWaterfallLayout: 14b7950cbe45ae9297e7759148d69b022bac047d
+  CSGrowingTextView: c3f6a60ead2e6a19d6ed5d71dae0108315719f02
   FXBlurView: abe1046285813c4f6e9008abbc324fc5ab32af90
   IQDropDownTextField: 3a6709eea98b91900e33368ab31a99fa54cb3021
   JSONModel: cbdef0fdff1cc70e913a860861d3072860efd3a1
