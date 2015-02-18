@@ -37,7 +37,7 @@
     
     //NSLog(@"%@", [self.superview description]);
     //NSLog(@"%@", [self description]);
-    
+    _tableView.scrollEnabled = NO;
     _viewHeight = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_tableView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:22.0];
     [self addConstraint:_viewHeight];
     

@@ -24,9 +24,15 @@
 @property (nonatomic, retain) NSString * recipeName;
 @property (nonatomic, retain) NSNumber * servingSize;
 @property (nonatomic, retain) NSString * winePairing;
-@property (nonatomic, retain) id recipeIconImage;
+@property (nonatomic, retain) NSData *recipeIconImage;
 @property (nonatomic, retain) NSNumber * favorited;
 @property (nonatomic, retain) NSNumber * lowCalorie;
 @property (nonatomic, retain) NSString * mealType;
+
+-(NSArray*)returnIngredientsArray;
+-(NSArray*)returnPrepartionStepsArray;
+
+-(void)setIngredients:(NSArray *)ingredients;
+-(void)setPreparation:(NSArray *)preparation;
 
 @end

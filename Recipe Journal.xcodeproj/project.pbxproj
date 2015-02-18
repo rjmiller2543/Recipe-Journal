@@ -144,7 +144,6 @@
 				504864641A850C5E00655655 /* Main.storyboard */,
 				504864671A850C5E00655655 /* Images.xcassets */,
 				504864691A850C5E00655655 /* LaunchScreen.xib */,
-				5048645B1A850C5E00655655 /* Recipe_Journal.xcdatamodeld */,
 				504864541A850C5D00655655 /* Supporting Files */,
 			);
 			path = "Recipe Journal";
@@ -183,6 +182,7 @@
 		50B8F19A1A868B4A002D3D51 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5048645B1A850C5E00655655 /* Recipe_Journal.xcdatamodeld */,
 				50B8F1971A868B2A002D3D51 /* RecipeCloudManager.h */,
 				50B8F1981A868B2A002D3D51 /* RecipeCloudManager.m */,
 				50B8F1A21A868DF2002D3D51 /* Event.h */,

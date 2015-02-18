@@ -91,6 +91,12 @@
 #define COCOAPODS_VERSION_MINOR_JSONModel 0
 #define COCOAPODS_VERSION_PATCH_JSONModel 2
 
+// JVFloatLabeledTextField
+#define COCOAPODS_POD_AVAILABLE_JVFloatLabeledTextField
+#define COCOAPODS_VERSION_MAJOR_JVFloatLabeledTextField 1
+#define COCOAPODS_VERSION_MINOR_JVFloatLabeledTextField 0
+#define COCOAPODS_VERSION_PATCH_JVFloatLabeledTextField 2
+
 // MMProgressHUD
 #define COCOAPODS_POD_AVAILABLE_MMProgressHUD
 #define COCOAPODS_VERSION_MAJOR_MMProgressHUD 0

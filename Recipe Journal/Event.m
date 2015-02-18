@@ -28,4 +28,30 @@
 @dynamic lowCalorie;
 @dynamic mealType;
 
+-(NSArray*)returnIngredientsArray {
+    if (!self.ingredients) {
+        return nil;
+    }
+    
+    return [NSKeyedUnarchiver unarchiveObjectWithData:self.ingredients];
+}
+
+-(NSArray*)returnPrepartionStepsArray {
+    if (!self.preparation) {
+        return nil;
+    }
+    
+    return [NSKeyedUnarchiver unarchiveObjectWithData:self.preparation];
+}
+
+-(void)setIngredients:(NSArray *)ingredients {
+    NSData *ingredientsData = [NSKeyedArchiver archivedDataWithRootObject:ingredients];
+    [self setValue:ingredientsData forKey:@"ingredients"];
+}
+
+-(void)setPreparation:(NSArray *)preparation {
+    NSData *preparationData = [NSKeyedArchiver archivedDataWithRootObject:preparation];
+    [self setValue:preparationData forKey:@"preparation"];
+}
+
 @end
