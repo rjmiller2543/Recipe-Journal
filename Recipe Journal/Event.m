@@ -45,13 +45,23 @@
 }
 
 -(void)setIngredients:(NSArray *)ingredients {
-    NSData *ingredientsData = [NSKeyedArchiver archivedDataWithRootObject:ingredients];
-    [self setValue:ingredientsData forKey:@"ingredients"];
+    if ((ingredients == nil) || (ingredients.count == 0)) {
+        //do nothing
+    }
+    else {
+        NSData *ingredientsData = [NSKeyedArchiver archivedDataWithRootObject:ingredients];
+        [self setValue:ingredientsData forKey:@"ingredients"];
+    }
 }
 
 -(void)setPreparation:(NSArray *)preparation {
-    NSData *preparationData = [NSKeyedArchiver archivedDataWithRootObject:preparation];
-    [self setValue:preparationData forKey:@"preparation"];
+    if ((preparation == nil) || (preparation.count == 0)) {
+        //do nothing
+    }
+    else {
+        NSData *preparationData = [NSKeyedArchiver archivedDataWithRootObject:preparation];
+        [self setValue:preparationData forKey:@"preparation"];
+    }
 }
 
 @end

@@ -18,6 +18,8 @@
 #import <MMProgressHUD/MMProgressHUDOverlayView.h>
 #import <MMProgressHUD/MMProgressView-Protocol.h>
 #import "AppDelegate.h"
+#import <SVProgressHUD/SVProgressHUD.h>
+
 
 @interface NewRecipeViewController () <UITextViewDelegate, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate>
 
@@ -72,6 +74,28 @@ const float textHeight = 45.0f;
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self configureView];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleNotification:)
+                                                 name:SVProgressHUDWillAppearNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleNotification:)
+                                                 name:SVProgressHUDDidAppearNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleNotification:)
+                                                 name:SVProgressHUDWillDisappearNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleNotification:)
+                                                 name:SVProgressHUDDidDisappearNotification
+                                               object:nil];
 }
 
 -(void)configureView {
@@ -180,7 +204,7 @@ const float textHeight = 45.0f;
     _prepTimeTextView = [JVFloatLabeledTextField new];
     [_prepTimeTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
     //prepTimeTextView.delegate = self;
-    _prepTimeTextView.tag = PREPARATIONTEXTVIEW;
+    _prepTimeTextView.tag = PRETIMETEXTVIEW;
     _prepTimeTextView.placeholder = @"Preparation Time";
     _prepTimeTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
     _prepTimeTextView.floatingLabelFont = [UIFont fontWithName:@"Copperplate" size:12.0f];
@@ -652,11 +676,12 @@ const float textHeight = 45.0f;
     
     [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
     
-    //[MMProgressHUD showWithTitle:@"Saving Data" status:@"Up up" cancelBlock:^{
+    //[SVProgressHUD showWithTitle:@"Saving Data" status:@"Up up" cancelBlock:^{
         //Canceled
     //}];
     
-    [MMProgressHUD setProgressViewClass:[]]
+    [SVProgressHUD showProgress:0.0f status:@"Up"];
+    //[SVProgressHUD show];
     
     UIView *containerView = [_scrollView viewWithTag:CONTAINERVIEW];
     
@@ -672,7 +697,7 @@ const float textHeight = 45.0f;
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
-                [MMProgressHUD updateProgress:1/12 withStatus:@"Just Getting Starting.." title:@"Saving Data"];
+                [SVProgressHUD showProgress:1/12 status:@"Just Getting Starting.."];
                 break;
             case RATINGTEXTVIEW:
                 [newManagedObject setValue:[NSNumber numberWithFloat:_ratingView.value] forKey:@"rating"];
@@ -682,7 +707,7 @@ const float textHeight = 45.0f;
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
-                [MMProgressHUD updateProgress:2/12 withStatus:@"Just Getting Starting.." title:@"Saving Data"];
+                [SVProgressHUD showProgress:2/12 status:@"Just Getting Starting.."];
                 break;
             case SERVINGSIZETEXTVIEW:
                 [newManagedObject setValue:[NSNumber numberWithFloat:[_servingSizeTextView.text floatValue]] forKey:@"servingSize"];
@@ -692,7 +717,7 @@ const float textHeight = 45.0f;
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
-                [MMProgressHUD updateProgress:3/12 withStatus:@"Coals are burning.." title:@"Saving Data"];
+                [SVProgressHUD showProgress:3/12 status:@"Coals are burning.."];
                 break;
             case DIFFICULTYTEXTVIEW:
                 [newManagedObject setValue:[NSNumber numberWithFloat:[_difficultyView value]] forKey:@"difficulty"];
@@ -702,17 +727,17 @@ const float textHeight = 45.0f;
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
-                [MMProgressHUD updateProgress:4/12 withStatus:@"Coals are burning.." title:@"Saving Data"];
+                [SVProgressHUD showProgress:4/12 status:@"Coals are burning.."];
                 break;
             case PRETIMETEXTVIEW:
-                [newManagedObject setValue:[NSNumber numberWithInteger:[_prepTimeTextView text].integerValue] forKey:@"prepTimeMinutes"];
+                [newManagedObject setValue:[NSNumber numberWithInteger:10] forKey:@"prepTimeMinutes"];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
-                [MMProgressHUD updateProgress:5/12 withStatus:@"I'm Seeing Some Improvement.." title:@"Saving Data"];
+                [SVProgressHUD showProgress:5/12 status:@"I'm Seeing Some Improvement.."];
                 break;
             case COOKTIMETEXTVIEW:
                 [newManagedObject setValue:[NSNumber numberWithInteger:[_cookTimeTextView text].integerValue] forKey:@"cookTimeMinutes"];
@@ -722,7 +747,7 @@ const float textHeight = 45.0f;
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
-                [MMProgressHUD updateProgress:6/12 withStatus:@"I'm Seeing Some Improvement.." title:@"Saving Data"];
+                [SVProgressHUD showProgress:6/12 status:@"I'm Seeing Some Improvement.."];
                 break;
             case INGREDIENTVIEW:
                 [newEvent setIngredients:_ingredientsView.ingredients];
@@ -732,7 +757,7 @@ const float textHeight = 45.0f;
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
-                [MMProgressHUD updateProgress:7/12 withStatus:@"Now We're Cooking With Gas!!" title:@"Saving Data"];
+                [SVProgressHUD showProgress:7/12 status:@"Now We're Cooking With Gas!!"];
                 break;
             case COOKPROCESSTEXTVIEW:
                 [newManagedObject setValue:[NSNumber numberWithInteger:_processChoice.selectedSegmentIndex] forKey:@"cookingProcess"];
@@ -742,7 +767,7 @@ const float textHeight = 45.0f;
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
-                [MMProgressHUD updateProgress:8/12 withStatus:@"Now We're Cooking With Gas!!" title:@"Saving Data"];
+                [SVProgressHUD showProgress:8/12 status:@"Now We're Cooking With Gas!!"];
                 break;
             case WINEPAIRTEXTVIEW:
                 [newManagedObject setValue:_winePairingTextView.text forKey:@"winePairing"];
@@ -752,7 +777,7 @@ const float textHeight = 45.0f;
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
-                [MMProgressHUD updateProgress:9/12 withStatus:@"Nearly There.." title:@"Saving Data"];
+                [SVProgressHUD showProgress:9/12 status:@"Nearly There.."];
                 break;
             case PREPARATIONTEXTVIEW:
                 [newEvent setPreparation:_preparationView.steps];
@@ -762,7 +787,7 @@ const float textHeight = 45.0f;
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
-                [MMProgressHUD updateProgress:10/12 withStatus:@"Nearly There.." title:@"Saving Data"];
+                [SVProgressHUD showProgress:10/12 status:@"Nearly There.."];
                 break;
             case NOTESTEXTVIEW:
                 [newManagedObject setValue:_notesTextView.internalTextView.text forKey:@"notes"];
@@ -772,7 +797,7 @@ const float textHeight = 45.0f;
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
-                [MMProgressHUD updateProgress:11/12 withStatus:@"Aaaaaannnnddddd.." title:@"Saving Data"];
+                [SVProgressHUD showProgress:11/12 status:@"Aaaaaannnnddddd.."];
                 break;
             case IMAGEVIEW:
                 [newManagedObject setValue:UIImagePNGRepresentation(_imageView.image) forKey:@"recipeIconImage"];
@@ -782,7 +807,7 @@ const float textHeight = 45.0f;
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
-                [MMProgressHUD updateProgress:12/12 withStatus:@"AAAaaaNNNnnnDDDddd!!" title:@"Saving Data"];
+                [SVProgressHUD showProgress:12/12 status:@"AAAaaaNNNnnnDDDddd!!"];
                 break;
                 
             default:
@@ -790,7 +815,8 @@ const float textHeight = 45.0f;
         }
     }
     
-     [MMProgressHUD dismissWithSuccess:@"Woot!" title:@"Saved"];
+    [SVProgressHUD showSuccessWithStatus:@"Woot!"];
+    [SVProgressHUD dismiss];
     // Save the context.
     
     if (![context save:&error]) {
@@ -812,6 +838,7 @@ const float textHeight = 45.0f;
     [self saveRecipe];
     [self dismissViewControllerAnimated:YES completion:^{
         //up up
+        NSLog(@"recipe saved");
     }];
 }
 
@@ -890,6 +917,13 @@ const float textHeight = 45.0f;
     }
     
     return _fetchedResultsController;
+}
+
+#pragma mark - SVProgressHUD methods
+- (void)handleNotification:(NSNotification *)notif
+{
+    NSLog(@"Notification recieved: %@", notif.name);
+    NSLog(@"Status user info key: %@", [notif.userInfo objectForKey:SVProgressHUDStatusUserInfoKey]);
 }
 
 /*
