@@ -77,6 +77,8 @@ const float textHeight = 45.0f;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBar.hidden = YES;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleNotification:)
                                                  name:SVProgressHUDWillAppearNotification
@@ -116,7 +118,7 @@ const float textHeight = 45.0f;
     _recipeTextView = [[JVFloatLabeledTextField alloc] init];
     [_recipeTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_recipeTextView setTintColor:[UIColor blueColor]];
-    //_recipeTextView.delegate = self;
+    _recipeTextView.delegate = self;
     _recipeTextView.tag = RECIPETEXTVIEW;
     _recipeTextView.clearsOnBeginEditing = YES;
     _recipeTextView.placeholder = @"Recipe";
@@ -147,7 +149,7 @@ const float textHeight = 45.0f;
     //Setup and add Serving Size Text View
     _servingSizeTextView = [[JVFloatLabeledTextField alloc] init];
     [_servingSizeTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    //servingSizeTextView.delegate = self;
+    //_servingSizeTextView.delegate = self;
     _servingSizeTextView.tag = SERVINGSIZETEXTVIEW;
     _servingSizeTextView.placeholder = @"Serving Size";
     _servingSizeTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
@@ -161,7 +163,7 @@ const float textHeight = 45.0f;
     //Setup and add the Difficulty Text View
     _difficultyTextView = [JVFloatLabeledTextField new];
     [_difficultyTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    //difficultyTextView.delegate = self;
+    //_difficultyTextView.delegate = self;
     _difficultyTextView.tag = DIFFICULTYTEXTVIEW;
     _difficultyTextView.placeholder = @"Difficulty";
     _difficultyTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
@@ -203,7 +205,7 @@ const float textHeight = 45.0f;
     //Setup and add the Prep Time Text View
     _prepTimeTextView = [JVFloatLabeledTextField new];
     [_prepTimeTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    //prepTimeTextView.delegate = self;
+    _prepTimeTextView.delegate = self;
     _prepTimeTextView.tag = PRETIMETEXTVIEW;
     _prepTimeTextView.placeholder = @"Preparation Time";
     _prepTimeTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
@@ -218,7 +220,7 @@ const float textHeight = 45.0f;
     //Setup and add the Cook Time Text View
     _cookTimeTextView = [JVFloatLabeledTextField new];
     [_cookTimeTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    //cookTimeTextView.delegate = self;
+    _cookTimeTextView.delegate = self;
     _cookTimeTextView.tag = COOKTIMETEXTVIEW;
     _cookTimeTextView.placeholder = @"Cook Time";
     _cookTimeTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
@@ -232,6 +234,7 @@ const float textHeight = 45.0f;
     
     //Setup and add the Ingredients View
     _ingredientsView = [NewIngredientsView new];
+    _ingredientsView.parentViewController = self;
     [_ingredientsView setTranslatesAutoresizingMaskIntoConstraints:NO];
     _ingredientsView.backgroundColor = [UIColor whiteColor];
     _ingredientsView.tag = INGREDIENTVIEW;
@@ -286,6 +289,7 @@ const float textHeight = 45.0f;
     
     //Setup and add the Preparation View
     _preparationView = [[NewPreparationView alloc] init];
+    _preparationView.parentViewController = self;
     [_preparationView setTranslatesAutoresizingMaskIntoConstraints:NO];
     _preparationView.backgroundColor = [UIColor whiteColor];
     _preparationView.tag = PREPARATIONTEXTVIEW;
@@ -332,6 +336,7 @@ const float textHeight = 45.0f;
     [cancelButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     [cancelButton addTarget:self action:@selector(recipeCancelled:) forControlEvents:UIControlEventTouchUpInside];
     [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    cancelButton.titleLabel.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
     cancelButton.titleLabel.textColor = [UIColor whiteColor];
     cancelButton.backgroundColor = [UIColor blackColor];
     [containerView addSubview:cancelButton];
@@ -750,7 +755,7 @@ const float textHeight = 45.0f;
                 [SVProgressHUD showProgress:6/12 status:@"I'm Seeing Some Improvement.."];
                 break;
             case INGREDIENTVIEW:
-                [newEvent setIngredients:_ingredientsView.ingredients];
+                [newEvent setIngredientsWithArray:_ingredientsView.ingredients];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -780,7 +785,7 @@ const float textHeight = 45.0f;
                 [SVProgressHUD showProgress:9/12 status:@"Nearly There.."];
                 break;
             case PREPARATIONTEXTVIEW:
-                [newEvent setPreparation:_preparationView.steps];
+                [newEvent setPreparationWithArray:_preparationView.steps];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -840,6 +845,15 @@ const float textHeight = 45.0f;
         //up up
         NSLog(@"recipe saved");
     }];
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField {
+    [textField resignFirstResponder];
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField endEditing:YES];
+    return YES;
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView {

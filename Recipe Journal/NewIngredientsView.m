@@ -15,7 +15,7 @@
     self = [super init];
     //NSLog(@"init");
     if (self) {
-        _ingredients = [[NSMutableArray alloc] init];
+        //_ingredients = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -187,6 +187,9 @@
             }
         }
         
+        if (_ingredients == nil) {
+            _ingredients = [[NSMutableArray alloc] init];
+        }
         [_ingredients addObject:_tempIngredient];
         [_tableView reloadData];
         [self updateTableViewHeight];
@@ -195,12 +198,7 @@
         //Do nothing
     }]];
     
-    id rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
-    if([rootViewController isKindOfClass:[UINavigationController class]])
-    {
-        rootViewController = [((UINavigationController *)rootViewController).viewControllers objectAtIndex:0];
-    }
-    [rootViewController presentViewController:alertView animated:YES completion:nil];
+    [_parentViewController presentViewController:alertView animated:YES completion:nil];
     
 }
 

@@ -17,4 +17,6 @@
 @property(nonatomic,retain) NSLayoutConstraint *tableViewHeight;
 @property(nonatomic,retain) NSLayoutConstraint *viewHeight;
 
+@property(nonatomic) id parentViewController;
+
 @end

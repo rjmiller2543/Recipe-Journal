@@ -19,4 +19,6 @@
 @property(nonatomic,retain) NSLayoutConstraint *viewHeight;
 @property(nonatomic,retain) Ingredient *tempIngredient;
 
+@property(nonatomic) id parentViewController;
+
 @end

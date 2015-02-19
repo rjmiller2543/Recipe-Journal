@@ -44,8 +44,8 @@
     return [NSKeyedUnarchiver unarchiveObjectWithData:self.preparation];
 }
 
--(void)setIngredients:(NSArray *)ingredients {
-    if ((ingredients == nil) || (ingredients.count == 0)) {
+-(void)setIngredientsWithArray:(NSArray *)ingredients {
+    if (ingredients == nil) {
         //do nothing
     }
     else {
@@ -54,8 +54,8 @@
     }
 }
 
--(void)setPreparation:(NSArray *)preparation {
-    if ((preparation == nil) || (preparation.count == 0)) {
+-(void)setPreparationWithArray:(NSArray *)preparation {
+    if (preparation == nil) {
         //do nothing
     }
     else {

@@ -24,6 +24,7 @@
 		50B8F1A41A868DF2002D3D51 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A31A868DF2002D3D51 /* Event.m */; };
 		50B8F1AA1A8B172D002D3D51 /* Ingredient.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A91A8B172D002D3D51 /* Ingredient.m */; };
 		50B8F1B01A8B1B27002D3D51 /* NewIngredientsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1AF1A8B1B27002D3D51 /* NewIngredientsView.m */; };
+		50B8F1B31A9579B8002D3D51 /* RecipeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1B21A9579B8002D3D51 /* RecipeTableViewCell.m */; };
 		50C491F31A8D062E00C79983 /* cooker-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F21A8D062E00C79983 /* cooker-25.png */; };
 		50C491F51A8D3FB400C79983 /* kitchen-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F41A8D3FB400C79983 /* kitchen-25.png */; };
 		50C491F81A8D513000C79983 /* NewPreparationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C491F71A8D513000C79983 /* NewPreparationView.m */; };
@@ -74,6 +75,8 @@
 		50B8F1A91A8B172D002D3D51 /* Ingredient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ingredient.m; sourceTree = "<group>"; };
 		50B8F1AE1A8B1B27002D3D51 /* NewIngredientsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewIngredientsView.h; sourceTree = "<group>"; };
 		50B8F1AF1A8B1B27002D3D51 /* NewIngredientsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewIngredientsView.m; sourceTree = "<group>"; };
+		50B8F1B11A9579B8002D3D51 /* RecipeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipeTableViewCell.h; sourceTree = "<group>"; };
+		50B8F1B21A9579B8002D3D51 /* RecipeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipeTableViewCell.m; sourceTree = "<group>"; };
 		50C491F21A8D062E00C79983 /* cooker-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cooker-25.png"; sourceTree = "<group>"; };
 		50C491F41A8D3FB400C79983 /* kitchen-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kitchen-25.png"; sourceTree = "<group>"; };
 		50C491F61A8D513000C79983 /* NewPreparationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewPreparationView.h; sourceTree = "<group>"; };
@@ -215,6 +218,8 @@
 				50B8F1AF1A8B1B27002D3D51 /* NewIngredientsView.m */,
 				50C491F61A8D513000C79983 /* NewPreparationView.h */,
 				50C491F71A8D513000C79983 /* NewPreparationView.m */,
+				50B8F1B11A9579B8002D3D51 /* RecipeTableViewCell.h */,
+				50B8F1B21A9579B8002D3D51 /* RecipeTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -378,6 +383,7 @@
 			files = (
 				50B8F1AA1A8B172D002D3D51 /* Ingredient.m in Sources */,
 				504864631A850C5E00655655 /* DetailViewController.m in Sources */,
+				50B8F1B31A9579B8002D3D51 /* RecipeTableViewCell.m in Sources */,
 				50B8F1991A868B2A002D3D51 /* RecipeCloudManager.m in Sources */,
 				50B8F1B01A8B1B27002D3D51 /* NewIngredientsView.m in Sources */,
 				504864601A850C5E00655655 /* MasterViewController.m in Sources */,

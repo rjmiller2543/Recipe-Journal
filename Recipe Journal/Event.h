@@ -32,7 +32,7 @@
 -(NSArray*)returnIngredientsArray;
 -(NSArray*)returnPrepartionStepsArray;
 
--(void)setIngredients:(NSArray *)ingredients;
--(void)setPreparation:(NSArray *)preparation;
+-(void)setIngredientsWithArray:(NSArray *)ingredients;
+-(void)setPreparationWithArray:(NSArray *)preparation;
 
 @end

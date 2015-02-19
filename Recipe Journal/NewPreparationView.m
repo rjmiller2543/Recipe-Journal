@@ -14,7 +14,7 @@
 {
     self = [super init];
     if (self) {
-        _steps = [[NSMutableArray alloc] init];
+        //_steps = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -144,6 +144,9 @@
         
         UITextField *tempField = [[alertView textFields] objectAtIndex:0];
         NSString *tempStep = [[NSString alloc] initWithString:[tempField text]];
+        if (_steps == nil) {
+            _steps = [[NSMutableArray alloc] init];
+        }
         [_steps addObject:tempStep];
         
         [_tableView reloadData];
@@ -153,12 +156,7 @@
         //Do nothing
     }]];
     
-    id rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
-    if([rootViewController isKindOfClass:[UINavigationController class]])
-    {
-        rootViewController = [((UINavigationController *)rootViewController).viewControllers objectAtIndex:0];
-    }
-    [rootViewController presentViewController:alertView animated:YES completion:nil];
+    [_parentViewController presentViewController:alertView animated:YES completion:nil];
     
 }
 
