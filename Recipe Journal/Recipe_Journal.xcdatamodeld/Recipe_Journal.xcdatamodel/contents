@@ -14,6 +14,7 @@
         <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="recipeIconImage" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="recipeName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="recordID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="servingSize" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="timeStamp" optional="YES" attributeType="Date">
             <userInfo/>
@@ -28,7 +29,7 @@
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Event" positionX="261" positionY="189" width="128" height="285"/>
+        <element name="Event" positionX="261" positionY="189" width="128" height="300"/>
         <element name="GroceryList" positionX="261" positionY="306" width="128" height="105"/>
     </elements>
 </model>

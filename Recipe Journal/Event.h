@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import <CloudKit/CloudKit.h>
 
 
 @interface Event : NSManagedObject
@@ -22,6 +23,7 @@
 @property (nonatomic, retain) NSData * preparation;
 @property (nonatomic, retain) NSNumber * rating;
 @property (nonatomic, retain) NSString * recipeName;
+@property (nonatomic, retain) NSString * recordID;
 @property (nonatomic, retain) NSNumber * servingSize;
 @property (nonatomic, retain) NSString * winePairing;
 @property (nonatomic, retain) NSData *recipeIconImage;
@@ -34,5 +36,6 @@
 
 -(void)setIngredientsWithArray:(NSArray *)ingredients;
 -(void)setPreparationWithArray:(NSArray *)preparation;
+-(void)setEventWithRecord:(CKRecord*)record;
 
 @end

@@ -21,12 +21,41 @@
 @dynamic preparation;
 @dynamic rating;
 @dynamic recipeName;
+@dynamic recordID;
 @dynamic servingSize;
 @dynamic winePairing;
 @dynamic recipeIconImage;
 @dynamic favorited;
 @dynamic lowCalorie;
 @dynamic mealType;
+
+-(instancetype)initWithRecord:(CKRecord *)record {
+    self = [super init];
+    if (self) {
+        [self setRecipeName:[record objectForKey:@"RecipeName"]];
+        [self setRating:[record objectForKey:@"Rating"]];
+        [self setServingSize:[record objectForKey:@"ServingSize"]];
+        [self setDifficulty:[record objectForKey:@"Difficulty"]];
+        [self setPrepTimeMinutes:[record objectForKey:@"PrepTimeMinutes"]];
+        [self setCookTimeMinutes:[record objectForKey:@"CookTimeMinutes"]];
+        [self setPreparationWithArray:[record objectForKey:@"Preparation"]];
+        [self setNotes:[record objectForKey:@"Notes"]];
+        [self setRecipeIconImage:[record objectForKey:@"RecipeIconImage"]];
+    }
+    return self;
+}
+
+-(void)setEventWithRecord:(CKRecord *)record {
+    [self setRecipeName:[record objectForKey:@"RecipeName"]];
+    [self setRating:[record objectForKey:@"Rating"]];
+    [self setServingSize:[record objectForKey:@"ServingSize"]];
+    [self setDifficulty:[record objectForKey:@"Difficulty"]];
+    [self setPrepTimeMinutes:[record objectForKey:@"PrepTimeMinutes"]];
+    [self setCookTimeMinutes:[record objectForKey:@"CookTimeMinutes"]];
+    [self setPreparationWithArray:[record objectForKey:@"Preparation"]];
+    [self setNotes:[record objectForKey:@"Notes"]];
+    [self setRecipeIconImage:[record objectForKey:@"RecipeIconImage"]];
+}
 
 -(NSArray*)returnIngredientsArray {
     if (!self.ingredients) {

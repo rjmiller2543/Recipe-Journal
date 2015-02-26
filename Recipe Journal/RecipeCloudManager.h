@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Event.h"
+#import <CloudKit/CloudKit.h>
 
 @interface RecipeCloudManager : NSObject
+
+@property(nonatomic,retain) CKContainer *container;
+@property(nonatomic,retain) CKDatabase *privateDatabase;
+@property(nonatomic,retain) CKDatabase *pubicDatabase;
+
+-(void)saveRecipeToCloud:(Event*)sender;
+-(void)removeRecipeFromCloud:(Event*)sender;
 
 @end

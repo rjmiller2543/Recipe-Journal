@@ -240,6 +240,7 @@ const float textHeight = 45.0f;
     _ingredientsView.tag = INGREDIENTVIEW;
     _ingredientsView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
     _ingredientsView.layer.borderWidth = 2.0;
+    [_ingredientsView setEditBool:YES];
     [containerView addSubview:_ingredientsView];
     
     
@@ -295,6 +296,7 @@ const float textHeight = 45.0f;
     _preparationView.tag = PREPARATIONTEXTVIEW;
     _preparationView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
     _preparationView.layer.borderWidth = 2.0;
+    [_preparationView setEditBool:YES];
     [containerView addSubview:_preparationView];
     
     

@@ -10,6 +10,8 @@
 
 @implementation NewIngredientsView 
 
+bool isEditingIngredients = false;
+
 - (instancetype)init
 {
     self = [super init];
@@ -98,7 +100,10 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //NSLog(@"number of rows in section: %lu", _ingredients.count);
-    return _ingredients.count + 1;
+    if (isEditingIngredients) {
+        return _ingredients.count + 1;
+    }
+    return _ingredients.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -256,6 +261,12 @@
         //NSLog(@"animation completed");
     }];
     
+}
+
+-(void)setEditBool:(BOOL)edit {
+    isEditingIngredients = edit;
+    [_tableView reloadData];
+    [self updateTableViewHeight];
 }
 
 /*

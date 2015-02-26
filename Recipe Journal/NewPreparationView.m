@@ -10,6 +10,8 @@
 
 @implementation NewPreparationView
 
+BOOL isEditingSteps = false;
+
 - (instancetype)init
 {
     self = [super init];
@@ -82,14 +84,17 @@
 #pragma mark - TableView Delegate Methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _steps.count + 1;
+    if (isEditingSteps) {
+        return _steps.count + 1;
+    }
+    return _steps.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
 }
 
@@ -191,6 +196,11 @@
         //NSLog(@"animation completed");
     }];
     
+}
+
+-(void)setEditBool:(BOOL)edit {
+    isEditingSteps = edit;
+    [_tableView reloadData];
 }
 
 /*

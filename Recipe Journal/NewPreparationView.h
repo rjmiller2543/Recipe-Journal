@@ -19,4 +19,6 @@
 
 @property(nonatomic) id parentViewController;
 
+-(void)setEditBool:(BOOL)edit;
+
 @end

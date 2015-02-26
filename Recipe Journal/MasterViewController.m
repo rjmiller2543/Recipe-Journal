@@ -11,8 +11,11 @@
 #import "NewRecipeViewController.h"
 #import "RecipeTableViewCell.h"
 #import "Event.h"
+#import <AwesomeMenu/AwesomeMenu.h>
 
-@interface MasterViewController ()
+#import "RecipeCloudManager.h"
+
+@interface MasterViewController () <AwesomeMenuDelegate>
 
 @end
 
@@ -40,7 +43,26 @@
     
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
-    self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    //self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu.png"] style:UIBarButtonItemStylePlain target:self action:@selector(showMenu:)];
+    
+    //AwesomeMenuItem *item1 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"menu.png"]];
+    //AwesomeMenu *menu = [[AwesomeMenu alloc] init];
+}
+
+-(void)showMenu:(UIBarButtonItem*)senders {
+    NSLog(@"up up");
+    
+    RecipeCloudManager *cloudManager = [[RecipeCloudManager alloc] init];
+    
+    [cloudManager saveRecipeToCloud:nil];
+    
+    //AwesomeMenu *menu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds menus:@[[UIImage imageNamed:@"menu.png"], [UIImage imageNamed:@"menu.png"]]];
+    //menu.delegate = self;
+    //menu.startPoint = self.navigationItem.leftBarButtonItem.customView.frame.origin;
+    //menu.rotateAngle = 0.0f;
+    //[self.view addSubview:menu];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,7 +91,7 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-        [controller setDetailItem:object];
+        [controller setDetailItem:(Event*)object];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         controller.navigationItem.leftItemsSupplementBackButton = YES;
     }
@@ -126,6 +148,17 @@
     cell.event = cellEvent;
     [cell configureCell];
     //cell.textLabel.text = [[object valueForKey:@"timeStamp"] description];
+    
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    Event *object = (Event*)[[self fetchedResultsController] objectAtIndexPath:indexPath];
+    DetailViewController *controller = [[DetailViewController alloc] init];
+    [controller setDetailItem:object];
+    [self showViewController:controller sender:self];
+    controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    controller.navigationItem.leftItemsSupplementBackButton = YES;
     
 }
 
