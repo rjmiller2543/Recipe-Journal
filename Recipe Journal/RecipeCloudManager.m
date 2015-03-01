@@ -24,10 +24,52 @@
     return self;
 }
 
+bool status = false;
+bool notCompleted = true;
+-(BOOL)isLoggedIn {
+    
+    [_container accountStatusWithCompletionHandler:^(CKAccountStatus accountStatus, NSError *error) {
+        if (error) {
+            NSLog(@"error logging in with error: %@", error);
+            status = false;
+        }
+        else {
+            if (accountStatus == CKAccountStatusAvailable) {
+                status = true;
+            }
+            else {
+                status = false;
+            }
+        }
+        notCompleted = false;
+    }];
+    while (notCompleted) {
+        //don't return status until status is fetched
+    }
+    return status;
+}
+
 -(void)saveRecipeToCloud:(Event*)sender {
-    CKRecord *testRecord = [[CKRecord alloc] initWithRecordType:@"Items"];
-    [testRecord setValue:@"up up" forKey:@"name"];
-    [_privateDatabase saveRecord:testRecord completionHandler:^(CKRecord *record, NSError *error) {
+    
+    CKRecord *newRecord = [[CKRecord alloc] initWithRecordType:@"Recipe"];
+    
+    [newRecord setValue:[sender cookTimeMinutes] forKey:@"CookTimeMinutes"];
+    [newRecord setValue:[sender cookingProcess] forKey:@"CookingProcess"];
+    [newRecord setValue:[sender difficulty] forKey:@"Difficulty"];
+    [newRecord setValue:[sender notes] forKey:@"Notes"];
+    [newRecord setValue:[sender prepTimeMinutes] forKey:@"PrepTimeMinutes"];
+    [newRecord setValue:[sender returnPrepartionStepsArray] forKey:@"Preparation"];
+    [newRecord setValue:[sender rating] forKey:@"Rating"];
+    [newRecord setValue:[sender recipeName] forKey:@"RecipeName"];
+    [newRecord setValue:[sender servingSize] forKey:@"ServingSize"];
+    [newRecord setValue:[sender winePairing] forKey:@"WinePairing"];
+    //[newRecord setValue:[sender recipeIconImage] forKey:@"RecipeIconImage"];
+    //[newRecord setValue:[sender ingredients] forKey:@"IngredientsList"];
+    
+    CKAsset *photoAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:[sender imageURL]]];
+    [newRecord setValue:photoAsset forKey:@"RecipeIconImage"];
+    
+    [_privateDatabase saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
         if (error) {
             NSLog(@"error: %@ with record: %@", error, [record description]);
         }
@@ -50,7 +92,7 @@
     }];
 }
 
--(void)removeRecipeFromCloud:(Event*)sender {
+-(void)removeRecipeFromCloud:(Event*)sender complete:(void (^)(NSError *))completionHandler {
     CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:[sender recordID]];
     [_privateDatabase deleteRecordWithID:recordID completionHandler:^(CKRecordID *recordID, NSError *error) {
         if (error) {
@@ -59,11 +101,14 @@
         else {
             NSLog(@"Hooray! Deleted!");
         }
+        completionHandler(error);
     }];
 }
 
--(void)fetchRecords {
-    CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Recipe" predicate:nil];
+-(void)fetchRecords:(void (^)(NSError*error))completionHandler {
+    
+    NSPredicate *predicate = [NSPredicate predicateWithValue:true];
+    CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Recipe" predicate:predicate];
     
     [_privateDatabase performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error) {
         if (error) {
@@ -79,7 +124,7 @@
             BOOL isSynced = false;
             for (CKRecord *record in results) {
                 for (Event *event in coreDataArray) {
-                    if ([[record recordID] recordName] == [event recordID]) {
+                    if ([[[record recordID] recordName] isEqualToString:[event recordID]]) {
                         isSynced = true;
                         break;
                     }
@@ -107,6 +152,7 @@
                 }
             }
         }
+        completionHandler(error);
     }];
 }
 

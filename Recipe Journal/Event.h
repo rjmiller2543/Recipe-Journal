@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSNumber * cookTimeMinutes;
 @property (nonatomic, retain) NSNumber * cookingProcess;
 @property (nonatomic, retain) NSNumber * difficulty;
+@property (nonatomic, retain) NSString * imageURL;
 @property (nonatomic, retain) NSData * ingredients;
 @property (nonatomic, retain) NSString * notes;
 @property (nonatomic, retain) NSNumber * prepTimeMinutes;

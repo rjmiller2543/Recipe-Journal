@@ -16,7 +16,9 @@
 @property(nonatomic,retain) CKDatabase *privateDatabase;
 @property(nonatomic,retain) CKDatabase *pubicDatabase;
 
+-(BOOL)isLoggedIn;
 -(void)saveRecipeToCloud:(Event*)sender;
--(void)removeRecipeFromCloud:(Event*)sender;
+-(void)removeRecipeFromCloud:(Event*)sender complete:(void (^)(NSError*error))completionHandler;
+-(void)fetchRecords:(void (^)(NSError*error))completionHandler;
 
 @end

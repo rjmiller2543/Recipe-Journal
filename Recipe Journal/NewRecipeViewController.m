@@ -19,6 +19,8 @@
 #import <MMProgressHUD/MMProgressView-Protocol.h>
 #import "AppDelegate.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "RecipeCloudManager.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
 
 @interface NewRecipeViewController () <UITextViewDelegate, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate>
@@ -43,6 +45,9 @@
 @property(nonatomic,retain) NewPreparationView *preparationView;
 @property(nonatomic,retain) CSGrowingTextView *notesTextView;
 @property(nonatomic,retain) UIImageView *imageView;
+
+@property(nonatomic,retain) RecipeCloudManager *cloudManager;
+@property(nonatomic,retain) NSString *imageURL;
 
 @end
 
@@ -73,6 +78,7 @@ const float textHeight = 45.0f;
     // Do any additional setup after loading the view.
     
     self.automaticallyAdjustsScrollViewInsets = NO;
+    _cloudManager = [[RecipeCloudManager alloc] init];
     [self configureView];
 }
 
@@ -650,6 +656,40 @@ const float textHeight = 45.0f;
     UIImage *chosenPhoto = (UIImage*)info[UIImagePickerControllerOriginalImage];
     UIImageView *tempIV = (UIImageView*)[self.view viewWithTag:IMAGEVIEW];
     tempIV.image = chosenPhoto;
+    if (_imageURL == nil) {
+        _imageURL = [[NSString alloc] init];
+    }
+    
+    if ([picker sourceType] == UIImagePickerControllerSourceTypeCamera) {
+        
+        ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
+        
+        [assetsLibrary writeImageToSavedPhotosAlbum:[chosenPhoto CGImage] metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+           
+            if (error) {
+                NSLog(@"error saving image with error: %@", error);
+            }
+            else {
+                _imageURL = [assetURL absoluteString];
+            }
+            
+        }];
+        
+    }
+    else if ([picker sourceType] == UIImagePickerControllerSourceTypePhotoLibrary) {
+        
+        NSURL *tempURL = [info objectForKey:UIImagePickerControllerReferenceURL];
+        _imageURL = [tempURL absoluteString];
+        
+    }
+    else if ([picker sourceType] == UIImagePickerControllerSourceTypeSavedPhotosAlbum) {
+        
+        NSURL *tempURL = [info objectForKey:UIImagePickerControllerReferenceURL];
+        _imageURL = [tempURL absoluteString];
+        
+    }
+    
+    
     [picker dismissViewControllerAnimated:YES
                                completion:^{
                                    
@@ -697,7 +737,7 @@ const float textHeight = 45.0f;
         
         switch (subView.tag) {
             case RECIPETEXTVIEW:
-                [newManagedObject setValue:_recipeTextView.text forKey:@"recipeName"];
+                [newEvent setValue:_recipeTextView.text forKey:@"recipeName"];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -707,7 +747,7 @@ const float textHeight = 45.0f;
                 [SVProgressHUD showProgress:1/12 status:@"Just Getting Starting.."];
                 break;
             case RATINGTEXTVIEW:
-                [newManagedObject setValue:[NSNumber numberWithFloat:_ratingView.value] forKey:@"rating"];
+                [newEvent setValue:[NSNumber numberWithFloat:_ratingView.value] forKey:@"rating"];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -717,7 +757,7 @@ const float textHeight = 45.0f;
                 [SVProgressHUD showProgress:2/12 status:@"Just Getting Starting.."];
                 break;
             case SERVINGSIZETEXTVIEW:
-                [newManagedObject setValue:[NSNumber numberWithFloat:[_servingSizeTextView.text floatValue]] forKey:@"servingSize"];
+                [newEvent setValue:[NSNumber numberWithFloat:[_servingSizeTextView.text floatValue]] forKey:@"servingSize"];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -727,7 +767,7 @@ const float textHeight = 45.0f;
                 [SVProgressHUD showProgress:3/12 status:@"Coals are burning.."];
                 break;
             case DIFFICULTYTEXTVIEW:
-                [newManagedObject setValue:[NSNumber numberWithFloat:[_difficultyView value]] forKey:@"difficulty"];
+                [newEvent setValue:[NSNumber numberWithFloat:[_difficultyView value]] forKey:@"difficulty"];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -737,7 +777,7 @@ const float textHeight = 45.0f;
                 [SVProgressHUD showProgress:4/12 status:@"Coals are burning.."];
                 break;
             case PRETIMETEXTVIEW:
-                [newManagedObject setValue:[NSNumber numberWithInteger:10] forKey:@"prepTimeMinutes"];
+                [newEvent setValue:[NSNumber numberWithInteger:10] forKey:@"prepTimeMinutes"];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -747,7 +787,7 @@ const float textHeight = 45.0f;
                 [SVProgressHUD showProgress:5/12 status:@"I'm Seeing Some Improvement.."];
                 break;
             case COOKTIMETEXTVIEW:
-                [newManagedObject setValue:[NSNumber numberWithInteger:[_cookTimeTextView text].integerValue] forKey:@"cookTimeMinutes"];
+                [newEvent setValue:[NSNumber numberWithInteger:[_cookTimeTextView text].integerValue] forKey:@"cookTimeMinutes"];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -767,7 +807,7 @@ const float textHeight = 45.0f;
                 [SVProgressHUD showProgress:7/12 status:@"Now We're Cooking With Gas!!"];
                 break;
             case COOKPROCESSTEXTVIEW:
-                [newManagedObject setValue:[NSNumber numberWithInteger:_processChoice.selectedSegmentIndex] forKey:@"cookingProcess"];
+                [newEvent setValue:[NSNumber numberWithInteger:_processChoice.selectedSegmentIndex] forKey:@"cookingProcess"];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -777,7 +817,7 @@ const float textHeight = 45.0f;
                 [SVProgressHUD showProgress:8/12 status:@"Now We're Cooking With Gas!!"];
                 break;
             case WINEPAIRTEXTVIEW:
-                [newManagedObject setValue:_winePairingTextView.text forKey:@"winePairing"];
+                [newEvent setValue:_winePairingTextView.text forKey:@"winePairing"];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -797,7 +837,7 @@ const float textHeight = 45.0f;
                 [SVProgressHUD showProgress:10/12 status:@"Nearly There.."];
                 break;
             case NOTESTEXTVIEW:
-                [newManagedObject setValue:_notesTextView.internalTextView.text forKey:@"notes"];
+                [newEvent setValue:_notesTextView.internalTextView.text forKey:@"notes"];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -807,7 +847,9 @@ const float textHeight = 45.0f;
                 [SVProgressHUD showProgress:11/12 status:@"Aaaaaannnnddddd.."];
                 break;
             case IMAGEVIEW:
-                [newManagedObject setValue:UIImagePNGRepresentation(_imageView.image) forKey:@"recipeIconImage"];
+                [newEvent setValue:UIImageJPEGRepresentation(_imageView.image, 0.5) forKey:@"recipeIconImage"];
+                _imageURL = [self saveImageToFile:_imageView.image];
+                [newEvent setValue:_imageURL forKey:@"imageURL"];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -833,6 +875,23 @@ const float textHeight = 45.0f;
         abort();
     }
     
+    if ([_cloudManager isLoggedIn]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_cloudManager saveRecipeToCloud:newEvent];
+        });
+    }
+    
+}
+
+-(NSString*)saveImageToFile:(UIImage*)image {
+
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true) objectAtIndex:0];
+
+    path = [path stringByAppendingPathComponent:@"currentImage.png"];
+    
+    [UIImageJPEGRepresentation(image, 0.5) writeToFile:path atomically:true];
+    
+    return path;
 }
 
 -(void)recipeCancelled:(UIButton*)sender {

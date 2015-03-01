@@ -17,6 +17,8 @@
 
 @interface MasterViewController () <AwesomeMenuDelegate>
 
+@property(nonatomic,retain) RecipeCloudManager *cloudManager;
+
 @end
 
 @implementation MasterViewController
@@ -47,6 +49,21 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu.png"] style:UIBarButtonItemStylePlain target:self action:@selector(showMenu:)];
     
+    _cloudManager = [[RecipeCloudManager alloc] init];
+    if ([_cloudManager isLoggedIn]) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_cloudManager fetchRecords:^(NSError *error) {
+                if (error) {
+                    NSLog(@"error: %@", error);
+                }
+                else {
+                    [self.tableView reloadData];
+                }
+            }];
+        });
+    }
+    
     //AwesomeMenuItem *item1 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"menu.png"]];
     //AwesomeMenu *menu = [[AwesomeMenu alloc] init];
 }
@@ -54,9 +71,7 @@
 -(void)showMenu:(UIBarButtonItem*)senders {
     NSLog(@"up up");
     
-    RecipeCloudManager *cloudManager = [[RecipeCloudManager alloc] init];
-    
-    [cloudManager saveRecipeToCloud:nil];
+    //[_cloudManager saveRecipeToCloud:nil];
     
     //AwesomeMenu *menu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds menus:@[[UIImage imageNamed:@"menu.png"], [UIImage imageNamed:@"menu.png"]]];
     //menu.delegate = self;
@@ -123,15 +138,40 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-        [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
-            
-        NSError *error = nil;
-        if (![context save:&error]) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
+        Event *deletedEvent = (Event*)[_fetchedResultsController objectAtIndexPath:indexPath];
+        
+        if ([_cloudManager isLoggedIn]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_cloudManager removeRecipeFromCloud:deletedEvent complete:^(NSError *error) {
+                    
+                    if (error) {
+                        NSLog(@"error deleting object from cloud with error: %@, keeping object to keep everything in sync", error);
+                    }
+                    [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+                    
+                    NSError *contextError = nil;
+                    if (![context save:&contextError]) {
+                        // Replace this implementation with code to handle the error appropriately.
+                        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                        NSLog(@"Unresolved error %@, %@", contextError, [contextError userInfo]);
+                        abort();
+                    }
+                }];
+            });
         }
+        else {
+            
+            [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+            
+            NSError *error = nil;
+            if (![context save:&error]) {
+                // Replace this implementation with code to handle the error appropriately.
+                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
+        }
+        
     }
 }
 

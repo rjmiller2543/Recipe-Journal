@@ -15,6 +15,7 @@
 @dynamic cookTimeMinutes;
 @dynamic cookingProcess;
 @dynamic difficulty;
+@dynamic imageURL;
 @dynamic ingredients;
 @dynamic notes;
 @dynamic prepTimeMinutes;
@@ -41,11 +42,13 @@
         [self setPreparationWithArray:[record objectForKey:@"Preparation"]];
         [self setNotes:[record objectForKey:@"Notes"]];
         [self setRecipeIconImage:[record objectForKey:@"RecipeIconImage"]];
+        //
     }
     return self;
 }
 
 -(void)setEventWithRecord:(CKRecord *)record {
+    
     [self setRecipeName:[record objectForKey:@"RecipeName"]];
     [self setRating:[record objectForKey:@"Rating"]];
     [self setServingSize:[record objectForKey:@"ServingSize"]];
@@ -54,7 +57,14 @@
     [self setCookTimeMinutes:[record objectForKey:@"CookTimeMinutes"]];
     [self setPreparationWithArray:[record objectForKey:@"Preparation"]];
     [self setNotes:[record objectForKey:@"Notes"]];
-    [self setRecipeIconImage:[record objectForKey:@"RecipeIconImage"]];
+    [self setRecordID:[[record recordID] recordName]];
+    //[self setRecipeIconImage:[record objectForKey:@"RecipeIconImage"]];
+    CKAsset *photoAsset = [record objectForKey:@"RecipeIconImage"];
+    
+    NSURL *photoURL = photoAsset.fileURL;
+    NSData *photoData = [NSData dataWithContentsOfURL:photoURL];
+    [self setRecipeIconImage:photoData];
+    
 }
 
 -(NSArray*)returnIngredientsArray {
