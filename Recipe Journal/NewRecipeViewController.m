@@ -21,6 +21,7 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "RecipeCloudManager.h"
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <RNFrostedSidebar/RNFrostedSidebar.h>
 
 
 @interface NewRecipeViewController () <UITextViewDelegate, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate>

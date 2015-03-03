@@ -26,6 +26,20 @@
 		50B8F1B01A8B1B27002D3D51 /* NewIngredientsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1AF1A8B1B27002D3D51 /* NewIngredientsView.m */; };
 		50B8F1B31A9579B8002D3D51 /* RecipeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1B21A9579B8002D3D51 /* RecipeTableViewCell.m */; };
 		50C1FBB51A9B8981008B176A /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBB41A9B8981008B176A /* menu.png */; };
+		50C1FBB71AA500CD008B176A /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBB61AA500CD008B176A /* check.png */; };
+		50C1FBB91AA500F5008B176A /* clock.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBB81AA500F5008B176A /* clock.png */; };
+		50C1FBBB1AA5011B008B176A /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBBA1AA5011B008B176A /* cross.png */; };
+		50C1FBBD1AA5013F008B176A /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBBC1AA5013F008B176A /* list.png */; };
+		50C1FBBF1AA505EE008B176A /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBBE1AA505EE008B176A /* favorite.png */; };
+		50C1FBC11AA6455D008B176A /* checklist.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBC01AA6455D008B176A /* checklist.png */; };
+		50C1FBC31AA645B9008B176A /* cutlery.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBC21AA645B9008B176A /* cutlery.png */; };
+		50C1FBC51AA64689008B176A /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBC41AA64689008B176A /* search.png */; };
+		50C1FBC71AA6474B008B176A /* search-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBC61AA6474B008B176A /* search-50.png */; };
+		50C1FBC91AA64768008B176A /* cutlery-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBC81AA64768008B176A /* cutlery-50.png */; };
+		50C1FBCB1AA64795008B176A /* checklist-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBCA1AA64795008B176A /* checklist-50.png */; };
+		50C1FBCD1AA647A3008B176A /* favorite-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBCC1AA647A3008B176A /* favorite-50.png */; };
+		50C1FBCF1AA647C6008B176A /* cross-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBCE1AA647C6008B176A /* cross-50.png */; };
+		50C1FBD11AA654BE008B176A /* sort-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBD01AA654BE008B176A /* sort-50.png */; };
 		50C491F31A8D062E00C79983 /* cooker-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F21A8D062E00C79983 /* cooker-25.png */; };
 		50C491F51A8D3FB400C79983 /* kitchen-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F41A8D3FB400C79983 /* kitchen-25.png */; };
 		50C491F81A8D513000C79983 /* NewPreparationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C491F71A8D513000C79983 /* NewPreparationView.m */; };
@@ -79,6 +93,20 @@
 		50B8F1B11A9579B8002D3D51 /* RecipeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipeTableViewCell.h; sourceTree = "<group>"; };
 		50B8F1B21A9579B8002D3D51 /* RecipeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipeTableViewCell.m; sourceTree = "<group>"; };
 		50C1FBB41A9B8981008B176A /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
+		50C1FBB61AA500CD008B176A /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
+		50C1FBB81AA500F5008B176A /* clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clock.png; sourceTree = "<group>"; };
+		50C1FBBA1AA5011B008B176A /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
+		50C1FBBC1AA5013F008B176A /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list.png; sourceTree = "<group>"; };
+		50C1FBBE1AA505EE008B176A /* favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite.png; sourceTree = "<group>"; };
+		50C1FBC01AA6455D008B176A /* checklist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checklist.png; sourceTree = "<group>"; };
+		50C1FBC21AA645B9008B176A /* cutlery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cutlery.png; sourceTree = "<group>"; };
+		50C1FBC41AA64689008B176A /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
+		50C1FBC61AA6474B008B176A /* search-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search-50.png"; sourceTree = "<group>"; };
+		50C1FBC81AA64768008B176A /* cutlery-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cutlery-50.png"; sourceTree = "<group>"; };
+		50C1FBCA1AA64795008B176A /* checklist-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checklist-50.png"; sourceTree = "<group>"; };
+		50C1FBCC1AA647A3008B176A /* favorite-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorite-50.png"; sourceTree = "<group>"; };
+		50C1FBCE1AA647C6008B176A /* cross-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross-50.png"; sourceTree = "<group>"; };
+		50C1FBD01AA654BE008B176A /* sort-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sort-50.png"; sourceTree = "<group>"; };
 		50C491F21A8D062E00C79983 /* cooker-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cooker-25.png"; sourceTree = "<group>"; };
 		50C491F41A8D3FB400C79983 /* kitchen-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kitchen-25.png"; sourceTree = "<group>"; };
 		50C491F61A8D513000C79983 /* NewPreparationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewPreparationView.h; sourceTree = "<group>"; };
@@ -157,6 +185,20 @@
 		504864541A850C5D00655655 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				50C1FBD01AA654BE008B176A /* sort-50.png */,
+				50C1FBC61AA6474B008B176A /* search-50.png */,
+				50C1FBC41AA64689008B176A /* search.png */,
+				50C1FBC81AA64768008B176A /* cutlery-50.png */,
+				50C1FBC21AA645B9008B176A /* cutlery.png */,
+				50C1FBCA1AA64795008B176A /* checklist-50.png */,
+				50C1FBC01AA6455D008B176A /* checklist.png */,
+				50C1FBCC1AA647A3008B176A /* favorite-50.png */,
+				50C1FBBE1AA505EE008B176A /* favorite.png */,
+				50C1FBBC1AA5013F008B176A /* list.png */,
+				50C1FBCE1AA647C6008B176A /* cross-50.png */,
+				50C1FBBA1AA5011B008B176A /* cross.png */,
+				50C1FBB81AA500F5008B176A /* clock.png */,
+				50C1FBB61AA500CD008B176A /* check.png */,
 				50C1FBB41A9B8981008B176A /* menu.png */,
 				50C491F91A8D736D00C79983 /* no-photo.png */,
 				50C491F41A8D3FB400C79983 /* kitchen-25.png */,
@@ -327,13 +369,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50C1FBB91AA500F5008B176A /* clock.png in Resources */,
+				50C1FBD11AA654BE008B176A /* sort-50.png in Resources */,
 				50C1FBB51A9B8981008B176A /* menu.png in Resources */,
+				50C1FBBD1AA5013F008B176A /* list.png in Resources */,
+				50C1FBCD1AA647A3008B176A /* favorite-50.png in Resources */,
+				50C1FBB71AA500CD008B176A /* check.png in Resources */,
 				50B8F1901A866F21002D3D51 /* empty_dish.png.jpeg in Resources */,
 				50C491F51A8D3FB400C79983 /* kitchen-25.png in Resources */,
 				504864661A850C5E00655655 /* Main.storyboard in Resources */,
+				50C1FBCB1AA64795008B176A /* checklist-50.png in Resources */,
+				50C1FBC91AA64768008B176A /* cutlery-50.png in Resources */,
 				50C491FA1A8D736D00C79983 /* no-photo.png in Resources */,
 				5048646B1A850C5E00655655 /* LaunchScreen.xib in Resources */,
 				50C491F31A8D062E00C79983 /* cooker-25.png in Resources */,
+				50C1FBC51AA64689008B176A /* search.png in Resources */,
+				50C1FBBB1AA5011B008B176A /* cross.png in Resources */,
+				50C1FBC11AA6455D008B176A /* checklist.png in Resources */,
+				50C1FBCF1AA647C6008B176A /* cross-50.png in Resources */,
+				50C1FBC71AA6474B008B176A /* search-50.png in Resources */,
+				50C1FBBF1AA505EE008B176A /* favorite.png in Resources */,
+				50C1FBC31AA645B9008B176A /* cutlery.png in Resources */,
 				504864681A850C5E00655655 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

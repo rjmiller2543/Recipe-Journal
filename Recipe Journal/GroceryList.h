@@ -16,5 +16,6 @@
 @property (nonatomic, retain) NSNumber * amount;
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSNumber * marked;
+@property (nonatomic, retain) NSString * recordID;
 
 @end

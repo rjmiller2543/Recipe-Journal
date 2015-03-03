@@ -15,5 +15,6 @@
 @dynamic amount;
 @dynamic type;
 @dynamic marked;
+@dynamic recordID;
 
 @end

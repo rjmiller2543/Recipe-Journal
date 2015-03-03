@@ -28,6 +28,7 @@
         
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         CGRect area = CGRectMake(0, 0, size.width, size.height);
+        //CGRect area = self.frame;
         
         CGContextScaleCTM(ctx, 1, -1);
         CGContextTranslateCTM(ctx, 0, -area.size.height);

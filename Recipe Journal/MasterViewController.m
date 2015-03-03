@@ -11,13 +11,18 @@
 #import "NewRecipeViewController.h"
 #import "RecipeTableViewCell.h"
 #import "Event.h"
+#import "GroceryList.h"
+#import "Ingredient.h"
 #import <AwesomeMenu/AwesomeMenu.h>
+#import <SVPullToRefresh/SVPullToRefresh.h>
+#import <RNFrostedSidebar/RNFrostedSidebar.h>
 
 #import "RecipeCloudManager.h"
 
-@interface MasterViewController () <AwesomeMenuDelegate>
+@interface MasterViewController () <RNFrostedSidebarDelegate, SWTableViewCellDelegate>
 
 @property(nonatomic,retain) RecipeCloudManager *cloudManager;
+@property(nonatomic,retain) RNFrostedSidebar *callout;
 
 @end
 
@@ -38,6 +43,35 @@
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.8 green:0.1 blue:0.8 alpha:1.0];
     self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0.2 green:0.9 blue:0.2 alpha:0.6];
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    
+    _cloudManager = [[RecipeCloudManager alloc] init];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    UIEdgeInsets insets = self.tableView.contentInset;
+    insets.top = self.navigationController.navigationBar.bounds.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    self.tableView.contentInset = insets;
+    self.tableView.scrollIndicatorInsets = insets;
+    
+    [self.tableView setShowsPullToRefresh:YES];
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        if ([weakSelf.cloudManager isLoggedIn]) {
+            [weakSelf.cloudManager fetchRecords:^(NSError *error, BOOL refresh) {
+                if (error) {
+                    NSLog(@"error: %@", error);
+                }
+                else {
+                    if (refresh) {
+                        [weakSelf.tableView reloadData];
+                    }
+                }
+                [weakSelf.tableView.pullToRefreshView stopAnimating];
+            }];
+        }
+        
+        //[weakSelf.tableView setContentInset:UIRectEdgeTop];
+    }];
 
     [self.tableView registerClass:[RecipeTableViewCell class] forCellReuseIdentifier:@"RecipeCell"];
     
@@ -49,35 +83,43 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu.png"] style:UIBarButtonItemStylePlain target:self action:@selector(showMenu:)];
     
-    _cloudManager = [[RecipeCloudManager alloc] init];
-    if ([_cloudManager isLoggedIn]) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_cloudManager fetchRecords:^(NSError *error) {
-                if (error) {
-                    NSLog(@"error: %@", error);
-                }
-                else {
-                    [self.tableView reloadData];
-                }
-            }];
-        });
-    }
+    _callout = [[RNFrostedSidebar alloc] initWithImages:@[[UIImage imageNamed:@"cutlery-50.png"], [UIImage imageNamed:@"favorite-50.png"], [UIImage imageNamed:@"search-50.png"], [UIImage imageNamed:@"checklist-50.png"], [UIImage imageNamed:@"cross-50.png"]]];
+    _callout.delegate = self;
     
-    //AwesomeMenuItem *item1 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"menu.png"]];
-    //AwesomeMenu *menu = [[AwesomeMenu alloc] init];
+    [self.tableView triggerPullToRefresh];
 }
 
 -(void)showMenu:(UIBarButtonItem*)senders {
     NSLog(@"up up");
     
-    //[_cloudManager saveRecipeToCloud:nil];
+    [_callout show];
+}
+
+- (void)sidebar:(RNFrostedSidebar *)sidebar didTapItemAtIndex:(NSUInteger)index {
     
-    //AwesomeMenu *menu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds menus:@[[UIImage imageNamed:@"menu.png"], [UIImage imageNamed:@"menu.png"]]];
-    //menu.delegate = self;
-    //menu.startPoint = self.navigationItem.leftBarButtonItem.customView.frame.origin;
-    //menu.rotateAngle = 0.0f;
-    //[self.view addSubview:menu];
+    switch (index) {
+        case 0:
+            //load the recipes
+            break;
+        case 1:
+            //predicate and load the favorites
+            break;
+        case 2:
+            //bring up the search page
+            break;
+        case 3:
+            //load the grocery list
+            break;
+        case 4:
+            //do nothing and let the sidebar dismiss from view
+            break;
+            
+        default:
+            break;
+    }
+    
+    [sidebar dismissAnimated:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -186,6 +228,9 @@
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     Event *cellEvent = (Event*)object;
     cell.event = cellEvent;
+    cell.leftUtilityButtons = [self leftButtons];
+    cell.rightUtilityButtons = [self rightButtons];
+    cell.delegate = self;
     [cell configureCell];
     //cell.textLabel.text = [[object valueForKey:@"timeStamp"] description];
     
@@ -200,6 +245,149 @@
     controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
     controller.navigationItem.leftItemsSupplementBackButton = YES;
     
+}
+
+#pragma mark - SWTableViewDelegate
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
+    switch (index) {
+        case 0: {
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+            [self addRecipeToFavoritesWithIndexPath:indexPath];
+            break;
+        }
+        case 1: {
+            RecipeTableViewCell *tempCell = (RecipeTableViewCell*)cell;
+            [self addEventToGroceryList:tempCell.event];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+    switch (index) {
+        case 0: {
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+            [self removeRecipeWithIndexPath:indexPath];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+-(void)addEventToGroceryList:(Event*)event {
+    
+    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"GroceryList" inManagedObjectContext:context];
+    
+    for (Ingredient *ingredient in [event returnIngredientsArray]) {
+        
+        NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+        GroceryList *newListing = (GroceryList*)newManagedObject;
+        
+        [newListing setType:[ingredient size]];
+        [newListing setName:[ingredient ingredient]];
+        [newListing setAmount:[ingredient amount]];
+        
+        NSError *error = nil;
+        if (![context save:&error]) {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+        
+        //Sync Grocery list to iCloud...
+        if ([_cloudManager isLoggedIn]) {
+            [_cloudManager saveListToItem:newListing];
+        }
+        
+    }
+    
+}
+
+-(void)addRecipeToFavoritesWithIndexPath:(NSIndexPath*)indexPath {
+    
+    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+    Event *favoritedEvent = (Event*)[_fetchedResultsController objectAtIndexPath:indexPath];
+    
+    [favoritedEvent setFavorited:[NSNumber numberWithBool:YES]];
+    
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    if ([_cloudManager isLoggedIn]) {
+        [_cloudManager modifyRecipeToCloud:favoritedEvent];
+    }
+    
+}
+
+-(void)removeRecipeWithIndexPath:(NSIndexPath*)indexPath {
+    
+    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+    Event *deletedEvent = (Event*)[_fetchedResultsController objectAtIndexPath:indexPath];
+    
+    if ([_cloudManager isLoggedIn]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_cloudManager removeRecipeFromCloud:deletedEvent complete:^(NSError *error) {
+                
+                if (error) {
+                    NSLog(@"error deleting object from cloud with error: %@, keeping object to keep everything in sync", error);
+                }
+                [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+                
+                NSError *contextError = nil;
+                if (![context save:&contextError]) {
+                    // Replace this implementation with code to handle the error appropriately.
+                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    NSLog(@"Unresolved error %@, %@", contextError, [contextError userInfo]);
+                    abort();
+                }
+            }];
+        });
+    }
+    else {
+        
+        [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+        
+        NSError *error = nil;
+        if (![context save:&error]) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
+    
+}
+
+- (NSArray *)rightButtons
+{
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
+                                                title:@"Delete"];
+    
+    return rightUtilityButtons;
+}
+
+- (NSArray *)leftButtons
+{
+    NSMutableArray *leftUtilityButtons = [NSMutableArray new];
+    
+    [leftUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:0.8f green:0.231f blue:0.8f alpha:1.0]
+                                                icon:[UIImage imageNamed:@"favorite.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:0.15f green:0.6f blue:0.7f alpha:1.0]
+                                                icon:[UIImage imageNamed:@"list.png"]];
+    
+    return leftUtilityButtons;
 }
 
 #pragma mark - Fetched results controller

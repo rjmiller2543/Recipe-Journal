@@ -49,6 +49,27 @@ bool notCompleted = true;
     return status;
 }
 
+#pragma mark - Recipe Sync Methods
+
+-(void)modifyRecipeToCloud:(Event*)sender {
+    [_privateDatabase fetchRecordWithID:[[CKRecordID alloc] initWithRecordName:[sender recordID]] completionHandler:^(CKRecord *record, NSError *error) {
+        
+        [record setValue:[NSNumber numberWithBool:true] forKey:@"Favorited"];
+        
+        CKModifyRecordsOperation *saveRecords = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:@[record] recordIDsToDelete:@[]];
+        [saveRecords setSavePolicy:CKRecordSaveAllKeys];
+        saveRecords.modifyRecordsCompletionBlock = ^(NSArray *savedRecords, NSArray *deletedRecordIDs, NSError *error) {
+            
+            if (error) {
+                NSLog(@"[%@] Error pushing local data: %@", self.class, error);
+            }
+            
+        };
+        
+        [_privateDatabase addOperation:saveRecords];
+    }];
+}
+
 -(void)saveRecipeToCloud:(Event*)sender {
     
     CKRecord *newRecord = [[CKRecord alloc] initWithRecordType:@"Recipe"];
@@ -105,11 +126,13 @@ bool notCompleted = true;
     }];
 }
 
--(void)fetchRecords:(void (^)(NSError*error))completionHandler {
+BOOL refresh = false;
+-(void)fetchRecords:(void (^)(NSError*error, bool refresh))completionHandler {
     
     NSPredicate *predicate = [NSPredicate predicateWithValue:true];
     CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Recipe" predicate:predicate];
     
+    refresh = false;
     [_privateDatabase performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error) {
         if (error) {
             NSLog(@"error: %@", error);
@@ -134,6 +157,8 @@ bool notCompleted = true;
                     isSynced = false;
                 }
                 else {
+                    refresh = true;
+                    
                     NSManagedObjectContext *context = [[AppDelegate sharedInstance] managedObjectContext];
                     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:context];
                     
@@ -152,8 +177,44 @@ bool notCompleted = true;
                 }
             }
         }
-        completionHandler(error);
+        completionHandler(error, refresh);
     }];
+}
+
+#pragma mark - Grocery List Sync Methods
+-(void)saveListToItem:(GroceryList *)list {
+    
+    CKRecord *record = [[CKRecord alloc] initWithRecordType:@"Items"];
+    
+    [record setValue:[list name] forKey:@"name"];
+    [record setValue:[list amount] forKey:@"amount"];
+    [record setValue:[list type] forKey:@"size"];
+    
+    [_privateDatabase saveRecord:record completionHandler:^(CKRecord *record, NSError *error) {
+        if (error) {
+            NSLog(@"error saving record: %@ with error: %@", [record description], error);
+        }
+        else {
+            NSLog(@"woot!");
+            [list setRecordID:[[record recordID] recordName]];
+            
+            NSManagedObjectContext *context = [[AppDelegate sharedInstance] managedObjectContext];
+            
+            if (![context save:&error]) {
+                // Replace this implementation with code to handle the error appropriately.
+                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
+        }
+    }];
+    
+}
+
+-(void)removeItemFromCloud:(GroceryList *)list {
+    
+    
+    
 }
 
 @end

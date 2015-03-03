@@ -34,6 +34,7 @@ PODS:
     - SDWebImage/Core (= 3.7.1)
   - SDWebImage/Core (3.7.1)
   - SVProgressHUD (1.1.2)
+  - SVPullToRefresh (0.4.1)
   - SWTableViewCell (0.3.7)
   - UIFloatLabelTextView (1.0.8)
 
@@ -51,6 +52,7 @@ DEPENDENCIES:
   - RNFrostedSidebar
   - SDWebImage (= 3.7.1)
   - SVProgressHUD
+  - SVPullToRefresh
   - SWTableViewCell
   - UIFloatLabelTextView
 
@@ -68,6 +70,7 @@ SPEC CHECKSUMS:
   RNFrostedSidebar: f1d95d9b2627f13cc10e75d36e751a623eec079c
   SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
   SVProgressHUD: da7a49e789af645d9279ffbca62318945a832438
+  SVPullToRefresh: d5161ebc833a38b465364412e5e307ca80bbb190
   SWTableViewCell: 25de71898e3fcd11cf75707ef90245acf990ec03
   UIFloatLabelTextView: ca4c8f10f3db892a9da8d556bbe54c152859001d
 

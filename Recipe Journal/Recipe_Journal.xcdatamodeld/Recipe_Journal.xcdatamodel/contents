@@ -27,10 +27,11 @@
         <attribute name="amount" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="marked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="recordID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="Event" positionX="261" positionY="189" width="128" height="315"/>
-        <element name="GroceryList" positionX="261" positionY="306" width="128" height="105"/>
+        <element name="GroceryList" positionX="261" positionY="306" width="128" height="120"/>
     </elements>
 </model>

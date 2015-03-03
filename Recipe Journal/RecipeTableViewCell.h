@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SWTableViewCell/SWTableViewCell.h>
 #import "Event.h"
 
-@interface RecipeTableViewCell : UITableViewCell
+@interface RecipeTableViewCell : SWTableViewCell
 
 @property(nonatomic,retain) Event *event;
 
