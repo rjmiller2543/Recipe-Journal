@@ -9,6 +9,7 @@
 #import "RecipeCloudManager.h"
 #include "Ingredient.h"
 #include "AppDelegate.h"
+#include "RecipeJournalHelper.h"
 
 @implementation RecipeCloudManager
 
@@ -179,6 +180,16 @@ BOOL refresh = false;
         }
         completionHandler(error, refresh);
     }];
+}
+
+-(void)fetchRecordsWithSource:(NSString *)source completionBlock:(void (^)(NSError *, BOOL))completionHandler {
+    
+    if ([source isEqualToString:RECIPELISTSOURCE]) {
+        [self fetchRecords:^(NSError *error, bool refresh) {
+            completionHandler(error, refresh);
+        }];
+    }
+    
 }
 
 #pragma mark - Grocery List Sync Methods

@@ -11,6 +11,7 @@
 
 @implementation GroceryList
 
+@dynamic timeStamp;
 @dynamic name;
 @dynamic amount;
 @dynamic type;

@@ -20,7 +20,7 @@
 -(BOOL)isLoggedIn;
 -(void)saveRecipeToCloud:(Event*)sender;
 -(void)removeRecipeFromCloud:(Event*)sender complete:(void (^)(NSError*error))completionHandler;
--(void)fetchRecords:(void (^)(NSError*error, BOOL refresh))completionHandler;
+-(void)fetchRecordsWithSource:(NSString*)source completionBlock:(void (^)(NSError*error, BOOL refresh))completionHandler;
 -(void)modifyRecipeToCloud:(Event*)sender;
 
 -(void)saveListToItem:(GroceryList*)list;

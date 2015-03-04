@@ -10,12 +10,14 @@
 #import "DetailViewController.h"
 #import "NewRecipeViewController.h"
 #import "RecipeTableViewCell.h"
+#import "GroceryListCell.h"
 #import "Event.h"
 #import "GroceryList.h"
 #import "Ingredient.h"
 #import <AwesomeMenu/AwesomeMenu.h>
 #import <SVPullToRefresh/SVPullToRefresh.h>
 #import <RNFrostedSidebar/RNFrostedSidebar.h>
+#import "RecipeJournalHelper.h"
 
 #import "RecipeCloudManager.h"
 
@@ -23,6 +25,8 @@
 
 @property(nonatomic,retain) RecipeCloudManager *cloudManager;
 @property(nonatomic,retain) RNFrostedSidebar *callout;
+
+@property(nonatomic,retain) NSString *tableViewSource;
 
 @end
 
@@ -44,6 +48,8 @@
     self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0.2 green:0.9 blue:0.2 alpha:0.6];
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
+    _tableViewSource = RECIPELISTSOURCE;
+    
     _cloudManager = [[RecipeCloudManager alloc] init];
     
     __weak typeof(self) weakSelf = self;
@@ -56,24 +62,66 @@
     
     [self.tableView setShowsPullToRefresh:YES];
     [self.tableView addPullToRefreshWithActionHandler:^{
-        if ([weakSelf.cloudManager isLoggedIn]) {
-            [weakSelf.cloudManager fetchRecords:^(NSError *error, BOOL refresh) {
-                if (error) {
-                    NSLog(@"error: %@", error);
-                }
-                else {
-                    if (refresh) {
-                        [weakSelf.tableView reloadData];
+        if ([weakSelf.tableViewSource isEqualToString:RECIPELISTSOURCE]) {
+            if ([weakSelf.cloudManager isLoggedIn]) {
+                [weakSelf.cloudManager fetchRecordsWithSource:weakSelf.tableViewSource completionBlock:^(NSError *error, BOOL refresh) {
+                    if (error) {
+                        NSLog(@"error: %@", error);
+                    }
+                    else {
+                        if (refresh) {
+                            [weakSelf.tableView reloadData];
+                        }
+                    }
+                    [weakSelf.tableView.pullToRefreshView stopAnimating];
+                }];
+            }
+        }
+        else if ([weakSelf.tableViewSource isEqualToString:GROCERYLISTSOURCE]) {
+            NSMutableArray *deleteIndex = [[NSMutableArray alloc] init];
+            [weakSelf.fetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                GroceryList *list = (GroceryList*)obj;
+                
+                if ([[list marked] boolValue]) {
+                    NSManagedObject *object = (NSManagedObject*)obj;
+                    [weakSelf.managedObjectContext deleteObject:object];
+                    
+                    NSError *contextError = nil;
+                    if (![weakSelf.managedObjectContext save:&contextError]) {
+                        // Replace this implementation with code to handle the error appropriately.
+                        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                        NSLog(@"Unresolved error %@, %@", contextError, [contextError userInfo]);
+                        abort();
+                    }
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
+                    [deleteIndex addObject:indexPath];                }
+            }];
+            /*
+            for (NSManagedObject *object in [weakSelf.fetchedResultsController fetchedObjects]) {
+                GroceryList *list = (GroceryList*)object;
+                
+                if ([[list marked] boolValue]) {
+                    [weakSelf.managedObjectContext deleteObject:object];
+                    
+                    NSError *contextError = nil;
+                    if (![weakSelf.managedObjectContext save:&contextError]) {
+                        // Replace this implementation with code to handle the error appropriately.
+                        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                        NSLog(@"Unresolved error %@, %@", contextError, [contextError userInfo]);
+                        abort();
                     }
                 }
-                [weakSelf.tableView.pullToRefreshView stopAnimating];
-            }];
+            }
+             */
+            
+            [weakSelf.tableView.pullToRefreshView stopAnimating];
+            [weakSelf.tableView reloadData];
         }
         
-        //[weakSelf.tableView setContentInset:UIRectEdgeTop];
     }];
 
     [self.tableView registerClass:[RecipeTableViewCell class] forCellReuseIdentifier:@"RecipeCell"];
+    [self.tableView registerClass:[GroceryListCell class] forCellReuseIdentifier:@"GroceryCell"];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
@@ -98,20 +146,81 @@
 - (void)sidebar:(RNFrostedSidebar *)sidebar didTapItemAtIndex:(NSUInteger)index {
     
     switch (index) {
-        case 0:
+        case 0: {
             //load the recipes
+            NSLog(@"Load Recipes");
+            _tableViewSource = RECIPELISTSOURCE;
+            self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
+            
+            // Set the batch size to a suitable number.
+            [fetchRequest setFetchBatchSize:10];
+            
+            // Edit the sort key as appropriate.
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
+            NSArray *sortDescriptors = @[sortDescriptor];
+            
+            [fetchRequest setSortDescriptors:sortDescriptors];
+            
+            _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+            _fetchedResultsController.delegate = self;
+            
+            NSError *error = nil;
+            if (![self.fetchedResultsController performFetch:&error]) {
+                // Replace this implementation with code to handle the error appropriately.
+                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
+            
+            [self.tableView reloadData];
+            
             break;
+        }
         case 1:
             //predicate and load the favorites
+            NSLog(@"Load Favorites");
             break;
         case 2:
             //bring up the search page
+            NSLog(@"Load the Search Page");
             break;
-        case 3:
+        case 3: {
             //load the grocery list
+            NSLog(@"Load Grocery List");
+            _tableViewSource = GROCERYLISTSOURCE;
+            self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"GroceryList"];
+            
+            // Set the batch size to a suitable number.
+            [fetchRequest setFetchBatchSize:10];
+            
+            // Edit the sort key as appropriate.
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
+            NSArray *sortDescriptors = @[sortDescriptor];
+            
+            [fetchRequest setSortDescriptors:sortDescriptors];
+            
+            _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+            _fetchedResultsController.delegate = self;
+            
+            NSError *error = nil;
+            if (![self.fetchedResultsController performFetch:&error]) {
+                // Replace this implementation with code to handle the error appropriately.
+                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
+            
+            [self.tableView reloadData];
+            
             break;
+        }
         case 4:
             //do nothing and let the sidebar dismiss from view
+            NSLog(@"dismiss the sidebar");
             break;
             
         default:
@@ -166,10 +275,28 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    RecipeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell" forIndexPath:indexPath];
-    [self configureCell:cell atIndexPath:indexPath];
+    
+    if ([_tableViewSource isEqualToString:RECIPELISTSOURCE]) {
+        RecipeTableViewCell *recipeCell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell" forIndexPath:indexPath];
+        [self configureCell:recipeCell atIndexPath:indexPath];
+        return recipeCell;
+    }
+    else if ([_tableViewSource isEqualToString:GROCERYLISTSOURCE]) {
+        GroceryListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GroceryCell" forIndexPath:indexPath];
+        //[self configureCell:cell atIndexPath:indexPath];
+        
+        NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        
+        GroceryList *cellList = (GroceryList*)object;
+        cell.ingredient = cellList;
+        [cell configureCell];
+        return cell;
+    }
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    cell.textLabel.text = @"Something's gone wrong...";
+    
     return cell;
+    
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -218,32 +345,50 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 120;
+    CGFloat height = 48;
+    if ([_tableViewSource isEqualToString:RECIPELISTSOURCE]) {
+        height = 120;
+    }
+    return height;
 }
 
-- (void)configureCell:(RecipeTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     
     [cell setFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 120)];
     
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    Event *cellEvent = (Event*)object;
-    cell.event = cellEvent;
-    cell.leftUtilityButtons = [self leftButtons];
-    cell.rightUtilityButtons = [self rightButtons];
-    cell.delegate = self;
-    [cell configureCell];
+    
+    if ([_tableViewSource isEqualToString:RECIPELISTSOURCE]) {
+        RecipeTableViewCell *tempCell = (RecipeTableViewCell*)cell;
+        Event *cellEvent = (Event*)object;
+        tempCell.event = cellEvent;
+        tempCell.leftUtilityButtons = [self leftButtons];
+        tempCell.rightUtilityButtons = [self rightButtons];
+        tempCell.delegate = self;
+        [tempCell configureCell];
+    }
+    else if ([_tableViewSource isEqualToString:GROCERYLISTSOURCE]) {
+        //GroceryList *cellList = (GroceryList*)object;
+        //NSString *cellString = [[cellList amount] stringValue];
+        //cellString = [cellString stringByAppendingString:[cellList type]];
+        //cellString = [cellString stringByAppendingString:[cellList name]];
+        //cell.textLabel.text = cellString;
+    }
+    
     //cell.textLabel.text = [[object valueForKey:@"timeStamp"] description];
     
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    Event *object = (Event*)[[self fetchedResultsController] objectAtIndexPath:indexPath];
-    DetailViewController *controller = [[DetailViewController alloc] init];
-    [controller setDetailItem:object];
-    [self showViewController:controller sender:self];
-    controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-    controller.navigationItem.leftItemsSupplementBackButton = YES;
+    if ([_tableViewSource isEqualToString:RECIPELISTSOURCE]) {
+        Event *object = (Event*)[[self fetchedResultsController] objectAtIndexPath:indexPath];
+        DetailViewController *controller = [[DetailViewController alloc] init];
+        [controller setDetailItem:object];
+        [self showViewController:controller sender:self];
+        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        controller.navigationItem.leftItemsSupplementBackButton = YES;
+    }
     
 }
 
@@ -291,6 +436,7 @@
         [newListing setType:[ingredient size]];
         [newListing setName:[ingredient ingredient]];
         [newListing setAmount:[ingredient amount]];
+        [newListing setTimeStamp:[NSDate date]];
         
         NSError *error = nil;
         if (![context save:&error]) {
@@ -404,7 +550,7 @@
     [fetchRequest setEntity:entity];
     
     // Set the batch size to a suitable number.
-    [fetchRequest setFetchBatchSize:20];
+    [fetchRequest setFetchBatchSize:10];
     
     // Edit the sort key as appropriate.
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
@@ -414,7 +560,9 @@
     
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    //NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
     

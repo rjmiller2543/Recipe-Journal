@@ -12,6 +12,7 @@
 
 @interface GroceryList : NSManagedObject
 
+@property (nonatomic, retain) NSDate * timeStamp;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * amount;
 @property (nonatomic, retain) NSString * type;

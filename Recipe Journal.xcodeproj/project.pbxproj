@@ -25,6 +25,9 @@
 		50B8F1AA1A8B172D002D3D51 /* Ingredient.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A91A8B172D002D3D51 /* Ingredient.m */; };
 		50B8F1B01A8B1B27002D3D51 /* NewIngredientsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1AF1A8B1B27002D3D51 /* NewIngredientsView.m */; };
 		50B8F1B31A9579B8002D3D51 /* RecipeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1B21A9579B8002D3D51 /* RecipeTableViewCell.m */; };
+		50B8F1B71AA6AA08002D3D51 /* GroceryListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1B61AA6AA08002D3D51 /* GroceryListCell.m */; };
+		50B8F1B91AA6AB3A002D3D51 /* unchecked-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B8F1B81AA6AB3A002D3D51 /* unchecked-50.png */; };
+		50B8F1BB1AA6AB45002D3D51 /* checked-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B8F1BA1AA6AB45002D3D51 /* checked-50.png */; };
 		50C1FBB51A9B8981008B176A /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBB41A9B8981008B176A /* menu.png */; };
 		50C1FBB71AA500CD008B176A /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBB61AA500CD008B176A /* check.png */; };
 		50C1FBB91AA500F5008B176A /* clock.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBB81AA500F5008B176A /* clock.png */; };
@@ -92,6 +95,11 @@
 		50B8F1AF1A8B1B27002D3D51 /* NewIngredientsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewIngredientsView.m; sourceTree = "<group>"; };
 		50B8F1B11A9579B8002D3D51 /* RecipeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipeTableViewCell.h; sourceTree = "<group>"; };
 		50B8F1B21A9579B8002D3D51 /* RecipeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipeTableViewCell.m; sourceTree = "<group>"; };
+		50B8F1B41AA68633002D3D51 /* RecipeJournalHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecipeJournalHelper.h; sourceTree = "<group>"; };
+		50B8F1B51AA6AA08002D3D51 /* GroceryListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroceryListCell.h; sourceTree = "<group>"; };
+		50B8F1B61AA6AA08002D3D51 /* GroceryListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroceryListCell.m; sourceTree = "<group>"; };
+		50B8F1B81AA6AB3A002D3D51 /* unchecked-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unchecked-50.png"; sourceTree = "<group>"; };
+		50B8F1BA1AA6AB45002D3D51 /* checked-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked-50.png"; sourceTree = "<group>"; };
 		50C1FBB41A9B8981008B176A /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		50C1FBB61AA500CD008B176A /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		50C1FBB81AA500F5008B176A /* clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clock.png; sourceTree = "<group>"; };
@@ -185,6 +193,8 @@
 		504864541A850C5D00655655 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				50B8F1BA1AA6AB45002D3D51 /* checked-50.png */,
+				50B8F1B81AA6AB3A002D3D51 /* unchecked-50.png */,
 				50C1FBD01AA654BE008B176A /* sort-50.png */,
 				50C1FBC61AA6474B008B176A /* search-50.png */,
 				50C1FBC41AA64689008B176A /* search.png */,
@@ -239,6 +249,7 @@
 				50B8F1A01A868DCA002D3D51 /* GroceryList.m */,
 				50B8F1A81A8B172D002D3D51 /* Ingredient.h */,
 				50B8F1A91A8B172D002D3D51 /* Ingredient.m */,
+				50B8F1B41AA68633002D3D51 /* RecipeJournalHelper.h */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -265,6 +276,8 @@
 				50C491F71A8D513000C79983 /* NewPreparationView.m */,
 				50B8F1B11A9579B8002D3D51 /* RecipeTableViewCell.h */,
 				50B8F1B21A9579B8002D3D51 /* RecipeTableViewCell.m */,
+				50B8F1B51AA6AA08002D3D51 /* GroceryListCell.h */,
+				50B8F1B61AA6AA08002D3D51 /* GroceryListCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -369,6 +382,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50B8F1BB1AA6AB45002D3D51 /* checked-50.png in Resources */,
 				50C1FBB91AA500F5008B176A /* clock.png in Resources */,
 				50C1FBD11AA654BE008B176A /* sort-50.png in Resources */,
 				50C1FBB51A9B8981008B176A /* menu.png in Resources */,
@@ -391,6 +405,7 @@
 				50C1FBBF1AA505EE008B176A /* favorite.png in Resources */,
 				50C1FBC31AA645B9008B176A /* cutlery.png in Resources */,
 				504864681A850C5E00655655 /* Images.xcassets in Resources */,
+				50B8F1B91AA6AB3A002D3D51 /* unchecked-50.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +461,7 @@
 				50B8F1B31A9579B8002D3D51 /* RecipeTableViewCell.m in Sources */,
 				50B8F1991A868B2A002D3D51 /* RecipeCloudManager.m in Sources */,
 				50B8F1B01A8B1B27002D3D51 /* NewIngredientsView.m in Sources */,
+				50B8F1B71AA6AA08002D3D51 /* GroceryListCell.m in Sources */,
 				504864601A850C5E00655655 /* MasterViewController.m in Sources */,
 				5048645A1A850C5E00655655 /* AppDelegate.m in Sources */,
 				50B8F1A41A868DF2002D3D51 /* Event.m in Sources */,

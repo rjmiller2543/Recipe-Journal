@@ -28,10 +28,11 @@
         <attribute name="marked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="recordID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeStamp" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="Event" positionX="261" positionY="189" width="128" height="315"/>
-        <element name="GroceryList" positionX="261" positionY="306" width="128" height="120"/>
+        <element name="GroceryList" positionX="261" positionY="306" width="128" height="135"/>
     </elements>
 </model>
