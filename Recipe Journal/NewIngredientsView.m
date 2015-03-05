@@ -163,6 +163,7 @@ bool isEditingIngredients = false;
     [alertView addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.tag = 0x0;    //first textField
         textField.placeholder = @"Ingredient";
+        textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
     }];
     [alertView addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.tag = 0x1;    //second textField
@@ -173,6 +174,7 @@ bool isEditingIngredients = false;
         textField.tag = 0x2;
         //textField.delegate = self;
         textField.placeholder = @"Cup/Tsp/Tbsp/Whole?";
+        textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
     }];
     [alertView addAction:[UIAlertAction actionWithTitle:@"Save" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         _tempIngredient = [[Ingredient alloc] init];

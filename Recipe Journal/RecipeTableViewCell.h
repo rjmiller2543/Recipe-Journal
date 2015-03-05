@@ -13,6 +13,7 @@
 @interface RecipeTableViewCell : SWTableViewCell
 
 @property(nonatomic,retain) Event *event;
+@property(nonatomic,retain) UIImageView *favorited;
 
 -(void)configureCell;
 

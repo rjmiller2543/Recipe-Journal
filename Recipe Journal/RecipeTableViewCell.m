@@ -9,6 +9,14 @@
 #import "RecipeTableViewCell.h"
 #import <AXRatingView/AXRatingView.h>
 
+@interface RecipeTableViewCell () <UIGestureRecognizerDelegate>
+
+@property(nonatomic,retain) UILabel *label;
+@property(nonatomic,retain) AXRatingView *rating;
+@property(nonatomic,retain) UISegmentedControl *processChoice;
+
+@end
+
 @implementation RecipeTableViewCell
 
 - (void)awakeFromNib {
@@ -28,7 +36,6 @@
         
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         CGRect area = CGRectMake(0, 0, size.width, size.height);
-        //CGRect area = self.frame;
         
         CGContextScaleCTM(ctx, 1, -1);
         CGContextTranslateCTM(ctx, 0, -area.size.height);
@@ -41,6 +48,7 @@
         
         //[image drawInRect:self.frame];
         UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+        
         //here is the scaled image which has been changed to the size specified
         UIGraphicsEndImageContext();
         
@@ -52,22 +60,39 @@
     [self setOpaque:NO];
     [[self layer] setOpaque:NO];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, 0, 0)];
-    label.text = [_event recipeName];
-    label.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0];
-    [label sizeToFit];
-    [self addSubview:label];
+    if (_label == nil) {
+        _label = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, 0, 0)];
+    }
+    _label.text = [_event recipeName];
+    _label.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0];
+    [_label sizeToFit];
+    [self addSubview:_label];
     
-    AXRatingView *rating = [[AXRatingView alloc] initWithFrame:CGRectMake(10, 90, 120, 20)];
-    rating.value = [[_event rating] floatValue];
-    rating.enabled = NO;
-    [self addSubview:rating];
+    if (_rating == nil) {
+        _rating = [[AXRatingView alloc] initWithFrame:CGRectMake(10, 90, 120, 20)];
+    }
+    _rating.value = [[_event rating] floatValue];
+    _rating.enabled = NO;
+    [self addSubview:_rating];
     
-    UISegmentedControl *processChoice = [[UISegmentedControl alloc]
-                                         initWithItems:@[[UIImage imageNamed:@"cooker-25.png"],
-                                                         [UIImage imageNamed:@"kitchen-25.png"]]];
-    [processChoice setFrame:CGRectMake(self.frame.size.width - 60, 90, 40, 20)];
-    [self addSubview:processChoice];
+    if (_processChoice == nil) {
+        _processChoice = [[UISegmentedControl alloc]
+                          initWithItems:@[[UIImage imageNamed:@"cooker-25.png"],
+                                          [UIImage imageNamed:@"kitchen-25.png"]]];
+    }
+    [_processChoice setFrame:CGRectMake(self.frame.size.width - 75, 70, 70, 40)];
+    [self addSubview:_processChoice];
+    
+    if (_favorited == nil) {
+        _favorited = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width - 120, 70, 40, 40)];
+    }
+    if ([[_event favorited] boolValue]) {
+        _favorited.image = [UIImage imageNamed:@"favorited-50.png"];
+    }
+    else {
+        _favorited.image = [UIImage imageNamed:@"favorite-50.png"];
+    }
+    [self addSubview:_favorited];
     
 }
 

@@ -43,6 +43,7 @@
 		50C1FBCD1AA647A3008B176A /* favorite-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBCC1AA647A3008B176A /* favorite-50.png */; };
 		50C1FBCF1AA647C6008B176A /* cross-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBCE1AA647C6008B176A /* cross-50.png */; };
 		50C1FBD11AA654BE008B176A /* sort-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBD01AA654BE008B176A /* sort-50.png */; };
+		50C1FBD31AA73FD1008B176A /* favorited-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1FBD21AA73FD1008B176A /* favorited-50.png */; };
 		50C491F31A8D062E00C79983 /* cooker-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F21A8D062E00C79983 /* cooker-25.png */; };
 		50C491F51A8D3FB400C79983 /* kitchen-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F41A8D3FB400C79983 /* kitchen-25.png */; };
 		50C491F81A8D513000C79983 /* NewPreparationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C491F71A8D513000C79983 /* NewPreparationView.m */; };
@@ -115,6 +116,7 @@
 		50C1FBCC1AA647A3008B176A /* favorite-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorite-50.png"; sourceTree = "<group>"; };
 		50C1FBCE1AA647C6008B176A /* cross-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross-50.png"; sourceTree = "<group>"; };
 		50C1FBD01AA654BE008B176A /* sort-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sort-50.png"; sourceTree = "<group>"; };
+		50C1FBD21AA73FD1008B176A /* favorited-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorited-50.png"; sourceTree = "<group>"; };
 		50C491F21A8D062E00C79983 /* cooker-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cooker-25.png"; sourceTree = "<group>"; };
 		50C491F41A8D3FB400C79983 /* kitchen-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kitchen-25.png"; sourceTree = "<group>"; };
 		50C491F61A8D513000C79983 /* NewPreparationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewPreparationView.h; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				50C1FBC21AA645B9008B176A /* cutlery.png */,
 				50C1FBCA1AA64795008B176A /* checklist-50.png */,
 				50C1FBC01AA6455D008B176A /* checklist.png */,
+				50C1FBD21AA73FD1008B176A /* favorited-50.png */,
 				50C1FBCC1AA647A3008B176A /* favorite-50.png */,
 				50C1FBBE1AA505EE008B176A /* favorite.png */,
 				50C1FBBC1AA5013F008B176A /* list.png */,
@@ -398,6 +401,7 @@
 				5048646B1A850C5E00655655 /* LaunchScreen.xib in Resources */,
 				50C491F31A8D062E00C79983 /* cooker-25.png in Resources */,
 				50C1FBC51AA64689008B176A /* search.png in Resources */,
+				50C1FBD31AA73FD1008B176A /* favorited-50.png in Resources */,
 				50C1FBBB1AA5011B008B176A /* cross.png in Resources */,
 				50C1FBC11AA6455D008B176A /* checklist.png in Resources */,
 				50C1FBCF1AA647C6008B176A /* cross-50.png in Resources */,

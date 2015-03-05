@@ -13,6 +13,7 @@
 
 #define RECIPELISTSOURCE        @"RecipeListSource"
 #define GROCERYLISTSOURCE       @"GroceryListSource"
+#define FAVORITELISTSOURCE      @"FavoriteListSource"
 
 #pragma mark - Colors
 

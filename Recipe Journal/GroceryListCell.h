@@ -12,6 +12,7 @@
 @interface GroceryListCell : UITableViewCell
 
 @property(nonatomic,retain) GroceryList *ingredient;
+@property(nonatomic,retain) id parentViewController;
 
 -(void)configureCell;
 
