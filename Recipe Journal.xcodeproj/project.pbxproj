@@ -48,6 +48,7 @@
 		50C491F51A8D3FB400C79983 /* kitchen-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F41A8D3FB400C79983 /* kitchen-25.png */; };
 		50C491F81A8D513000C79983 /* NewPreparationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C491F71A8D513000C79983 /* NewPreparationView.m */; };
 		50C491FA1A8D736D00C79983 /* no-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F91A8D736D00C79983 /* no-photo.png */; };
+		50DDC58D1AADEC3600149F22 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DDC58C1AADEC3600149F22 /* SearchView.m */; };
 		61EB447D6ECE9558859F72C6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23B56200338F9252CFBA1320 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -122,6 +123,8 @@
 		50C491F61A8D513000C79983 /* NewPreparationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewPreparationView.h; sourceTree = "<group>"; };
 		50C491F71A8D513000C79983 /* NewPreparationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewPreparationView.m; sourceTree = "<group>"; };
 		50C491F91A8D736D00C79983 /* no-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-photo.png"; sourceTree = "<group>"; };
+		50DDC58B1AADEC3600149F22 /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
+		50DDC58C1AADEC3600149F22 /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
 		7D55CFD18045FF7C512F61D7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A208A07A2AE044AB26F6A59A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -281,6 +284,8 @@
 				50B8F1B21A9579B8002D3D51 /* RecipeTableViewCell.m */,
 				50B8F1B51AA6AA08002D3D51 /* GroceryListCell.h */,
 				50B8F1B61AA6AA08002D3D51 /* GroceryListCell.m */,
+				50DDC58B1AADEC3600149F22 /* SearchView.h */,
+				50DDC58C1AADEC3600149F22 /* SearchView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -463,6 +468,7 @@
 				50B8F1AA1A8B172D002D3D51 /* Ingredient.m in Sources */,
 				504864631A850C5E00655655 /* DetailViewController.m in Sources */,
 				50B8F1B31A9579B8002D3D51 /* RecipeTableViewCell.m in Sources */,
+				50DDC58D1AADEC3600149F22 /* SearchView.m in Sources */,
 				50B8F1991A868B2A002D3D51 /* RecipeCloudManager.m in Sources */,
 				50B8F1B01A8B1B27002D3D51 /* NewIngredientsView.m in Sources */,
 				50B8F1B71AA6AA08002D3D51 /* GroceryListCell.m in Sources */,
@@ -602,6 +608,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Recipe Journal/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -617,6 +624,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Recipe Journal/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

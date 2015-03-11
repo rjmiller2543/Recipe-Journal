@@ -369,10 +369,137 @@
             
             break;
         }
-        case 3:
+        case 3: {
             //bring up the search page
             NSLog(@"Load The Search Page");
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Search:" message:@"Enter any or all of the search criteria:" preferredStyle:UIAlertControllerStyleAlert];
+            
+            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"Recipe Name";
+            }];
+            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"Contains Ingredient";
+            }];
+            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"Max Prep Time";
+            }];
+            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"Max Cook Time";
+            }];
+            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"Max Total Time";
+            }];
+            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"Wine Pairing";
+            }];
+            
+            [alert addAction:[UIAlertAction actionWithTitle:@"Search!" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                
+                //Do the Search
+                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
+                
+                // Set the batch size to a suitable number.
+                [fetchRequest setFetchBatchSize:10];
+                
+                NSMutableArray *predicateArray = [[NSMutableArray alloc] init];
+                
+                NSPredicate *predicate = [NSPredicate predicateWithValue:true];
+                [predicateArray addObject:predicate];
+                NSString *predicateString = @"";
+                
+                UITextField *textField = [[alert textFields] objectAtIndex:0];
+                if (![textField.text isEqualToString:@""]) {
+                    predicateString = textField.text;
+                    NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@"recipeName CONTAINS[c] %@", predicateString];
+                    [predicateArray addObject:namePredicate];
+                }
+                
+                textField = [[alert textFields] objectAtIndex:1];
+                if (![textField.text isEqualToString:@""]) {
+                    predicateString = textField.text;
+                    //Figure out a way to go through ingredients
+                    /*NSPredicate *ingredientPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+                        NSLog(@"%@", [evaluatedObject description]);
+                        Event *event = (Event*)evaluatedObject;
+                        NSArray *ingredientsArray = [event returnIngredientsArray];
+                        //NSPredicate *returnPredicate = [NSPredicate predicateWithFormat:@"ingredient ==[c] %@", predicateString];
+                        BOOL returnType = false;
+                        for (Ingredient *ingredient in ingredientsArray) {
+                            if ([ingredient.ingredient caseInsensitiveCompare:predicateString]) {
+                                //add to the bindings?
+                                returnType = true;
+                            }
+                            returnType = false;
+                        }
+                        return returnType;
+                    }];*/
+                    NSPredicate *ingredientPredicate = [NSPredicate predicateWithFormat:@"SUBQUERY(SELF.ingredients, $a, $a.ingredient ==[c] %@).@count > 0", predicateString];
+                    [predicateArray addObject:ingredientPredicate];
+                }
+                
+                textField = [[alert textFields] objectAtIndex:2];
+                if (![textField.text isEqualToString:@""]) {
+                    predicateString = textField.text;
+                    NSPredicate *prepPredicate = [NSPredicate predicateWithFormat:@"prepTimeMinutes = %@", [NSNumber numberWithInteger:[predicateString integerValue]]];
+                    [predicateArray addObject:prepPredicate];
+                }
+                
+                textField = [[alert textFields] objectAtIndex:3];
+                if (![textField.text isEqualToString:@""]) {
+                    predicateString = textField.text;
+                    NSPredicate *cookPredicate = [NSPredicate predicateWithFormat:@"cookTimeMinutes = %@", [predicateString integerValue]];
+                    [predicateArray addObject:cookPredicate];
+                }
+                
+                textField = [[alert textFields] objectAtIndex:4];
+                if (![textField.text isEqualToString:@""]) {
+                    predicateString = textField.text;
+                    NSPredicate *totalPredicate = [NSPredicate predicateWithFormat:@"cookTimeMinutes + prepTimeMinutes = %@", [NSNumber numberWithInteger:[predicateString integerValue]]];
+                    [predicateArray addObject:totalPredicate];
+                }
+                
+                textField = [[alert textFields] objectAtIndex:5];
+                if (![textField.text isEqualToString:@""]) {
+                    predicateString = textField.text;
+                    NSPredicate *winePredicate = [NSPredicate predicateWithFormat:@"winePairing ==[c] %@", predicateString];
+                    [predicateArray addObject:winePredicate];
+                }
+                
+                NSPredicate *fetchPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:predicateArray];
+                
+                [fetchRequest setPredicate:fetchPredicate];
+                
+                // Edit the sort key as appropriate.
+                NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
+                NSArray *sortDescriptors = @[sortDescriptor];
+                
+                [fetchRequest setSortDescriptors:sortDescriptors];
+                
+                _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+                _fetchedResultsController.delegate = self;
+                
+                NSError *error = nil;
+                if (![self.fetchedResultsController performFetch:&error]) {
+                    // Replace this implementation with code to handle the error appropriately.
+                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                    abort();
+                }
+                
+                NSLog(@"Done with alphabetical z - a");
+                
+                [self.tableView reloadData];
+                
+                
+            }]];
+            [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                //Do nothing
+            }]];
+            [self presentViewController:alert animated:YES completion:^{
+                //Up up
+            }];
             break;
+        }
         case 4: {
             
             //load the grocery list
@@ -518,10 +645,10 @@
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-        [controller setDetailItem:(Event*)object];
-        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-        controller.navigationItem.leftItemsSupplementBackButton = YES;
+        //DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
+        //[controller setDetailItem:(Event*)object];
+        //controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        //controller.navigationItem.leftItemsSupplementBackButton = YES;
     }
 }
 
