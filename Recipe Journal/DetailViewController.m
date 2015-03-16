@@ -233,8 +233,8 @@ const float textHeight = 45.0f;
         _ingredientsView.layer.borderWidth = 2.0;
         [_ingredientsView setEditBool:NO];
         [containerView addSubview:_ingredientsView];
-        _ingredientsView.ingredients = [NSMutableArray arrayWithArray:[_detailItem returnIngredientsArray]];
-        
+        //_ingredientsView.ingredients = [NSMutableArray arrayWithArray:[_detailItem returnIngredientsArray]];
+        _ingredientsView.ingredients = [_detailItem ingredients];
         
         //Setup and add the Cook Process View and Segment Controller for the Cook Process Type
         _cookProcessTextView = [JVFloatLabeledTextField new];

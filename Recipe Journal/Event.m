@@ -65,6 +65,12 @@
     NSData *photoData = [NSData dataWithContentsOfURL:photoURL];
     [self setRecipeIconImage:photoData];
     
+    CKAsset *ingAsset = [record objectForKey:@"IngredientsList"];
+    
+    NSURL *ingURL = ingAsset.fileURL;
+    NSArray *ingArray = [NSArray arrayWithContentsOfURL:ingURL];
+    [self setIngredients:ingArray];
+    
 }
 
 -(NSArray*)returnIngredientsArray {
@@ -122,9 +128,11 @@
     return [NSKeyedArchiver archivedDataWithRootObject:value];
 }
 
-- (id)reverseTransformedValue:(id)value
+- (NSArray*)reverseTransformedValue:(id)value
 {
     return [NSKeyedUnarchiver unarchiveObjectWithData:value];
 }
 
 @end
+
+

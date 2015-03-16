@@ -798,7 +798,8 @@ const float textHeight = 45.0f;
                 [SVProgressHUD showProgress:6/12 status:@"I'm Seeing Some Improvement.."];
                 break;
             case INGREDIENTVIEW:
-                [newEvent setIngredientsWithArray:_ingredientsView.ingredients];
+                //[newEvent setIngredientsWithArray:_ingredientsView.ingredients];
+                [newEvent setIngredients:_ingredientsView.ingredients];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

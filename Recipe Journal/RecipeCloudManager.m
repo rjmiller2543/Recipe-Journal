@@ -10,6 +10,7 @@
 #include "Ingredient.h"
 #include "AppDelegate.h"
 #include "RecipeJournalHelper.h"
+#include "GroceryList.h"
 
 @implementation RecipeCloudManager
 
@@ -85,11 +86,15 @@ bool notCompleted = true;
     [newRecord setValue:[sender recipeName] forKey:@"RecipeName"];
     [newRecord setValue:[sender servingSize] forKey:@"ServingSize"];
     [newRecord setValue:[sender winePairing] forKey:@"WinePairing"];
-    //[newRecord setValue:[sender recipeIconImage] forKey:@"RecipeIconImage"];
-    //[newRecord setValue:[sender ingredients] forKey:@"IngredientsList"];
     
     CKAsset *photoAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:[sender imageURL]]];
     [newRecord setValue:photoAsset forKey:@"RecipeIconImage"];
+    
+    NSString *ingPath = [NSHomeDirectory() stringByAppendingPathComponent:@"ing.plist"];
+    NSArray *ingArray = [sender ingredients];
+    [ingArray writeToFile:ingPath atomically:YES];
+    CKAsset *ingredientAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:ingPath]];
+    [newRecord setValue:ingredientAsset forKey:@"IngredientsList"];
     
     [_privateDatabase saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
         if (error) {
@@ -189,10 +194,70 @@ BOOL refresh = false;
             completionHandler(error, refresh);
         }];
     }
+    else if ([source isEqualToString:GROCERYLISTSOURCE]) {
+        [self fetchGroceryList:^(NSError *error, bool refresh) {
+            completionHandler(error, refresh);
+        }];
+    }
     
 }
 
 #pragma mark - Grocery List Sync Methods
+-(void)fetchGroceryList:(void (^)(NSError*error, bool refresh))completionHandler {
+    
+    NSPredicate *predicate = [NSPredicate predicateWithValue:true];
+    CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Items" predicate:predicate];
+    
+    refresh = false;
+    [_privateDatabase performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error) {
+        if (error) {
+            NSLog(@"error fetching items with error: %@", error);
+        }
+        else {
+            NSManagedObjectContext *dataCenter = [[AppDelegate sharedInstance] managedObjectContext];
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"GroceryList"];
+            
+            NSError *error = nil;
+            NSArray *coreDataArray = [dataCenter executeFetchRequest:fetchRequest error:&error];
+            
+            BOOL isSynced = false;
+            for (CKRecord *record in results) {
+                for (GroceryList *item in coreDataArray) {
+                    if ([[[record recordID] recordName] isEqualToString:[item recordID]]) {
+                        isSynced = true;
+                        break;
+                    }
+                }
+                if (isSynced) {
+                    //This record already exists
+                    isSynced = false;
+                }
+                else {
+                    refresh = true;
+                    
+                    NSEntityDescription *entity = [NSEntityDescription entityForName:@"GroceryList" inManagedObjectContext:dataCenter];
+                    
+                    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:dataCenter];
+                    
+                    GroceryList *newEvent = (GroceryList*)newManagedObject;
+                    //[newEvent setEventWithRecord:record];
+                    [newEvent setName:[record objectForKey:@"name"]];
+                    [newEvent setAmount:[record objectForKey:@"amount"]];
+                    [newEvent setType:[record objectForKey:@"size"]];
+                    
+                    if (![dataCenter save:&error]) {
+                        // Replace this implementation with code to handle the error appropriately.
+                        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                        abort();
+                    }
+                }
+            }
+        }
+    }];
+    
+}
+
 -(void)saveListToItem:(GroceryList *)list {
     
     CKRecord *record = [[CKRecord alloc] initWithRecordType:@"Items"];
@@ -222,9 +287,18 @@ BOOL refresh = false;
     
 }
 
--(void)removeItemFromCloud:(GroceryList *)list {
+-(void)removeItemFromCloud:(GroceryList *)list complete:(void (^)(NSError *))completionHandler {
     
-    
+    CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:[list recordID]];
+    [_privateDatabase deleteRecordWithID:recordID completionHandler:^(CKRecordID *recordID, NSError *error) {
+        if (error) {
+            NSLog(@"error: %@ with record: %@", error, [recordID description]);
+        }
+        else {
+            NSLog(@"Hooray! Deleted!");
+        }
+        completionHandler(error);
+    }];
     
 }
 

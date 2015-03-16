@@ -20,6 +20,7 @@
 #import "RecipeJournalHelper.h"
 
 #import "RecipeCloudManager.h"
+#import "AppDelegate.h"
 
 @interface MasterViewController () <RNFrostedSidebarDelegate, SWTableViewCellDelegate>
 
@@ -118,6 +119,8 @@
     _callout = [[RNFrostedSidebar alloc] initWithImages:@[[UIImage imageNamed:@"cutlery-50.png"], [UIImage imageNamed:@"favorite-50.png"], [UIImage imageNamed:@"sort-50.png"], [UIImage imageNamed:@"search-50.png"], [UIImage imageNamed:@"checklist-50.png"], [UIImage imageNamed:@"cross-50.png"]]];
     _callout.delegate = self;
     
+    _tableViewDataSource = [self.fetchedResultsController fetchedObjects];
+    
     [self.tableView triggerPullToRefresh];
 }
 
@@ -166,6 +169,8 @@
                 abort();
             }
             
+            _tableViewDataSource = [_fetchedResultsController fetchedObjects];
+            
             [self.tableView reloadData];
             
             break;
@@ -205,6 +210,8 @@
                 abort();
             }
             
+            _tableViewDataSource = [_fetchedResultsController fetchedObjects];
+            
             [self.tableView reloadData];
             
             break;
@@ -240,6 +247,8 @@
                     abort();
                 }
                 
+                _tableViewDataSource = [_fetchedResultsController fetchedObjects];
+                
                 NSLog(@"Done with date: earliest - latest");
                 
                 [self.tableView reloadData];
@@ -268,6 +277,8 @@
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
+                
+                _tableViewDataSource = [_fetchedResultsController fetchedObjects];
                 
                 NSLog(@"Done with date latest - earliest");
                 
@@ -298,6 +309,8 @@
                     abort();
                 }
                 
+                _tableViewDataSource = [_fetchedResultsController fetchedObjects];
+                
                 NSLog(@"Done with alphabetical a - z");
                 
                 [self.tableView reloadData];
@@ -327,6 +340,8 @@
                     abort();
                 }
                 
+                _tableViewDataSource = [_fetchedResultsController fetchedObjects];
+                
                 NSLog(@"Done with alphabetical z - a");
                 
                 [self.tableView reloadData];
@@ -354,6 +369,8 @@
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                     abort();
                 }
+                
+                _tableViewDataSource = [_fetchedResultsController fetchedObjects];
                 
                 NSLog(@"Done with alphabetical z - a");
                 
@@ -414,28 +431,14 @@
                     [predicateArray addObject:namePredicate];
                 }
                 
-                textField = [[alert textFields] objectAtIndex:1];
+                /*textField = [[alert textFields] objectAtIndex:1];
                 if (![textField.text isEqualToString:@""]) {
                     predicateString = textField.text;
                     //Figure out a way to go through ingredients
-                    /*NSPredicate *ingredientPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-                        NSLog(@"%@", [evaluatedObject description]);
-                        Event *event = (Event*)evaluatedObject;
-                        NSArray *ingredientsArray = [event returnIngredientsArray];
-                        //NSPredicate *returnPredicate = [NSPredicate predicateWithFormat:@"ingredient ==[c] %@", predicateString];
-                        BOOL returnType = false;
-                        for (Ingredient *ingredient in ingredientsArray) {
-                            if ([ingredient.ingredient caseInsensitiveCompare:predicateString]) {
-                                //add to the bindings?
-                                returnType = true;
-                            }
-                            returnType = false;
-                        }
-                        return returnType;
-                    }];*/
-                    NSPredicate *ingredientPredicate = [NSPredicate predicateWithFormat:@"SUBQUERY(SELF.ingredients, $a, $a.ingredient ==[c] %@).@count > 0", predicateString];
-                    [predicateArray addObject:ingredientPredicate];
-                }
+                    
+                    NSPredicate *ingredientPredicate = [NSPredicate predicateWithFormat:@"ANY SELF.ingredients.ingredient like[c] %@", predicateString];
+                    //[predicateArray addObject:ingredientPredicate];
+                }*/
                 
                 textField = [[alert textFields] objectAtIndex:2];
                 if (![textField.text isEqualToString:@""]) {
@@ -461,7 +464,7 @@
                 textField = [[alert textFields] objectAtIndex:5];
                 if (![textField.text isEqualToString:@""]) {
                     predicateString = textField.text;
-                    NSPredicate *winePredicate = [NSPredicate predicateWithFormat:@"winePairing ==[c] %@", predicateString];
+                    NSPredicate *winePredicate = [NSPredicate predicateWithFormat:@"winePairing CONTAINS[c] %@", predicateString];
                     [predicateArray addObject:winePredicate];
                 }
                 
@@ -486,7 +489,19 @@
                     abort();
                 }
                 
-                NSLog(@"Done with alphabetical z - a");
+                _tableViewDataSource = [_fetchedResultsController fetchedObjects];
+                
+                textField = [[alert textFields] objectAtIndex:1];
+                if (![textField.text isEqualToString:@""]) {
+                    predicateString = textField.text;
+                    //Figure out a way to go through ingredients
+                    
+                    NSPredicate *ingredientPredicate = [NSPredicate predicateWithFormat:@"ANY SELF.ingredients.ingredient like[c] %@", predicateString];
+                    _tableViewDataSource = [_tableViewDataSource filteredArrayUsingPredicate:ingredientPredicate];
+                    //[predicateArray addObject:ingredientPredicate];
+                }
+                
+                NSLog(@"Done with search");
                 
                 [self.tableView reloadData];
                 
@@ -536,14 +551,53 @@
                 abort();
             }
             
+            _tableViewDataSource = [_fetchedResultsController fetchedObjects];
+            
             [self.tableView reloadData];
             
             break;
         }
-        case 5:
+        case 5: {
             //do nothing and let the sidebar dismiss from view
             NSLog(@"dismiss the sidebar");
+            
+            //doing this as a test.. to be deleted..
+            Ingredient *num1 = [[Ingredient alloc] init];
+            [num1 setIngredient:@"yarg"];
+            Ingredient *num2 = [[Ingredient alloc] init];
+            [num2 setIngredient:@"Up"];
+            Ingredient *num3 = [[Ingredient alloc] init];
+            [num3 setIngredient:@"test"];
+            
+            NSArray *array = [[NSArray alloc] initWithObjects:num1, num2, num3, nil];
+            
+            Ingredient *num4 = [[Ingredient alloc] init];
+            [num4 setIngredient:@"blarg"];
+            NSArray *secArray = [[NSArray alloc] initWithObjects:num4, nil];
+            
+            NSManagedObjectContext *context = [[AppDelegate sharedInstance] managedObjectContext];
+            NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:context];
+            
+            //NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+            NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+            
+            Event *event1 = (Event*)newManagedObject;
+            [event1 setRecipeName:@"one"];
+            [event1 setIngredients:array];
+            
+            NSManagedObject *secManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+            Event *event2 = (Event*)secManagedObject;
+            [event2 setRecipeName:@"two"];
+            [event2 setIngredients:secArray];
+            
+            NSArray *eventArray = [[NSArray alloc] initWithObjects:event1, event2, nil];
+            
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY SELF.ingredients.ingredient like[c] 'up'"];
+            NSArray *filteredArray = [eventArray filteredArrayUsingPredicate:predicate];
+            NSLog(@"count of filtered array: %lu", (unsigned long)[filteredArray count]);
+                                      
             break;
+        }
             
         default:
             break;
@@ -655,12 +709,14 @@
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [[self.fetchedResultsController sections] count];
+    //return [[self.fetchedResultsController sections] count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
-    return [sectionInfo numberOfObjects];
+    //id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
+    //return [sectionInfo numberOfObjects];
+    return [_tableViewDataSource count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -674,9 +730,10 @@
         GroceryListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GroceryCell" forIndexPath:indexPath];
         //[self configureCell:cell atIndexPath:indexPath];
         
-        NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        //NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
         
-        GroceryList *cellList = (GroceryList*)object;
+        GroceryList *cellList = (GroceryList*)[_tableViewDataSource objectAtIndex:indexPath.row];
+        
         cell.ingredient = cellList;
         cell.parentViewController = self;
         [cell configureCell];
@@ -754,11 +811,11 @@
     
     [cell setFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 120)];
     
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    //NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     if ([_tableViewSource isEqualToString:RECIPELISTSOURCE]) {
         RecipeTableViewCell *tempCell = (RecipeTableViewCell*)cell;
-        Event *cellEvent = (Event*)object;
+        Event *cellEvent = (Event*)[_tableViewDataSource objectAtIndex:indexPath.row];
         tempCell.event = cellEvent;
         tempCell.leftUtilityButtons = [self leftButtons];
         tempCell.rightUtilityButtons = [self rightButtons];
@@ -774,7 +831,7 @@
     }
     else if ([_tableViewSource isEqualToString:FAVORITELISTSOURCE]) {
         RecipeTableViewCell *tempCell = (RecipeTableViewCell*)cell;
-        Event *cellEvent = (Event*)object;
+        Event *cellEvent = (Event*)[_tableViewDataSource objectAtIndex:indexPath.row];
         tempCell.event = cellEvent;
         tempCell.leftUtilityButtons = [self leftButtons];
         tempCell.rightUtilityButtons = [self rightButtons];
@@ -835,7 +892,7 @@
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"GroceryList" inManagedObjectContext:context];
     
-    for (Ingredient *ingredient in [event returnIngredientsArray]) {
+    for (Ingredient *ingredient in [event ingredients]) {
         
         NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
         GroceryList *newListing = (GroceryList*)newManagedObject;
@@ -987,6 +1044,8 @@
 	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	    abort();
 	}
+    
+    _tableViewDataSource = [_fetchedResultsController fetchedObjects];
     
     return _fetchedResultsController;
 }    

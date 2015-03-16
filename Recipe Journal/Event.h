@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import <CloudKit/CloudKit.h>
+#import "Ingredient.h"
 
 
 @interface Event : NSManagedObject
@@ -32,8 +33,6 @@
 @property (nonatomic, retain) NSNumber * lowCalorie;
 @property (nonatomic, retain) NSString * mealType;
 
-@property(nonatomic,retain) NSArray *ingredientsArray;
-
 -(NSArray*)returnIngredientsArray;
 -(NSArray*)returnPrepartionStepsArray;
 
@@ -46,4 +45,6 @@
 @interface Ingredients : NSValueTransformer
 
 @end
+
+
 

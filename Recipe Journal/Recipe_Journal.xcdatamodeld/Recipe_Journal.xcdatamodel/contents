@@ -32,7 +32,7 @@
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Event" positionX="261" positionY="189" width="128" height="313"/>
+        <element name="Event" positionX="126" positionY="338" width="128" height="313"/>
         <element name="GroceryList" positionX="493" positionY="270" width="128" height="135"/>
     </elements>
 </model>
