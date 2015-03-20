@@ -58,6 +58,26 @@ bool notCompleted = true;
         
         [record setValue:[NSNumber numberWithBool:true] forKey:@"Favorited"];
         
+        [record setValue:[sender cookTimeMinutes] forKey:@"CookTimeMinutes"];
+        [record setValue:[sender cookingProcess] forKey:@"CookingProcess"];
+        [record setValue:[sender difficulty] forKey:@"Difficulty"];
+        [record setValue:[sender notes] forKey:@"Notes"];
+        [record setValue:[sender prepTimeMinutes] forKey:@"PrepTimeMinutes"];
+        [record setValue:[sender returnPrepartionStepsArray] forKey:@"Preparation"];
+        [record setValue:[sender rating] forKey:@"Rating"];
+        [record setValue:[sender recipeName] forKey:@"RecipeName"];
+        [record setValue:[sender servingSize] forKey:@"ServingSize"];
+        [record setValue:[sender winePairing] forKey:@"WinePairing"];
+        
+        CKAsset *photoAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:[sender imageURL]]];
+        [record setValue:photoAsset forKey:@"RecipeIconImage"];
+        
+        NSString *ingPath = [NSHomeDirectory() stringByAppendingPathComponent:@"ing.plist"];
+        NSArray *ingArray = [sender ingredients];
+        [ingArray writeToFile:ingPath atomically:YES];
+        CKAsset *ingredientAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:ingPath]];
+        [record setValue:ingredientAsset forKey:@"IngredientsList"];
+        
         CKModifyRecordsOperation *saveRecords = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:@[record] recordIDsToDelete:@[]];
         [saveRecords setSavePolicy:CKRecordSaveAllKeys];
         saveRecords.modifyRecordsCompletionBlock = ^(NSArray *savedRecords, NSArray *deletedRecordIDs, NSError *error) {
@@ -90,13 +110,22 @@ bool notCompleted = true;
     CKAsset *photoAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:[sender imageURL]]];
     [newRecord setValue:photoAsset forKey:@"RecipeIconImage"];
     
-    NSString *ingPath = [NSHomeDirectory() stringByAppendingPathComponent:@"ing.plist"];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *ingPath = [documentsDirectory stringByAppendingPathComponent:@"ing.dat"];
     NSArray *ingArray = [sender ingredients];
-    [ingArray writeToFile:ingPath atomically:YES];
+    //[ingArray writeToFile:ingPath atomically:YES];
+    //if (![ingArray writeToFile:ingPath atomically:YES]) {
+    if (![NSKeyedArchiver archiveRootObject:ingArray toFile:ingPath]) {
+        
+        NSLog(@"didn't save properly");
+    }
+    
+    NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithFile:ingPath];
     CKAsset *ingredientAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:ingPath]];
     [newRecord setValue:ingredientAsset forKey:@"IngredientsList"];
     
-    [_privateDatabase saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
+    [_pubicDatabase saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
         if (error) {
             NSLog(@"error: %@ with record: %@", error, [record description]);
         }
@@ -157,6 +186,8 @@ BOOL refresh = false;
                         isSynced = true;
                         break;
                     }
+                    else
+                        isSynced = false;
                 }
                 if (isSynced) {
                     //This record already exists
@@ -287,7 +318,7 @@ BOOL refresh = false;
     
 }
 
--(void)removeItemFromCloud:(GroceryList *)list complete:(void (^)(NSError *))completionHandler {
+-(void)removeItemFromCloud:(GroceryList *)list complete:(void (^)(NSError *error))completionHandler {
     
     CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:[list recordID]];
     [_privateDatabase deleteRecordWithID:recordID completionHandler:^(CKRecordID *recordID, NSError *error) {

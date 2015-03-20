@@ -68,7 +68,8 @@
     CKAsset *ingAsset = [record objectForKey:@"IngredientsList"];
     
     NSURL *ingURL = ingAsset.fileURL;
-    NSArray *ingArray = [NSArray arrayWithContentsOfURL:ingURL];
+    NSData *ingData = [NSData dataWithContentsOfURL:ingURL];
+    NSArray *ingArray = [NSKeyedUnarchiver unarchiveObjectWithData:ingData];
     [self setIngredients:ingArray];
     
 }

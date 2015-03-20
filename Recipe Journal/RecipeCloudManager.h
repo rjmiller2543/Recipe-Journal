@@ -24,6 +24,6 @@
 -(void)modifyRecipeToCloud:(Event*)sender;
 
 -(void)saveListToItem:(GroceryList*)list;
--(void)removeItemFromCloud:(GroceryList*)list;
+-(void)removeItemFromCloud:(GroceryList*)list complete:(void (^)(NSError *error))completionHandler;
 
 @end

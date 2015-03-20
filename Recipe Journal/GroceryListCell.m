@@ -13,6 +13,7 @@
 
 @property(nonatomic,retain) NSTimer *timer;
 @property(nonatomic) float counter;
+@property(nonatomic,retain) RecipeCloudManager *cloudManager;
 
 @end
 
@@ -152,13 +153,27 @@
             [stringPopup addAction:[UIAlertAction actionWithTitle:@"Yeah I'm Sure" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
                 NSManagedObjectContext *context = [[AppDelegate sharedInstance] managedObjectContext];
                 
-                [context deleteObject:_ingredient];
-                
-                NSError *error = nil;
-                if (![context save:&error]) {
-                    NSLog(@"error with deleting grocery item with error: %@", error);
-                    abort();
+                if (_cloudManager == nil) {
+                    _cloudManager = [[RecipeCloudManager alloc] init];
                 }
+                
+                if ([_cloudManager isLoggedIn]) {
+                    [_cloudManager removeItemFromCloud:_ingredient complete:^(NSError *error) {
+                        if (error) {
+                            NSLog(@"error removing item from cloud with error: %@", error);
+                        }
+                        else {
+                            [context deleteObject:_ingredient];
+                            
+                            NSError *error = nil;
+                            if (![context save:&error]) {
+                                NSLog(@"error with deleting grocery item with error: %@", error);
+                                abort();
+                            }
+                        }
+                    }];
+                }
+                
             }]];
             [stringPopup addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 //do nothing

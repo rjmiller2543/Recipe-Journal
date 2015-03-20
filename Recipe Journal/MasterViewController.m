@@ -72,10 +72,19 @@
                     }
                     else {
                         if (refresh) {
+                            NSError *error = nil;
+                            if (![weakSelf.fetchedResultsController performFetch:&error]) {
+                                // Replace this implementation with code to handle the error appropriately.
+                                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                                abort();
+                            }
+                            
+                            weakSelf.tableViewDataSource = [weakSelf.fetchedResultsController fetchedObjects];
                             [weakSelf.tableView reloadData];
                         }
                     }
-                    [weakSelf.tableView.pullToRefreshView stopAnimating];
+                    
                 }];
             }
         }
@@ -86,23 +95,32 @@
                 
                 if ([[list marked] boolValue]) {
                     NSManagedObject *object = (NSManagedObject*)obj;
-                    [weakSelf.managedObjectContext deleteObject:object];
                     
-                    NSError *contextError = nil;
-                    if (![weakSelf.managedObjectContext save:&contextError]) {
-                        // Replace this implementation with code to handle the error appropriately.
-                        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                        NSLog(@"Unresolved error %@, %@", contextError, [contextError userInfo]);
-                        abort();
-                    }
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
-                    [deleteIndex addObject:indexPath];                }
+                    [weakSelf.cloudManager removeItemFromCloud:(GroceryList *)object complete:^(NSError *error) {
+                        if (error) {
+                            NSLog(@"error removing from cloud with error: %@", error);
+                        }
+                        else {
+                            [weakSelf.managedObjectContext deleteObject:object];
+                            
+                            NSError *contextError = nil;
+                            if (![weakSelf.managedObjectContext save:&contextError]) {
+                                // Replace this implementation with code to handle the error appropriately.
+                                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                                NSLog(@"Unresolved error %@, %@", contextError, [contextError userInfo]);
+                                abort();
+                            }
+                            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
+                            [deleteIndex addObject:indexPath];
+                        }
+                    }];
+                }
             }];
             
             [weakSelf.tableView.pullToRefreshView stopAnimating];
-            [weakSelf.tableView reloadData];
+            //[weakSelf.tableView reloadData];
         }
-        
+        [weakSelf.tableView.pullToRefreshView stopAnimating];
     }];
 
     [self.tableView registerClass:[RecipeTableViewCell class] forCellReuseIdentifier:@"RecipeCell"];
@@ -122,6 +140,30 @@
     _tableViewDataSource = [self.fetchedResultsController fetchedObjects];
     
     [self.tableView triggerPullToRefresh];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    NSError *error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    _tableViewDataSource = [_fetchedResultsController fetchedObjects];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    NSError *error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    _tableViewDataSource = [_fetchedResultsController fetchedObjects];
 }
 
 -(void)showMenu:(UIBarButtonItem*)senders {
@@ -555,6 +597,30 @@
             
             [self.tableView reloadData];
             
+            if ([_cloudManager isLoggedIn]) {
+                [_cloudManager fetchRecordsWithSource:GROCERYLISTSOURCE completionBlock:^(NSError *error, BOOL refresh) {
+                    if (error) {
+                        NSLog(@"error fetching grocery list with error: %@", error);
+                    }
+                    else {
+                        if (refresh) {
+                            
+                            NSError *error = nil;
+                            if (![self.fetchedResultsController performFetch:&error]) {
+                                // Replace this implementation with code to handle the error appropriately.
+                                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                                abort();
+                            }
+                            
+                            _tableViewDataSource = [_fetchedResultsController fetchedObjects];
+                            
+                            [self.tableView reloadData];
+                        }
+                    }
+                }];
+            }
+            
             break;
         }
         case 5: {
@@ -716,6 +782,16 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
     //return [sectionInfo numberOfObjects];
+    NSError *error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    _tableViewDataSource = [_fetchedResultsController fetchedObjects];
+  
     return [_tableViewDataSource count];
 }
 

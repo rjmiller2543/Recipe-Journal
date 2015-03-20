@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GroceryList.h"
+#import "RecipeCloudManager.h"
 
 @interface GroceryListCell : UITableViewCell
 
