@@ -58,6 +58,15 @@
     [self saveContext];
 }
 
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    NSLog(@"Source Application: %@", sourceApplication);
+    NSLog(@"url scheme: %@", [url scheme]);
+    NSLog(@"url query: %@", [url query]);
+    
+    return YES;
+}
+
 #pragma mark - Split view
 
 - (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {

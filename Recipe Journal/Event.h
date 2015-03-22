@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSNumber * difficulty;
 @property (nonatomic, retain) NSString * imageURL;
 @property (nonatomic, retain) id ingredients;
+@property (nonatomic, retain) NSNumber * isPublic;
 @property (nonatomic, retain) NSString * notes;
 @property (nonatomic, retain) NSNumber * prepTimeMinutes;
 @property (nonatomic, retain) NSData * preparation;
@@ -32,6 +33,7 @@
 @property (nonatomic, retain) NSNumber * favorited;
 @property (nonatomic, retain) NSNumber * lowCalorie;
 @property (nonatomic, retain) NSString * mealType;
+@property (nonatomic, retain) NSString * publicRecordID;
 
 -(NSArray*)returnIngredientsArray;
 -(NSArray*)returnPrepartionStepsArray;

@@ -17,6 +17,7 @@
 @dynamic difficulty;
 @dynamic imageURL;
 @dynamic ingredients;
+@dynamic isPublic;
 @dynamic notes;
 @dynamic prepTimeMinutes;
 @dynamic preparation;
@@ -29,6 +30,7 @@
 @dynamic favorited;
 @dynamic lowCalorie;
 @dynamic mealType;
+@dynamic publicRecordID;
 
 -(instancetype)initWithRecord:(CKRecord *)record {
     self = [super init];
@@ -42,6 +44,7 @@
         [self setPreparationWithArray:[record objectForKey:@"Preparation"]];
         [self setNotes:[record objectForKey:@"Notes"]];
         [self setRecipeIconImage:[record objectForKey:@"RecipeIconImage"]];
+        [self setIsPublic:[record objectForKey:@"IsPublic"]];
         //
     }
     return self;
@@ -55,13 +58,22 @@
     [self setDifficulty:[record objectForKey:@"Difficulty"]];
     [self setPrepTimeMinutes:[record objectForKey:@"PrepTimeMinutes"]];
     [self setCookTimeMinutes:[record objectForKey:@"CookTimeMinutes"]];
+    [self setCookingProcess:[record objectForKey:@"CookingProcess"]];
     [self setPreparationWithArray:[record objectForKey:@"Preparation"]];
     [self setNotes:[record objectForKey:@"Notes"]];
     [self setRecordID:[[record recordID] recordName]];
-    //[self setRecipeIconImage:[record objectForKey:@"RecipeIconImage"]];
+    [self setPreparationWithArray:[record objectForKey:@"Preparation"]];
+    [self setWinePairing:[record objectForKey:@"WinePairing"]];
+    [self setFavorited:[record objectForKey:@"Favorited"]];
+    [self setLowCalorie:[record objectForKey:@"LowCalorie"]];
+    [self setMealType:[record objectForKey:@"MealType"]];
+    [self setIsPublic:[record objectForKey:@"IsPublic"]];
+    [self setPublicRecordID:[record objectForKey:@"PublicRecordID"]];
+    
     CKAsset *photoAsset = [record objectForKey:@"RecipeIconImage"];
     
     NSURL *photoURL = photoAsset.fileURL;
+    [self setImageURL:[photoURL absoluteString]];
     NSData *photoData = [NSData dataWithContentsOfURL:photoURL];
     [self setRecipeIconImage:photoData];
     

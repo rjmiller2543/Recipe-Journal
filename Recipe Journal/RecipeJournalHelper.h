@@ -15,6 +15,10 @@
 #define GROCERYLISTSOURCE       @"GroceryListSource"
 #define FAVORITELISTSOURCE      @"FavoriteListSource"
 
+#pragma mark - URL Helper
+
+#define RECIPEJOURNALURL        @"com.SharobMillmed.RecipeJournalSharing://?"
+
 #pragma mark - Colors
 
 

@@ -18,7 +18,7 @@
 		504864771A850C5E00655655 /* Recipe_JournalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 504864761A850C5E00655655 /* Recipe_JournalTests.m */; };
 		504864821A850C8100655655 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 504864811A850C8100655655 /* CloudKit.framework */; };
 		504864881A893FF300655655 /* NewRecipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 504864871A893FF300655655 /* NewRecipeViewController.m */; };
-		50B8F1901A866F21002D3D51 /* empty_dish.png.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 50B8F18F1A866F21002D3D51 /* empty_dish.png.jpeg */; };
+		50B8F1901A866F21002D3D51 /* empty_dish.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B8F18F1A866F21002D3D51 /* empty_dish.png */; };
 		50B8F1991A868B2A002D3D51 /* RecipeCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1981A868B2A002D3D51 /* RecipeCloudManager.m */; };
 		50B8F1A11A868DCA002D3D51 /* GroceryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A01A868DCA002D3D51 /* GroceryList.m */; };
 		50B8F1A41A868DF2002D3D51 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A31A868DF2002D3D51 /* Event.m */; };
@@ -84,7 +84,7 @@
 		504864811A850C8100655655 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		504864861A893FF300655655 /* NewRecipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewRecipeViewController.h; sourceTree = "<group>"; };
 		504864871A893FF300655655 /* NewRecipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewRecipeViewController.m; sourceTree = "<group>"; };
-		50B8F18F1A866F21002D3D51 /* empty_dish.png.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = empty_dish.png.jpeg; sourceTree = "<group>"; };
+		50B8F18F1A866F21002D3D51 /* empty_dish.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_dish.png; sourceTree = "<group>"; };
 		50B8F1971A868B2A002D3D51 /* RecipeCloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipeCloudManager.h; sourceTree = "<group>"; };
 		50B8F1981A868B2A002D3D51 /* RecipeCloudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipeCloudManager.m; sourceTree = "<group>"; };
 		50B8F19F1A868DCA002D3D51 /* GroceryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroceryList.h; sourceTree = "<group>"; };
@@ -219,7 +219,7 @@
 				50C491F91A8D736D00C79983 /* no-photo.png */,
 				50C491F41A8D3FB400C79983 /* kitchen-25.png */,
 				50C491F21A8D062E00C79983 /* cooker-25.png */,
-				50B8F18F1A866F21002D3D51 /* empty_dish.png.jpeg */,
+				50B8F18F1A866F21002D3D51 /* empty_dish.png */,
 				504864551A850C5D00655655 /* Info.plist */,
 				504864561A850C5D00655655 /* main.m */,
 			);
@@ -397,7 +397,7 @@
 				50C1FBBD1AA5013F008B176A /* list.png in Resources */,
 				50C1FBCD1AA647A3008B176A /* favorite-50.png in Resources */,
 				50C1FBB71AA500CD008B176A /* check.png in Resources */,
-				50B8F1901A866F21002D3D51 /* empty_dish.png.jpeg in Resources */,
+				50B8F1901A866F21002D3D51 /* empty_dish.png in Resources */,
 				50C491F51A8D3FB400C79983 /* kitchen-25.png in Resources */,
 				504864661A850C5E00655655 /* Main.storyboard in Resources */,
 				50C1FBCB1AA64795008B176A /* checklist-50.png in Resources */,

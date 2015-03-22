@@ -19,12 +19,14 @@
 #import <MMProgressHUD/MMProgressView-Protocol.h>
 #import "AppDelegate.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "RecipeCloudManager.h"
 
 @interface DetailViewController () <UITextViewDelegate, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate>
 
 @property(nonatomic,retain) NSLayoutConstraint *noteViewHeight;
 @property(nonatomic,retain) NSLayoutConstraint *scrollViewContentHeight;
 @property(nonatomic,retain) UIScrollView *scrollView;
+@property(nonatomic,retain) UIView *containerView;
 @property(nonatomic,retain) JVFloatLabeledTextField *currentTextView;
 
 @property(nonatomic,retain) JVFloatLabeledTextField *recipeTextView;
@@ -45,6 +47,8 @@
 @property(nonatomic,retain) UIImageView *imageView;
 @property(nonatomic,retain) UITapGestureRecognizer *tapGesture;
 @property(nonatomic,retain) UIBarButtonItem *backButton;
+
+@property(nonatomic,retain) RecipeCloudManager *cloudManager;
 
 @end
 
@@ -82,16 +86,16 @@ const float textHeight = 45.0f;
     // Update the user interface for the detail item.
     if (self.detailItem) {
         
-        UIView *containerView = [[UIView alloc] init];
+        _containerView = [[UIView alloc] init];
         //containerView.autoresizesSubviews = NO;
-        [containerView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        containerView.tag = CONTAINERVIEW;
+        [_containerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        _containerView.tag = CONTAINERVIEW;
         _scrollView = [[UIScrollView alloc] init];
         [_scrollView setTranslatesAutoresizingMaskIntoConstraints:NO];
         _scrollView.backgroundColor = [UIColor whiteColor];
         _scrollView.scrollEnabled = YES;
         [self.view addSubview:_scrollView];
-        [_scrollView addSubview:containerView];
+        [_scrollView addSubview:_containerView];
         
         
         //Setup and add Recipe Name Text View
@@ -109,7 +113,7 @@ const float textHeight = 45.0f;
         _recipeTextView.textAlignment = NSTextAlignmentCenter;
         _recipeTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
         _recipeTextView.layer.borderWidth = 2.0;
-        [containerView addSubview:_recipeTextView];
+        [_containerView addSubview:_recipeTextView];
         
         
         //Setup and add Rating Text View
@@ -126,7 +130,7 @@ const float textHeight = 45.0f;
         _ratingTextView.textAlignment = NSTextAlignmentCenter;
         _ratingTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
         _ratingTextView.layer.borderWidth = 2.0;
-        [containerView addSubview:_ratingTextView];
+        [_containerView addSubview:_ratingTextView];
         
         
         //Setup and add Serving Size Text View
@@ -141,7 +145,7 @@ const float textHeight = 45.0f;
         _servingSizeTextView.textAlignment = NSTextAlignmentCenter;
         _servingSizeTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
         _servingSizeTextView.layer.borderWidth = 2.0;
-        [containerView addSubview:_servingSizeTextView];
+        [_containerView addSubview:_servingSizeTextView];
         
         
         //Setup and add the Difficulty Text View
@@ -156,7 +160,7 @@ const float textHeight = 45.0f;
         _difficultyTextView.textAlignment = NSTextAlignmentCenter;
         _difficultyTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
         _difficultyTextView.layer.borderWidth = 2.0;
-        [containerView addSubview:_difficultyTextView];
+        [_containerView addSubview:_difficultyTextView];
         
         
         
@@ -203,7 +207,7 @@ const float textHeight = 45.0f;
         _prepTimeTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
         _prepTimeTextView.layer.borderWidth = 2.0;
         _prepTimeTextView.keyboardType = UIKeyboardTypeNumberPad;
-        [containerView addSubview:_prepTimeTextView];
+        [_containerView addSubview:_prepTimeTextView];
         
         
         //Setup and add the Cook Time Text View
@@ -220,7 +224,7 @@ const float textHeight = 45.0f;
         _cookTimeTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
         _cookTimeTextView.layer.borderWidth = 2.0;
         _cookTimeTextView.keyboardType = UIKeyboardTypeNumberPad;
-        [containerView addSubview:_cookTimeTextView];
+        [_containerView addSubview:_cookTimeTextView];
         
         
         //Setup and add the Ingredients View
@@ -232,7 +236,7 @@ const float textHeight = 45.0f;
         _ingredientsView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
         _ingredientsView.layer.borderWidth = 2.0;
         [_ingredientsView setEditBool:NO];
-        [containerView addSubview:_ingredientsView];
+        [_containerView addSubview:_ingredientsView];
         //_ingredientsView.ingredients = [NSMutableArray arrayWithArray:[_detailItem returnIngredientsArray]];
         _ingredientsView.ingredients = [_detailItem ingredients];
         
@@ -257,7 +261,7 @@ const float textHeight = 45.0f;
         [_processChoice setTranslatesAutoresizingMaskIntoConstraints:NO];
         _processChoice.tintColor = [UIColor darkGrayColor];
         [_cookProcessTextView addSubview:_processChoice];
-        [containerView addSubview:_cookProcessTextView];
+        [_containerView addSubview:_cookProcessTextView];
         
         
         
@@ -280,7 +284,7 @@ const float textHeight = 45.0f;
         _winePairingTextView.textAlignment = NSTextAlignmentCenter;
         _winePairingTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
         _winePairingTextView.layer.borderWidth = 2.0;
-        [containerView addSubview:_winePairingTextView];
+        [_containerView addSubview:_winePairingTextView];
         
         
         //Setup and add the Preparation View
@@ -292,7 +296,7 @@ const float textHeight = 45.0f;
         _preparationView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
         _preparationView.layer.borderWidth = 2.0;
         [_preparationView setEditBool:NO];
-        [containerView addSubview:_preparationView];
+        [_containerView addSubview:_preparationView];
         _preparationView.steps = [NSMutableArray arrayWithArray:[_detailItem returnPrepartionStepsArray]];
         
         
@@ -303,7 +307,7 @@ const float textHeight = 45.0f;
         _notesLabel.font = [UIFont fontWithName:@"Copperplate" size:19.0f];
         _notesLabel.textAlignment = NSTextAlignmentCenter;
         [_notesLabel sizeToFit];
-        [containerView addSubview:_notesLabel];
+        [_containerView addSubview:_notesLabel];
         
         
         //Setup and add the Notes Text View
@@ -315,7 +319,7 @@ const float textHeight = 45.0f;
         _notesTextView.growDirection = CSGrowDirectionDown;
         [_notesTextView sizeToFit];
         [_notesTextView layoutIfNeeded];
-        [containerView addSubview:_notesTextView];
+        [_containerView addSubview:_notesTextView];
         
         
         //Setup and add the Image View
@@ -327,82 +331,84 @@ const float textHeight = 45.0f;
         _imageView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
         _imageView.layer.borderWidth = 2.0;
         //_imageView.image = [UIImage imageNamed:@"no-photo.png"];
-        [containerView addSubview:_imageView];
+        [_containerView addSubview:_imageView];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             UIImage *image = [UIImage imageWithData:[_detailItem recipeIconImage]];
-            CGSize size = _imageView.frame.size;//set the width and height
+            //CGSize size = _imageView.frame.size;//set the width and height
             
             //UIGraphicsBeginImageContext(size);
             
-            UIGraphicsBeginImageContextWithOptions(size, NO, 0.0f);
+            //UIGraphicsBeginImageContextWithOptions(size, NO, 0.0f);
             
-            CGContextRef ctx = UIGraphicsGetCurrentContext();
-            CGRect area = CGRectMake(0, 0, size.width, size.height);
+            //CGContextRef ctx = UIGraphicsGetCurrentContext();
+            //CGRect area = CGRectMake(0, 0, size.width, size.height);
             
-            CGContextScaleCTM(ctx, 1, -1);
-            CGContextTranslateCTM(ctx, 0, -area.size.height);
+            //CGContextScaleCTM(ctx, 1, -1);
+            //CGContextTranslateCTM(ctx, 0, -area.size.height);
             
-            CGContextSetBlendMode(ctx, kCGBlendModeMultiply);
+            //CGContextSetBlendMode(ctx, kCGBlendModeMultiply);
             
-            CGContextSetAlpha(ctx, 1.0);
+            //CGContextSetAlpha(ctx, 1.0);
             
-            CGContextDrawImage(ctx, area, image.CGImage);
+            //CGContextDrawImage(ctx, area, image.CGImage);
             
             //[image drawInRect:self.frame];
-            UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+            //UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
             //here is the scaled image which has been changed to the size specified
-            UIGraphicsEndImageContext();
+            //UIGraphicsEndImageContext();
             
             //self.backgroundColor = [UIColor colorWithPatternImage:newImage];
-            _imageView.image = newImage;
+            _imageView.image = image;
+            //[_imageView sizeToFit];
             //self.backgroundColor = [UIColor redColor];
             NSLog(@"image view image done");
         });
         
         
- /*       //Setup Cancel Button
-        UIButton *cancelButton = [[UIButton alloc] init];
-        [cancelButton setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [cancelButton addTarget:self action:@selector(recipeCancelled:) forControlEvents:UIControlEventTouchUpInside];
-        [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
-        cancelButton.titleLabel.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
-        cancelButton.titleLabel.textColor = [UIColor whiteColor];
-        cancelButton.backgroundColor = [UIColor blackColor];
-        [containerView addSubview:cancelButton];
+        //Setup Share Button
+        UIButton *shareButton = [[UIButton alloc] init];
+        [shareButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [shareButton addTarget:self action:@selector(shareDetailItem) forControlEvents:UIControlEventTouchUpInside];
+        [shareButton setTitle:@"Share" forState:UIControlStateNormal];
+        shareButton.titleLabel.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
+        shareButton.titleLabel.textColor = [UIColor whiteColor];
+        shareButton.backgroundColor = [UIColor blackColor];
+        [_containerView addSubview:shareButton];
         
-        UIButton *saveButton = [[UIButton alloc] init];
-        [saveButton setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [saveButton addTarget:self action:@selector(recipeSaved:) forControlEvents:UIControlEventTouchUpInside];
-        [saveButton setTitle:@"Save" forState:UIControlStateNormal];
-        saveButton.titleLabel.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
-        saveButton.titleLabel.textColor = [UIColor whiteColor];
-        saveButton.backgroundColor = [UIColor blueColor];
-        [containerView addSubview:saveButton];
- */
+        //Setup Edit Button
+        UIButton *editButton = [[UIButton alloc] init];
+        [editButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [editButton addTarget:self action:@selector(editDetailItem) forControlEvents:UIControlEventTouchUpInside];
+        [editButton setTitle:@"Edit" forState:UIControlStateNormal];
+        editButton.titleLabel.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
+        editButton.titleLabel.textColor = [UIColor whiteColor];
+        editButton.backgroundColor = [UIColor blueColor];
+        [_containerView addSubview:editButton];
+ 
         
 #pragma mark - setting layout
         
         UIView *view = self.view;
         //Add all the views to the view bindings
-        NSDictionary *viewBindings = NSDictionaryOfVariableBindings(view, _scrollView, containerView, _recipeTextView, _ratingTextView, _servingSizeTextView, _difficultyTextView, _prepTimeTextView, _cookTimeTextView, _ingredientsView, _cookProcessTextView, _winePairingTextView, _preparationView, _notesLabel, _notesTextView, _imageView/*, cancelButton, saveButton*/);
+        NSDictionary *viewBindings = NSDictionaryOfVariableBindings(view, _scrollView, _containerView, _recipeTextView, _ratingTextView, _servingSizeTextView, _difficultyTextView, _prepTimeTextView, _cookTimeTextView, _ingredientsView, _cookProcessTextView, _winePairingTextView, _preparationView, _notesLabel, _notesTextView, _imageView, shareButton, editButton);
         
         //Add the scrollview to the constraints to the main view.. The content size will be set dynamically by the Container View
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_scrollView]-0-|" options:0 metrics:0 views:viewBindings]];
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView]|" options:0 metrics:0 views:viewBindings]];
         
         //Adding the Container view constraints to the Scrollview
-        [_scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[containerView]-0-|" options:0 metrics:0 views:viewBindings]];
-        [_scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[containerView]|" options:0 metrics:0 views:viewBindings]];
+        [_scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_containerView]-0-|" options:0 metrics:0 views:viewBindings]];
+        [_scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_containerView]|" options:0 metrics:0 views:viewBindings]];
         
         //Setting the constraints to the container view to set the width to the view size and the height to the size of all the subviews added together
-        [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[containerView(==view)]" options:0 metrics:0 views:viewBindings]];
+        [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_containerView(==view)]" options:0 metrics:0 views:viewBindings]];
         
-        [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[_recipeTextView]-(-2)-[_ratingTextView]-(-2)-[_prepTimeTextView]-(-2)-[_ingredientsView]-(-2)-[_cookProcessTextView]-(-2)-[_preparationView]-(-2)-[_notesLabel]-(-2)-[_notesTextView]-40-[_imageView]-0-|" options:0 metrics:0 views:viewBindings]];
+        [_containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[_recipeTextView]-(-2)-[_ratingTextView]-(-2)-[_prepTimeTextView]-(-2)-[_ingredientsView]-(-2)-[_cookProcessTextView]-(-2)-[_preparationView]-(-2)-[_notesLabel]-(-2)-[_notesTextView]-40-[_imageView]-0-[shareButton]-0-|" options:0 metrics:0 views:viewBindings]];
         
         
 #pragma mark - layout for recipe text view
-        [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_recipeTextView]-0-|"
+        [_containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_recipeTextView]-0-|"
                                                                               options:NSLayoutFormatAlignAllBaseline
                                                                               metrics:nil
                                                                                 views:viewBindings]];
@@ -412,21 +418,21 @@ const float textHeight = 45.0f;
         //                                                                      options:0
         //                                                                      metrics:nil
         //                                                                        views:viewBindings]];
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_recipeTextView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_recipeTextView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
         
 #pragma mark - layout for rating text view
         //[containerView addConstraint:[NSLayoutConstraint constraintWithItem:ratingTextView attribute:NSLayoutAttributeTop
         //                                                          relatedBy:NSLayoutRelationEqual toItem:_recipeTextView
         //                                                          attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_ratingTextView attribute:NSLayoutAttributeLeft
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeLeft multiplier:0.0 constant:-1.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_ratingTextView attribute:NSLayoutAttributeLeft
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeLeft multiplier:0.0 constant:-1.0]];
         
         [_ratingTextView addConstraint:[NSLayoutConstraint constraintWithItem:_ratingTextView attribute:NSLayoutAttributeHeight
-                                                                    relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
+                                                                    relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_ratingTextView attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:0.333 constant:4.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_ratingTextView attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.333 constant:4.0]];
         
 #pragma mark - layout for rating view within the rating text view
         [_ratingTextView addConstraint:[NSLayoutConstraint constraintWithItem:_ratingView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_ratingTextView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
@@ -438,34 +444,34 @@ const float textHeight = 45.0f;
         [_ratingTextView addConstraint:[NSLayoutConstraint constraintWithItem:_ratingView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_ratingTextView attribute:NSLayoutAttributeHeight multiplier:0.58 constant:0.0]];
         
 #pragma mark - layout for serving size text view
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_servingSizeTextView attribute:NSLayoutAttributeTop
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_servingSizeTextView attribute:NSLayoutAttributeTop
                                                                   relatedBy:NSLayoutRelationEqual toItem:_recipeTextView
                                                                   attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_servingSizeTextView attribute:NSLayoutAttributeLeft
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_servingSizeTextView attribute:NSLayoutAttributeLeft
                                                                   relatedBy:NSLayoutRelationEqual toItem:_ratingTextView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-2.0]];
         
         [_servingSizeTextView addConstraint:[NSLayoutConstraint
                                              constraintWithItem:_servingSizeTextView attribute:NSLayoutAttributeHeight
-                                             relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
+                                             relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_servingSizeTextView attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:0.333 constant:4.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_servingSizeTextView attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.333 constant:4.0]];
         
 #pragma mark - layout for difficulty text view
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_difficultyTextView attribute:NSLayoutAttributeTop
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_difficultyTextView attribute:NSLayoutAttributeTop
                                                                   relatedBy:NSLayoutRelationEqual toItem:_recipeTextView
                                                                   attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_difficultyTextView attribute:NSLayoutAttributeLeft
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_difficultyTextView attribute:NSLayoutAttributeLeft
                                                                   relatedBy:NSLayoutRelationEqual toItem:_servingSizeTextView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-2.0]];
         
         [_difficultyTextView addConstraint:[NSLayoutConstraint
                                             constraintWithItem:_difficultyTextView attribute:NSLayoutAttributeHeight
-                                            relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
+                                            relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_difficultyTextView attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:0.333 constant:4.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_difficultyTextView attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.333 constant:4.0]];
         
 #pragma mark - layout for rating view within the difficult text view
         [_difficultyTextView addConstraint:[NSLayoutConstraint constraintWithItem:_difficultyView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_difficultyTextView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
@@ -482,54 +488,54 @@ const float textHeight = 45.0f;
         //                                                          relatedBy:NSLayoutRelationEqual toItem:ratingTextView
         //                                                          attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_prepTimeTextView attribute:NSLayoutAttributeLeft
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeRight multiplier:0.0 constant:-1.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_prepTimeTextView attribute:NSLayoutAttributeLeft
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeRight multiplier:0.0 constant:-1.0]];
         
         [_prepTimeTextView addConstraint:[NSLayoutConstraint
                                           constraintWithItem:_prepTimeTextView attribute:NSLayoutAttributeHeight
                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:(textHeight)]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_prepTimeTextView attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_prepTimeTextView attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
         
 #pragma mark - layout for Cook Time text view
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_cookTimeTextView attribute:NSLayoutAttributeTop
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_cookTimeTextView attribute:NSLayoutAttributeTop
                                                                   relatedBy:NSLayoutRelationEqual toItem:_ratingTextView
                                                                   attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_cookTimeTextView attribute:NSLayoutAttributeLeft
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_cookTimeTextView attribute:NSLayoutAttributeLeft
                                                                   relatedBy:NSLayoutRelationEqual toItem:_prepTimeTextView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-2.0]];
         
         [_cookTimeTextView addConstraint:[NSLayoutConstraint
                                           constraintWithItem:_cookTimeTextView attribute:NSLayoutAttributeHeight
-                                          relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+                                          relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_cookTimeTextView attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_cookTimeTextView attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
         
 #pragma mark - layout for Ingredients view
         //[containerView addConstraint:[NSLayoutConstraint constraintWithItem:ingredientsView attribute:NSLayoutAttributeTop
         //                                                          relatedBy:NSLayoutRelationEqual toItem:cookTimeTextView
         //                                                          attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_ingredientsView attribute:NSLayoutAttributeLeft
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeRight multiplier:0.0 constant:-1.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_ingredientsView attribute:NSLayoutAttributeLeft
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeRight multiplier:0.0 constant:-1.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_ingredientsView attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:4.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_ingredientsView attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:4.0]];
         
 #pragma mark - layout for Cook Process text view
         //[containerView addConstraint:[NSLayoutConstraint constraintWithItem:cookProcessTextView attribute:NSLayoutAttributeTop
         //                                                          relatedBy:NSLayoutRelationEqual toItem:ingredientsView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_cookProcessTextView attribute:NSLayoutAttributeLeft
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeLeft multiplier:0.0 constant:-1.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_cookProcessTextView attribute:NSLayoutAttributeLeft
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeLeft multiplier:0.0 constant:-1.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_cookProcessTextView attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_cookProcessTextView attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
         
         [_cookProcessTextView addConstraint:[NSLayoutConstraint constraintWithItem:_cookProcessTextView
-                                                                         attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+                                                                         attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
         
 #pragma mark - layout for Cook Process Segmented Control within the Cook Process Text view
         [_cookProcessTextView addConstraint:[NSLayoutConstraint constraintWithItem:_processChoice
@@ -545,17 +551,17 @@ const float textHeight = 45.0f;
                                                                          attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_cookProcessTextView attribute:NSLayoutAttributeHeight multiplier:0.58 constant:0.0]];
         
 #pragma mark - layout for Wine Pairing text view
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_winePairingTextView attribute:NSLayoutAttributeTop
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_winePairingTextView attribute:NSLayoutAttributeTop
                                                                   relatedBy:NSLayoutRelationEqual toItem:_ingredientsView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_winePairingTextView attribute:NSLayoutAttributeLeft
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_winePairingTextView attribute:NSLayoutAttributeLeft
                                                                   relatedBy:NSLayoutRelationEqual toItem:_cookProcessTextView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-2.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_winePairingTextView attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_winePairingTextView attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
         
         [_winePairingTextView addConstraint:[NSLayoutConstraint constraintWithItem:_winePairingTextView
-                                                                         attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+                                                                         attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
         
 #pragma mark - layout for preparation view
         //Note the height is set within the custom UIView (NewPreparationView)
@@ -563,11 +569,11 @@ const float textHeight = 45.0f;
         //                                                          relatedBy:NSLayoutRelationEqual toItem:cookProcessTextView
         //                                                          attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_preparationView attribute:NSLayoutAttributeLeft
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeRight multiplier:0.0 constant:-1.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_preparationView attribute:NSLayoutAttributeLeft
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeRight multiplier:0.0 constant:-1.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_preparationView attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:4.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_preparationView attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:4.0]];
         
 #pragma mark - layout for notes label
         //The Label Height and Width are set by the sizeToFit method
@@ -575,8 +581,8 @@ const float textHeight = 45.0f;
         //                                                          relatedBy:NSLayoutRelationEqual toItem:preparationView attribute:NSLayoutAttributeBottom
         //                                                         multiplier:1.0 constant:2.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_notesLabel attribute:NSLayoutAttributeLeft
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_notesLabel attribute:NSLayoutAttributeLeft
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView
                                                                   attribute:NSLayoutAttributeLeft
                                                                  multiplier:0.0 constant:5.0]];
         
@@ -586,12 +592,12 @@ const float textHeight = 45.0f;
         //                                                          attribute:NSLayoutAttributeBottom
         //                                                         multiplier:1.0 constant:1.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_notesTextView attribute:NSLayoutAttributeLeft
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_notesTextView attribute:NSLayoutAttributeLeft
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView
                                                                   attribute:NSLayoutAttributeLeft multiplier:0.0 constant:3.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_notesTextView attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_notesTextView attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView
                                                                   attribute:NSLayoutAttributeWidth
                                                                  multiplier:1.0 constant:0.0]];
         
@@ -604,33 +610,33 @@ const float textHeight = 45.0f;
         //                                                          attribute:NSLayoutAttributeBottom
         //                                                         multiplier:1.0 constant:40.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeLeft
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeLeft
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView
                                                                   attribute:NSLayoutAttributeLeft multiplier:0.0 constant:-1.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView
                                                                   attribute:NSLayoutAttributeWidth
                                                                  multiplier:1.0 constant:4.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeHeight
-                                                                  relatedBy:NSLayoutRelationEqual toItem:containerView
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual toItem:_containerView
                                                                   attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
- /*
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:cancelButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeLeft multiplier:0.0 constant:0.0]];
+ 
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:shareButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeLeft multiplier:0.0 constant:0.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:cancelButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:shareButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:cancelButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:shareButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:saveButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_imageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:editButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_imageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:saveButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:cancelButton attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:editButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:shareButton attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:saveButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:editButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0]];
         
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:saveButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
-        */
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:editButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+  
 #pragma mark - end of layouts
         
 
@@ -641,10 +647,135 @@ const float textHeight = 45.0f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetailItem)];
+    //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetailItem)];
     [self configureView];
+    _cloudManager = [[RecipeCloudManager alloc] init];
+
 }
 
+#pragma mark - Sharing
+-(void)shareDetailItem {
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"How do you want to share?" message:@"You can share to your friends as a PDF image, or as a recipe to add to their own Recipe Journal" preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"Send as PDF" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        //create the PDF and open the uiactionsheet
+        [self sendPDF];
+    }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"Send as Recipe" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        //upload to public database and open the uiactionsheet
+        if ([[_detailItem isPublic] boolValue]) {
+            //send the url with the public uuid
+            [self sendRecipeWithUUID:[_detailItem publicRecordID]];
+        }
+        else {
+            if ([_cloudManager isLoggedIn]) {
+                [_cloudManager shareRecipeToPublic:_detailItem complete:^(NSError *error, NSString *uuid) {
+                    if (error) {
+                        NSLog(@"error sharing to public with error: %@",error);
+                    }
+                    else {
+                        //send the url with the public uuid
+                        [self sendRecipeWithUUID:uuid];
+                    }
+                }];
+            }
+            else {
+                [self alertNoAccount];
+            }
+        }
+    }]];
+    
+    [self presentViewController:alert animated:YES completion:^{
+        //up up
+    }];
+    
+}
+
+-(NSString *)writeViewToFile {
+    
+    // Creates a mutable data object for updating with binary data, like a byte array
+    NSMutableData *pdfData = [NSMutableData data];
+    
+    // Points the pdf converter to the mutable data object and to the UIView to be converted
+    CGRect rect = _containerView.bounds;
+    rect.size.height = _containerView.bounds.size.height - textHeight;
+    UIGraphicsBeginPDFContextToData(pdfData, rect, nil);
+    UIGraphicsBeginPDFPage();
+    CGContextRef pdfContext = UIGraphicsGetCurrentContext();
+    
+    
+    // draws rect to the view and thus this is captured by UIGraphicsBeginPDFContextToData
+    
+    [_containerView.layer renderInContext:pdfContext];
+    
+    // remove PDF rendering context
+    UIGraphicsEndPDFContext();
+    
+    // Retrieves the document directories from the iOS device
+    NSArray* documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,YES);
+    
+    NSString *documentDirectory = [documentDirectories objectAtIndex:0];
+    NSString *directoryName = [[_detailItem recipeName] stringByAppendingString:@".pdf"];
+    NSString *documentDirectoryFilename = [documentDirectory stringByAppendingPathComponent:directoryName];
+    
+    
+    // instructs the mutable data object to write its context to a file on disk
+    [pdfData writeToFile:documentDirectoryFilename atomically:YES];
+    NSLog(@"documentDirectoryFileName: %@",documentDirectoryFilename);
+    
+    return documentDirectoryFilename;
+    
+}
+
+-(void)sendPDF {
+    
+    NSString *fileName = [self writeViewToFile];
+    NSData *pdfData = [NSData dataWithContentsOfFile:fileName];
+    
+    NSArray *activityItems = @[pdfData];
+    NSArray *applicationActivities = @[];
+    
+    UIActivityViewController *shareSheet = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
+    shareSheet.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypePostToFacebook, UIActivityTypePostToFlickr, UIActivityTypePostToTencentWeibo, UIActivityTypePostToTwitter, UIActivityTypePostToVimeo, UIActivityTypePostToWeibo];
+    
+    [self presentViewController:shareSheet animated:YES completion:^{
+        //up up
+    }];
+    
+}
+
+-(void)sendRecipeWithUUID:(NSString*)uuid {
+    
+    NSString *url = RECIPEJOURNALURL;
+    url = [url stringByAppendingString:uuid];
+    NSURL *sendURL = [NSURL URLWithString:url];
+    
+    NSString *sendString = @"I'm sending you a recipe of mine!";
+    
+    NSArray *activityItems = @[sendString, sendURL];
+    NSArray *applicationActivities = @[];
+    
+    UIActivityViewController *shareSheet = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
+    shareSheet.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypePostToFacebook, UIActivityTypePostToFlickr, UIActivityTypePostToTencentWeibo, UIActivityTypePostToTwitter, UIActivityTypePostToVimeo, UIActivityTypePostToWeibo];
+    
+    [self presentViewController:shareSheet animated:YES completion:^{
+        //up up
+    }];
+}
+
+-(void)alertNoAccount {
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Account Sign In Needed" message:@"To send a recipe, you must be logged into an iCloud Account..  Otherwise you can send a PDF" preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        //close
+    }]];
+    
+}
+
+#pragma mark - Edit
 -(void)editDetailItem {
     NSLog(@"edit detail item");
     
@@ -734,8 +865,7 @@ const float textHeight = 45.0f;
     }];
 }
 
-#pragma mark - UIResponder
-
+#pragma mark - Save
 -(void)saveRecipe {
     
     //NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -893,6 +1023,10 @@ const float textHeight = 45.0f;
     [SVProgressHUD dismiss];
     // Save the context.
     
+    if ([_cloudManager isLoggedIn]) {
+        [_cloudManager modifyRecipeToCloud:newEvent];
+    }
+    
     if (![context save:&error]) {
         // Replace this implementation with code to handle the error appropriately.
         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -920,7 +1054,9 @@ const float textHeight = 45.0f;
     [_imageView removeGestureRecognizer:_tapGesture];
     
     self.navigationItem.leftBarButtonItem = _backButton;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetailItem)];}
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetailItem)];
+
+}
 
 -(void)recipeSaved:(UIButton*)sender {
     [self saveRecipe];
@@ -944,6 +1080,8 @@ const float textHeight = 45.0f;
     self.navigationItem.leftBarButtonItem = _backButton;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetailItem)];
 }
+
+#pragma mark - UIResponder
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

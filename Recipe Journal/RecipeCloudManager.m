@@ -68,6 +68,11 @@ bool notCompleted = true;
         [record setValue:[sender recipeName] forKey:@"RecipeName"];
         [record setValue:[sender servingSize] forKey:@"ServingSize"];
         [record setValue:[sender winePairing] forKey:@"WinePairing"];
+        [record setValue:[sender favorited] forKey:@"Favorited"];
+        [record setValue:[sender lowCalorie] forKey:@"LowCalorie"];
+        [record setValue:[sender mealType] forKey:@"MealType"];
+        [record setValue:[sender isPublic] forKey:@"IsPublic"];
+        [record setValue:[sender publicRecordID] forKey:@"PublicRecordID"];
         
         CKAsset *photoAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:[sender imageURL]]];
         [record setValue:photoAsset forKey:@"RecipeIconImage"];
@@ -92,7 +97,7 @@ bool notCompleted = true;
     }];
 }
 
--(void)saveRecipeToCloud:(Event*)sender {
+-(CKRecord*)eventToRecord:(Event*)sender {
     
     CKRecord *newRecord = [[CKRecord alloc] initWithRecordType:@"Recipe"];
     
@@ -106,14 +111,25 @@ bool notCompleted = true;
     [newRecord setValue:[sender recipeName] forKey:@"RecipeName"];
     [newRecord setValue:[sender servingSize] forKey:@"ServingSize"];
     [newRecord setValue:[sender winePairing] forKey:@"WinePairing"];
+    [newRecord setValue:[sender favorited] forKey:@"Favorited"];
+    [newRecord setValue:[sender lowCalorie] forKey:@"LowCalorie"];
+    [newRecord setValue:[sender mealType] forKey:@"MealType"];
+    [newRecord setValue:[sender isPublic] forKey:@"IsPublic"];
+    [newRecord setValue:[sender publicRecordID] forKey:@"PublicRecordID"];
     
-    CKAsset *photoAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:[sender imageURL]]];
-    [newRecord setValue:photoAsset forKey:@"RecipeIconImage"];
+    if (![sender imageURL]) {
+        //don't send an image
+    }
+    else {
+        //CKAsset *photoAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:[sender imageURL]]];
+        //[newRecord setValue:photoAsset forKey:@"RecipeIconImage"];
+    }
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *ingPath = [documentsDirectory stringByAppendingPathComponent:@"ing.dat"];
     NSArray *ingArray = [sender ingredients];
+    
     //[ingArray writeToFile:ingPath atomically:YES];
     //if (![ingArray writeToFile:ingPath atomically:YES]) {
     if (![NSKeyedArchiver archiveRootObject:ingArray toFile:ingPath]) {
@@ -121,9 +137,16 @@ bool notCompleted = true;
         NSLog(@"didn't save properly");
     }
     
-    NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithFile:ingPath];
     CKAsset *ingredientAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:ingPath]];
     [newRecord setValue:ingredientAsset forKey:@"IngredientsList"];
+    
+    return newRecord;
+    
+}
+
+-(void)saveRecipeToCloud:(Event*)sender {
+    
+    CKRecord *newRecord = [self eventToRecord:sender];
     
     [_pubicDatabase saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
         if (error) {
@@ -134,6 +157,10 @@ bool notCompleted = true;
             //[sender setRecordID:[record recordID]];
             if (sender) {
                 [sender setRecordID:[[record recordID] recordName]];
+                CKAsset *photoAsset = [record objectForKey:@"RecipeIconImage"];
+                
+                NSURL *photoURL = photoAsset.fileURL;
+                [sender setImageURL:[photoURL absoluteString]];
                 
                 NSManagedObjectContext *context = [[AppDelegate sharedInstance] managedObjectContext];
                 
@@ -218,6 +245,37 @@ BOOL refresh = false;
     }];
 }
 
+-(void)shareRecipeToPublic:(Event *)sender complete:(void (^)(NSError *, NSString *))completionHandler {
+    
+    CKRecord *newRecord = [self eventToRecord:sender];
+    
+    [_pubicDatabase saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
+        if (error) {
+            NSLog(@"error uploading to public database with error: %@", error);
+        }
+        else {
+            [sender setIsPublic:[NSNumber numberWithBool:YES]];
+            [sender setPublicRecordID:[[record recordID] recordName]];
+        
+            NSManagedObjectContext *context = [[AppDelegate sharedInstance] managedObjectContext];
+            NSError *contextError;
+            if (![context save:&contextError]) {
+                // Replace this implementation with code to handle the error appropriately.
+                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                NSLog(@"Unresolved error %@, %@", contextError, [contextError userInfo]);
+                abort();
+            }
+            [self modifyRecipeToCloud:sender];
+        }
+        
+        //[self modifyRecipeToCloud:sender];
+        
+        completionHandler(error, [[record recordID] recordName]);
+    }];
+    
+}
+
+#pragma mark - fetch records with source
 -(void)fetchRecordsWithSource:(NSString *)source completionBlock:(void (^)(NSError *, BOOL))completionHandler {
     
     if ([source isEqualToString:RECIPELISTSOURCE]) {

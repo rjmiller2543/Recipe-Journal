@@ -23,6 +23,8 @@
 -(void)fetchRecordsWithSource:(NSString*)source completionBlock:(void (^)(NSError*error, BOOL refresh))completionHandler;
 -(void)modifyRecipeToCloud:(Event*)sender;
 
+-(void)shareRecipeToPublic:(Event*)sender complete:(void (^)(NSError *error, NSString *uuid))completionHandler;
+
 -(void)saveListToItem:(GroceryList*)list;
 -(void)removeItemFromCloud:(GroceryList*)list complete:(void (^)(NSError *error))completionHandler;
 
