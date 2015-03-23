@@ -321,7 +321,7 @@ const float textHeight = 45.0f;
     _notesTextView = [[CSGrowingTextView alloc] init];
     [_notesTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
     _notesTextView.tag = NOTESTEXTVIEW;
-    _notesTextView.internalTextView.text = @"Write Down Notes Here:";
+    //_notesTextView.internalTextView.text = @"Write Down Notes Here:";
     _notesTextView.growDirection = CSGrowDirectionDown;
     [_notesTextView sizeToFit];
     [_notesTextView layoutIfNeeded];
@@ -703,12 +703,69 @@ const float textHeight = 45.0f;
     }];
 }
 
+#pragma mark - UIResponder
+
+-(void)newRecipeFromRecord:(CKRecord *)record {
+    
+    UIView *containerView = [_scrollView viewWithTag:CONTAINERVIEW];
+    
+    NSLog(@"new recipe from record");
+    for (UIView *subView in [containerView subviews]) {
+        
+        switch (subView.tag) {
+            case RECIPETEXTVIEW:
+                _recipeTextView.text = [record valueForKey:@"RecipeName"];
+                break;
+            case RATINGTEXTVIEW:
+                _ratingView.value = [[record valueForKey:@"Rating"] floatValue];
+                break;
+            case SERVINGSIZETEXTVIEW:
+                _servingSizeTextView.text = [record valueForKey:@"ServingSize"];
+                break;
+            case DIFFICULTYTEXTVIEW:
+                _difficultyView.value = [[record valueForKey:@"Difficulty"] floatValue];
+                break;
+            case PRETIMETEXTVIEW:
+                _prepTimeTextView.text = [[record valueForKey:@"PrepTimeMinutes"] stringValue];
+                break;
+            case COOKTIMETEXTVIEW:
+                _cookTimeTextView.text = [[record valueForKey:@"CookTimeMinutes"] stringValue];
+                break;
+            case INGREDIENTVIEW: {
+                CKAsset *ingAsset = [record objectForKey:@"IngredientsList"];
+                
+                NSURL *ingURL = ingAsset.fileURL;
+                NSData *ingData = [NSData dataWithContentsOfURL:ingURL];
+                NSMutableArray *ingArray = [NSKeyedUnarchiver unarchiveObjectWithData:ingData];
+                _ingredientsView.ingredients = ingArray;
+                break;
+            }
+            case COOKPROCESSTEXTVIEW:
+                _processChoice.selectedSegmentIndex = [record objectForKey:@"CookingProcess"];
+                break;
+            case WINEPAIRTEXTVIEW:
+                _winePairingTextView.text = [record objectForKey:@"WinePairing"];
+                break;
+            case PREPARATIONTEXTVIEW:
+                _preparationView.steps = [record objectForKey:@"Preparation"];
+                break;
+            case NOTESTEXTVIEW:
+                _notesTextView.internalTextView.text = [record objectForKey:@"Notes"];
+                break;
+            case IMAGEVIEW:
+                //_imageView
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - UIResponder
 
 -(void)saveRecipe {
     

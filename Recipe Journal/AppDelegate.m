@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "MasterViewController.h"
+#import "RecipeCloudManager.h"
+#import "NewRecipeViewController.h"
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -63,6 +65,17 @@
     NSLog(@"Source Application: %@", sourceApplication);
     NSLog(@"url scheme: %@", [url scheme]);
     NSLog(@"url query: %@", [url query]);
+    
+    RecipeCloudManager *cloudManager = [[RecipeCloudManager alloc] init];
+    
+    [cloudManager fetchRecipeFromPublic:[url query] complete:^(NSError *error, CKRecord *record) {
+        NewRecipeViewController *newRecipe = [[NewRecipeViewController alloc] init];
+        //[newRecipe newRecipeFromRecord:record];
+        [self.window.rootViewController presentViewController:newRecipe animated:YES completion:^{
+            //up up
+            [newRecipe newRecipeFromRecord:record];
+        }];
+    }];
     
     return YES;
 }

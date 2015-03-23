@@ -15,7 +15,7 @@
 
 @property(nonatomic,retain) CKContainer *container;
 @property(nonatomic,retain) CKDatabase *privateDatabase;
-@property(nonatomic,retain) CKDatabase *pubicDatabase;
+@property(nonatomic,retain) CKDatabase *publicDatabase;
 
 -(BOOL)isLoggedIn;
 -(void)saveRecipeToCloud:(Event*)sender;
@@ -24,6 +24,7 @@
 -(void)modifyRecipeToCloud:(Event*)sender;
 
 -(void)shareRecipeToPublic:(Event*)sender complete:(void (^)(NSError *error, NSString *uuid))completionHandler;
+-(void)fetchRecipeFromPublic:(NSString*)uuid complete:(void (^)(NSError *error, CKRecord *record))completionHandler;
 
 -(void)saveListToItem:(GroceryList*)list;
 -(void)removeItemFromCloud:(GroceryList*)list complete:(void (^)(NSError *error))completionHandler;

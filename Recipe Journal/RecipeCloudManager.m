@@ -20,7 +20,7 @@
     if (self) {
         _container = [CKContainer defaultContainer];
         _privateDatabase = [_container privateCloudDatabase];
-        _pubicDatabase = [_container publicCloudDatabase];
+        _publicDatabase = [_container publicCloudDatabase];
     }
     
     return self;
@@ -148,7 +148,7 @@ bool notCompleted = true;
     
     CKRecord *newRecord = [self eventToRecord:sender];
     
-    [_pubicDatabase saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
+    [_publicDatabase saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
         if (error) {
             NSLog(@"error: %@ with record: %@", error, [record description]);
         }
@@ -245,11 +245,21 @@ BOOL refresh = false;
     }];
 }
 
+-(void)fetchRecipeFromPublic:(NSString*)uuid complete:(void (^)(NSError *error, CKRecord *record))completionHandler {
+    
+    CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:uuid];
+    
+    [_publicDatabase fetchRecordWithID:recordID completionHandler:^(CKRecord *record, NSError *error) {
+        completionHandler(error, record);
+    }];
+    
+}
+
 -(void)shareRecipeToPublic:(Event *)sender complete:(void (^)(NSError *, NSString *))completionHandler {
     
     CKRecord *newRecord = [self eventToRecord:sender];
     
-    [_pubicDatabase saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
+    [_publicDatabase saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
         if (error) {
             NSLog(@"error uploading to public database with error: %@", error);
         }
