@@ -121,8 +121,8 @@ bool notCompleted = true;
         //don't send an image
     }
     else {
-        //CKAsset *photoAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:[sender imageURL]]];
-        //[newRecord setValue:photoAsset forKey:@"RecipeIconImage"];
+        CKAsset *photoAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:[sender imageURL]]];
+        [newRecord setValue:photoAsset forKey:@"RecipeIconImage"];
     }
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -148,7 +148,7 @@ bool notCompleted = true;
     
     CKRecord *newRecord = [self eventToRecord:sender];
     
-    [_publicDatabase saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
+    [_privateDatabase saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
         if (error) {
             NSLog(@"error: %@ with record: %@", error, [record description]);
         }

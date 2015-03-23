@@ -720,7 +720,7 @@ const float textHeight = 45.0f;
                 _ratingView.value = [[record valueForKey:@"Rating"] floatValue];
                 break;
             case SERVINGSIZETEXTVIEW:
-                _servingSizeTextView.text = [record valueForKey:@"ServingSize"];
+                _servingSizeTextView.text = [[record valueForKey:@"ServingSize"] stringValue];
                 break;
             case DIFFICULTYTEXTVIEW:
                 _difficultyView.value = [[record valueForKey:@"Difficulty"] floatValue];
@@ -741,7 +741,7 @@ const float textHeight = 45.0f;
                 break;
             }
             case COOKPROCESSTEXTVIEW:
-                _processChoice.selectedSegmentIndex = [record objectForKey:@"CookingProcess"];
+                _processChoice.selectedSegmentIndex = [[record objectForKey:@"CookingProcess"] integerValue];
                 break;
             case WINEPAIRTEXTVIEW:
                 _winePairingTextView.text = [record objectForKey:@"WinePairing"];
@@ -752,9 +752,15 @@ const float textHeight = 45.0f;
             case NOTESTEXTVIEW:
                 _notesTextView.internalTextView.text = [record objectForKey:@"Notes"];
                 break;
-            case IMAGEVIEW:
-                //_imageView
+            case IMAGEVIEW: {
+                CKAsset *photoAsset = [record objectForKey:@"RecipeIconImage"];
+                
+                NSURL *photoURL = photoAsset.fileURL;
+                [self setImageURL:[photoURL absoluteString]];
+                NSData *photoData = [NSData dataWithContentsOfURL:photoURL];
+                _imageView.image = [UIImage imageWithData:photoData];
                 break;
+            }
                 
             default:
                 break;
