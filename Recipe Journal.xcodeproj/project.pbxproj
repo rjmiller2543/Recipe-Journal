@@ -18,6 +18,7 @@
 		504864771A850C5E00655655 /* Recipe_JournalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 504864761A850C5E00655655 /* Recipe_JournalTests.m */; };
 		504864821A850C8100655655 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 504864811A850C8100655655 /* CloudKit.framework */; };
 		504864881A893FF300655655 /* NewRecipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 504864871A893FF300655655 /* NewRecipeViewController.m */; };
+		507359671AC3407C007228BA /* info-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 507359661AC3407C007228BA /* info-50.png */; };
 		50B8F1901A866F21002D3D51 /* empty_dish.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B8F18F1A866F21002D3D51 /* empty_dish.png */; };
 		50B8F1991A868B2A002D3D51 /* RecipeCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1981A868B2A002D3D51 /* RecipeCloudManager.m */; };
 		50B8F1A11A868DCA002D3D51 /* GroceryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B8F1A01A868DCA002D3D51 /* GroceryList.m */; };
@@ -84,6 +85,7 @@
 		504864811A850C8100655655 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		504864861A893FF300655655 /* NewRecipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewRecipeViewController.h; sourceTree = "<group>"; };
 		504864871A893FF300655655 /* NewRecipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewRecipeViewController.m; sourceTree = "<group>"; };
+		507359661AC3407C007228BA /* info-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info-50.png"; sourceTree = "<group>"; };
 		50B8F18F1A866F21002D3D51 /* empty_dish.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_dish.png; sourceTree = "<group>"; };
 		50B8F1971A868B2A002D3D51 /* RecipeCloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipeCloudManager.h; sourceTree = "<group>"; };
 		50B8F1981A868B2A002D3D51 /* RecipeCloudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipeCloudManager.m; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 		504864541A850C5D00655655 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				507359661AC3407C007228BA /* info-50.png */,
 				50B8F1BA1AA6AB45002D3D51 /* checked-50.png */,
 				50B8F1B81AA6AB3A002D3D51 /* unchecked-50.png */,
 				50C1FBD01AA654BE008B176A /* sort-50.png */,
@@ -413,6 +416,7 @@
 				50C1FBC71AA6474B008B176A /* search-50.png in Resources */,
 				50C1FBBF1AA505EE008B176A /* favorite.png in Resources */,
 				50C1FBC31AA645B9008B176A /* cutlery.png in Resources */,
+				507359671AC3407C007228BA /* info-50.png in Resources */,
 				504864681A850C5E00655655 /* Images.xcassets in Resources */,
 				50B8F1B91AA6AB3A002D3D51 /* unchecked-50.png in Resources */,
 			);

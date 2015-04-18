@@ -26,7 +26,7 @@
 
 @property(nonatomic,retain) RecipeCloudManager *cloudManager;
 @property(nonatomic,retain) RNFrostedSidebar *callout;
-@property(nonatomic,retain) UIView *searchPage;
+@property(nonatomic,retain) UIView *infoPage;
 
 @property(nonatomic,retain) NSString *tableViewSource;
 
@@ -130,14 +130,21 @@
     
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
-    //self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu.png"] style:UIBarButtonItemStylePlain target:self action:@selector(showMenu:)];
     
-    _callout = [[RNFrostedSidebar alloc] initWithImages:@[[UIImage imageNamed:@"cutlery-50.png"], [UIImage imageNamed:@"favorite-50.png"], [UIImage imageNamed:@"sort-50.png"], [UIImage imageNamed:@"search-50.png"], [UIImage imageNamed:@"checklist-50.png"], [UIImage imageNamed:@"cross-50.png"]]];
+    _callout = [[RNFrostedSidebar alloc] initWithImages:@[[UIImage imageNamed:@"cutlery-50.png"], [UIImage imageNamed:@"favorite-50.png"], [UIImage imageNamed:@"sort-50.png"], [UIImage imageNamed:@"search-50.png"], [UIImage imageNamed:@"checklist-50.png"], [UIImage imageNamed:@"info-50.png"], [UIImage imageNamed:@"cross-50.png"]]];
     _callout.delegate = self;
     
     _tableViewDataSource = [self.fetchedResultsController fetchedObjects];
+    
+    if ([[[UIDevice currentDevice] model] isEqualToString:@"iPad"]) {
+        NSLog(@"device is iPad");
+        self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+        if ([_tableViewDataSource count] != 0) {
+            self.detailViewController.detailItem = [_tableViewDataSource lastObject];
+        }
+    }
     
     [self.tableView triggerPullToRefresh];
 }
@@ -624,44 +631,19 @@
             break;
         }
         case 5: {
+            //open up the info page
+            NSLog(@"open info page");
+
+            if (!_infoPage) {
+                _infoPage = [[UIView alloc] init];
+            }
+            
+            break;
+        }
+        case 6: {
             //do nothing and let the sidebar dismiss from view
             NSLog(@"dismiss the sidebar");
             
-            //doing this as a test.. to be deleted..
-            Ingredient *num1 = [[Ingredient alloc] init];
-            [num1 setIngredient:@"yarg"];
-            Ingredient *num2 = [[Ingredient alloc] init];
-            [num2 setIngredient:@"Up"];
-            Ingredient *num3 = [[Ingredient alloc] init];
-            [num3 setIngredient:@"test"];
-            
-            NSArray *array = [[NSArray alloc] initWithObjects:num1, num2, num3, nil];
-            
-            Ingredient *num4 = [[Ingredient alloc] init];
-            [num4 setIngredient:@"blarg"];
-            NSArray *secArray = [[NSArray alloc] initWithObjects:num4, nil];
-            
-            NSManagedObjectContext *context = [[AppDelegate sharedInstance] managedObjectContext];
-            NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:context];
-            
-            //NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-            NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-            
-            Event *event1 = (Event*)newManagedObject;
-            [event1 setRecipeName:@"one"];
-            [event1 setIngredients:array];
-            
-            NSManagedObject *secManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-            Event *event2 = (Event*)secManagedObject;
-            [event2 setRecipeName:@"two"];
-            [event2 setIngredients:secArray];
-            
-            NSArray *eventArray = [[NSArray alloc] initWithObjects:event1, event2, nil];
-            
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY SELF.ingredients.ingredient like[c] 'up'"];
-            NSArray *filteredArray = [eventArray filteredArrayUsingPredicate:predicate];
-            NSLog(@"count of filtered array: %lu", (unsigned long)[filteredArray count]);
-                                      
             break;
         }
             
@@ -923,11 +905,16 @@
     
     if ([_tableViewSource isEqualToString:RECIPELISTSOURCE]) {
         Event *object = (Event*)[[self fetchedResultsController] objectAtIndexPath:indexPath];
-        DetailViewController *controller = [[DetailViewController alloc] init];
-        [controller setDetailItem:object];
-        [self showViewController:controller sender:self];
-        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-        controller.navigationItem.leftItemsSupplementBackButton = YES;
+        if ([[[UIDevice currentDevice] model] isEqualToString:@"iPad"]) {
+            [self.detailViewController setDetailItem:[_tableViewDataSource objectAtIndex:indexPath.row]];
+        }
+        else {
+            DetailViewController *controller = [[DetailViewController alloc] init];
+            [controller setDetailItem:object];
+            [self showViewController:controller sender:self];
+            controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+            controller.navigationItem.leftItemsSupplementBackButton = YES;
+        }
     }
     
 }

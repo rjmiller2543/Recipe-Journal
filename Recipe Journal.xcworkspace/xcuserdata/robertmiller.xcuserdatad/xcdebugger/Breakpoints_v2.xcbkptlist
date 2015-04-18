@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448408198.843471"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
             landmarkName = "-sidebar:didTapItemAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "727"
-            endingLineNumber = "727"
+            startingLineNumber = "709"
+            endingLineNumber = "709"
             landmarkName = "-insertNewGrocery:"
             landmarkType = "5">
          </BreakpointContent>
@@ -152,6 +152,7 @@
                   continueAfterRunningActions = "No"
                   symbolName = "-[RecipeCloudManager isLoggedIn]"
                   moduleName = "Recipe Journal"
+                  usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/robertmiller/Documents/Projects/Recipe%20Journal/Recipe%20Journal/RecipeCloudManager.m"
                   timestampString = "446746036.138962"
                   startingColumnNumber = "9223372036854775807"
@@ -166,6 +167,7 @@
                   continueAfterRunningActions = "No"
                   symbolName = "__32-[RecipeCloudManager isLoggedIn]_block_invoke"
                   moduleName = "Recipe Journal"
+                  usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/robertmiller/Documents/Projects/Recipe%20Journal/Recipe%20Journal/RecipeCloudManager.m"
                   timestampString = "446746036.139191"
                   startingColumnNumber = "9223372036854775807"
@@ -262,6 +264,7 @@
                   continueAfterRunningActions = "No"
                   symbolName = "-[NewRecipeViewController saveRecipe]"
                   moduleName = "Recipe Journal"
+                  usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/robertmiller/Documents/Projects/Recipe%20Journal/Recipe%20Journal/NewRecipeViewController.m"
                   timestampString = "447003294.901245"
                   startingColumnNumber = "9223372036854775807"
@@ -276,6 +279,7 @@
                   continueAfterRunningActions = "No"
                   symbolName = "__37-[NewRecipeViewController saveRecipe]_block_invoke"
                   moduleName = "Recipe Journal"
+                  usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/robertmiller/Documents/Projects/Recipe%20Journal/Recipe%20Journal/NewRecipeViewController.m"
                   timestampString = "447003294.901487"
                   startingColumnNumber = "9223372036854775807"
@@ -422,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448408198.843471"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "-sidebar:didTapItemAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
@@ -598,11 +602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
+            timestampString = "450719604.807039"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "978"
-            endingLineNumber = "978"
+            startingLineNumber = "965"
+            endingLineNumber = "965"
             landmarkName = "-addEventToGroceryList:"
             landmarkType = "5">
          </BreakpointContent>
@@ -694,11 +698,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448408198.843471"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "478"
-            endingLineNumber = "478"
+            startingLineNumber = "485"
+            endingLineNumber = "485"
             landmarkName = "-sidebar:didTapItemAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
@@ -710,11 +714,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "893"
-            endingLineNumber = "893"
+            startingLineNumber = "875"
+            endingLineNumber = "875"
             landmarkName = "-configureCell:atIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -742,27 +746,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448408198.843471"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "523"
-            endingLineNumber = "523"
-            landmarkName = "-sidebar:didTapItemAtIndex:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "661"
-            endingLineNumber = "661"
+            startingLineNumber = "530"
+            endingLineNumber = "530"
             landmarkName = "-sidebar:didTapItemAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
@@ -774,43 +762,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
+            timestampString = "450719604.807039"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "640"
-            endingLineNumber = "640"
-            landmarkName = "-sidebar:didTapItemAtIndex:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "650"
-            endingLineNumber = "650"
-            landmarkName = "-sidebar:didTapItemAtIndex:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1179"
-            endingLineNumber = "1179"
+            startingLineNumber = "1166"
+            endingLineNumber = "1166"
             landmarkName = "-controllerDidChangeContent:"
             landmarkType = "5">
          </BreakpointContent>
@@ -822,11 +778,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "888"
-            endingLineNumber = "888"
+            startingLineNumber = "870"
+            endingLineNumber = "870"
             landmarkName = "-configureCell:atIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -838,11 +794,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "795"
-            endingLineNumber = "795"
+            startingLineNumber = "777"
+            endingLineNumber = "777"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -854,11 +810,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
+            timestampString = "450719604.807039"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1090"
-            endingLineNumber = "1090"
+            startingLineNumber = "1077"
+            endingLineNumber = "1077"
             landmarkName = "-fetchedResultsController"
             landmarkType = "5">
          </BreakpointContent>
@@ -870,7 +826,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448408027.848112"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "140"
@@ -886,11 +842,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
+            timestampString = "450719604.807039"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1131"
-            endingLineNumber = "1131"
+            startingLineNumber = "1118"
+            endingLineNumber = "1118"
             landmarkName = "-controllerWillChangeContent:"
             landmarkType = "5">
          </BreakpointContent>
@@ -902,11 +858,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
+            timestampString = "450719604.807039"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1137"
-            endingLineNumber = "1137"
+            startingLineNumber = "1124"
+            endingLineNumber = "1124"
             landmarkName = "-controller:didChangeSection:atIndex:forChangeType:"
             landmarkType = "5">
          </BreakpointContent>
@@ -918,11 +874,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
+            timestampString = "450719604.807039"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1155"
-            endingLineNumber = "1155"
+            startingLineNumber = "1142"
+            endingLineNumber = "1142"
             landmarkName = "-controller:didChangeObject:atIndexPath:forChangeType:newIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -934,11 +890,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "783"
-            endingLineNumber = "783"
+            startingLineNumber = "765"
+            endingLineNumber = "765"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -950,11 +906,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "778"
-            endingLineNumber = "778"
+            startingLineNumber = "760"
+            endingLineNumber = "760"
             landmarkName = "-numberOfSectionsInTableView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -966,11 +922,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448408027.848112"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -1222,11 +1178,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448488279.044766"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "924"
-            endingLineNumber = "924"
+            startingLineNumber = "906"
+            endingLineNumber = "906"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1286,11 +1242,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448408173.620424"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1302,11 +1258,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448408473.098386"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "-viewDidAppear:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1318,11 +1274,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipe Journal/MasterViewController.m"
-            timestampString = "448487561.732547"
+            timestampString = "450718811.174735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
             landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1388,6 +1344,38 @@
             startingLineNumber = "158"
             endingLineNumber = "158"
             landmarkName = "-saveRecipeToCloud:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Recipe Journal/RecipeCloudManager.m"
+            timestampString = "450718339.02333"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
+            landmarkName = "-fetchRecords:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Recipe Journal/RecipeCloudManager.m"
+            timestampString = "450718838.81972"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "-fetchRecords:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

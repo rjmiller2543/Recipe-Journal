@@ -85,6 +85,7 @@ const float textHeight = 45.0f;
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
+        self.title = [_detailItem recipeName];
         
         _containerView = [[UIView alloc] init];
         //containerView.autoresizesSubviews = NO;
@@ -649,6 +650,7 @@ const float textHeight = 45.0f;
     // Do any additional setup after loading the view, typically from a nib.
     //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetailItem)];
     [self configureView];
+    
     _cloudManager = [[RecipeCloudManager alloc] init];
 
 }
