@@ -50,12 +50,13 @@
 
 @property(nonatomic,retain) RecipeCloudManager *cloudManager;
 
+@property(nonatomic) int textHeight;
+
 @end
 
 @implementation DetailViewController
 
 //#define TEXTHEIGHT          60
-const float textHeight = 45.0f;
 
 #define RECIPETEXTVIEW      0x1
 #define RATINGTEXTVIEW      0x2
@@ -76,7 +77,9 @@ const float textHeight = 45.0f;
 - (void)setDetailItem:(Event*)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
-            
+        
+        _textHeight = 45.0;
+        
         // Update the view.
         [self configureView];
     }
@@ -85,6 +88,7 @@ const float textHeight = 45.0f;
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
+        
         self.title = [_detailItem recipeName];
         
         _containerView = [[UIView alloc] init];
@@ -419,7 +423,7 @@ const float textHeight = 45.0f;
         //                                                                      options:0
         //                                                                      metrics:nil
         //                                                                        views:viewBindings]];
-        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_recipeTextView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_recipeTextView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:_textHeight]];
         
 #pragma mark - layout for rating text view
         //[containerView addConstraint:[NSLayoutConstraint constraintWithItem:ratingTextView attribute:NSLayoutAttributeTop
@@ -430,7 +434,7 @@ const float textHeight = 45.0f;
                                                                   relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeLeft multiplier:0.0 constant:-1.0]];
         
         [_ratingTextView addConstraint:[NSLayoutConstraint constraintWithItem:_ratingTextView attribute:NSLayoutAttributeHeight
-                                                                    relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
+                                                                    relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0 constant:_textHeight]];
         
         [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_ratingTextView attribute:NSLayoutAttributeWidth
                                                                   relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.333 constant:4.0]];
@@ -454,7 +458,7 @@ const float textHeight = 45.0f;
         
         [_servingSizeTextView addConstraint:[NSLayoutConstraint
                                              constraintWithItem:_servingSizeTextView attribute:NSLayoutAttributeHeight
-                                             relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
+                                             relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0 constant:_textHeight]];
         
         [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_servingSizeTextView attribute:NSLayoutAttributeWidth
                                                                   relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.333 constant:4.0]];
@@ -469,7 +473,7 @@ const float textHeight = 45.0f;
         
         [_difficultyTextView addConstraint:[NSLayoutConstraint
                                             constraintWithItem:_difficultyTextView attribute:NSLayoutAttributeHeight
-                                            relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0 constant:textHeight]];
+                                            relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0 constant:_textHeight]];
         
         [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_difficultyTextView attribute:NSLayoutAttributeWidth
                                                                   relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.333 constant:4.0]];
@@ -494,7 +498,7 @@ const float textHeight = 45.0f;
         
         [_prepTimeTextView addConstraint:[NSLayoutConstraint
                                           constraintWithItem:_prepTimeTextView attribute:NSLayoutAttributeHeight
-                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:(textHeight)]];
+                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:(_textHeight)]];
         
         [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_prepTimeTextView attribute:NSLayoutAttributeWidth
                                                                   relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
@@ -509,7 +513,7 @@ const float textHeight = 45.0f;
         
         [_cookTimeTextView addConstraint:[NSLayoutConstraint
                                           constraintWithItem:_cookTimeTextView attribute:NSLayoutAttributeHeight
-                                          relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+                                          relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:_textHeight]];
         
         [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_cookTimeTextView attribute:NSLayoutAttributeWidth
                                                                   relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
@@ -536,7 +540,7 @@ const float textHeight = 45.0f;
                                                                   relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
         
         [_cookProcessTextView addConstraint:[NSLayoutConstraint constraintWithItem:_cookProcessTextView
-                                                                         attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+                                                                         attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:_textHeight]];
         
 #pragma mark - layout for Cook Process Segmented Control within the Cook Process Text view
         [_cookProcessTextView addConstraint:[NSLayoutConstraint constraintWithItem:_processChoice
@@ -562,7 +566,7 @@ const float textHeight = 45.0f;
                                                                   relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
         
         [_winePairingTextView addConstraint:[NSLayoutConstraint constraintWithItem:_winePairingTextView
-                                                                         attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+                                                                         attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:_textHeight]];
         
 #pragma mark - layout for preparation view
         //Note the height is set within the custom UIView (NewPreparationView)
@@ -628,7 +632,7 @@ const float textHeight = 45.0f;
         
         [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:shareButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0]];
         
-        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:shareButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:shareButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:_textHeight]];
         
         [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:editButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_imageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
         
@@ -636,7 +640,7 @@ const float textHeight = 45.0f;
         
         [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:editButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0]];
         
-        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:editButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:textHeight]];
+        [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:editButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:_textHeight]];
   
 #pragma mark - end of layouts
         
@@ -702,7 +706,7 @@ const float textHeight = 45.0f;
     
     // Points the pdf converter to the mutable data object and to the UIView to be converted
     CGRect rect = _containerView.bounds;
-    rect.size.height = _containerView.bounds.size.height - textHeight;
+    rect.size.height = _containerView.bounds.size.height - _textHeight;
     UIGraphicsBeginPDFContextToData(pdfData, rect, nil);
     UIGraphicsBeginPDFPage();
     CGContextRef pdfContext = UIGraphicsGetCurrentContext();

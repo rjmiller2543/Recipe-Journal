@@ -1,0 +1,1 @@
+../../../TGFoursquareLocationDetail/Classes/TGFoursquareLocationDetail.h

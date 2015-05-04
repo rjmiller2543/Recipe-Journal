@@ -9,8 +9,14 @@
 #import "RecipeCloudManager.h"
 #include "Ingredient.h"
 #include "AppDelegate.h"
-#include "RecipeJournalHelper.h"
 #include "GroceryList.h"
+//#include "RecipeJournalHelper.h"
+
+@interface RecipeCloudManager ()
+
+@property(nonatomic) BOOL refresh;
+
+@end
 
 @implementation RecipeCloudManager
 
@@ -188,22 +194,23 @@ bool notCompleted = true;
     }];
 }
 
-BOOL refresh = false;
+//BOOL refresh = false;
 -(void)fetchRecords:(void (^)(NSError*error, bool refresh))completionHandler {
     
     NSPredicate *predicate = [NSPredicate predicateWithValue:true];
     CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Recipe" predicate:predicate];
     
-    refresh = false;
+    _refresh = false;
     [_privateDatabase performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error) {
         if (error) {
             NSLog(@"error: %@", error);
         }
         else {
+            
             NSManagedObjectContext *dataCenter = [[AppDelegate sharedInstance] managedObjectContext];
             NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
             
-            NSError *error = nil;
+            //NSError *err = nil;
             NSArray *coreDataArray = [dataCenter executeFetchRequest:fetchRequest error:&error];
             
             BOOL isSynced = false;
@@ -221,7 +228,7 @@ BOOL refresh = false;
                     isSynced = false;
                 }
                 else {
-                    refresh = true;
+                    _refresh = true;
                     
                     NSManagedObjectContext *context = [[AppDelegate sharedInstance] managedObjectContext];
                     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:context];
@@ -239,9 +246,10 @@ BOOL refresh = false;
                         abort();
                     }
                 }
+             
             }
         }
-        completionHandler(error, refresh);
+        completionHandler(error, _refresh);
     }];
 }
 
@@ -307,12 +315,13 @@ BOOL refresh = false;
     NSPredicate *predicate = [NSPredicate predicateWithValue:true];
     CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Items" predicate:predicate];
     
-    refresh = false;
+    _refresh = false;
     [_privateDatabase performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error) {
         if (error) {
             NSLog(@"error fetching items with error: %@", error);
         }
         else {
+            
             NSManagedObjectContext *dataCenter = [[AppDelegate sharedInstance] managedObjectContext];
             NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"GroceryList"];
             
@@ -332,7 +341,7 @@ BOOL refresh = false;
                     isSynced = false;
                 }
                 else {
-                    refresh = true;
+                    _refresh = true;
                     
                     NSEntityDescription *entity = [NSEntityDescription entityForName:@"GroceryList" inManagedObjectContext:dataCenter];
                     

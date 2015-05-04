@@ -17,7 +17,7 @@
 #import <AwesomeMenu/AwesomeMenu.h>
 #import <SVPullToRefresh/SVPullToRefresh.h>
 #import <RNFrostedSidebar/RNFrostedSidebar.h>
-#import "RecipeJournalHelper.h"
+//#import "RecipeJournalHelper.h"
 
 #import "RecipeCloudManager.h"
 #import "AppDelegate.h"

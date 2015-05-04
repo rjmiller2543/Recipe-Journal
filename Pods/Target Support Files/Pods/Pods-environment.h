@@ -72,6 +72,18 @@
 #define COCOAPODS_VERSION_MINOR_CSGrowingTextView 0
 #define COCOAPODS_VERSION_PATCH_CSGrowingTextView 4
 
+// DLStarRating
+#define COCOAPODS_POD_AVAILABLE_DLStarRating
+#define COCOAPODS_VERSION_MAJOR_DLStarRating 1
+#define COCOAPODS_VERSION_MINOR_DLStarRating 1
+#define COCOAPODS_VERSION_PATCH_DLStarRating 0
+
+// EDStarRating
+#define COCOAPODS_POD_AVAILABLE_EDStarRating
+#define COCOAPODS_VERSION_MAJOR_EDStarRating 1
+#define COCOAPODS_VERSION_MINOR_EDStarRating 1
+#define COCOAPODS_VERSION_PATCH_EDStarRating 0
+
 // FXBlurView
 #define COCOAPODS_POD_AVAILABLE_FXBlurView
 #define COCOAPODS_VERSION_MAJOR_FXBlurView 1
@@ -138,6 +150,12 @@
 #define COCOAPODS_VERSION_MAJOR_SWTableViewCell 0
 #define COCOAPODS_VERSION_MINOR_SWTableViewCell 3
 #define COCOAPODS_VERSION_PATCH_SWTableViewCell 7
+
+// TGFoursquareLocationDetail
+#define COCOAPODS_POD_AVAILABLE_TGFoursquareLocationDetail
+#define COCOAPODS_VERSION_MAJOR_TGFoursquareLocationDetail 1
+#define COCOAPODS_VERSION_MINOR_TGFoursquareLocationDetail 0
+#define COCOAPODS_VERSION_PATCH_TGFoursquareLocationDetail 1
 
 // UIFloatLabelTextView
 #define COCOAPODS_POD_AVAILABLE_UIFloatLabelTextView

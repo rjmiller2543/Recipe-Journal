@@ -24,6 +24,8 @@ PODS:
   - AXRatingView (1.0.3)
   - CHTCollectionViewWaterfallLayout (0.8)
   - CSGrowingTextView (1.0.4)
+  - DLStarRating (1.1)
+  - EDStarRating (1.1)
   - FXBlurView (1.6.3)
   - IQDropDownTextField (1.0.4.1)
   - JSONModel (1.0.2)
@@ -36,6 +38,7 @@ PODS:
   - SVProgressHUD (1.1.2)
   - SVPullToRefresh (0.4.1)
   - SWTableViewCell (0.3.7)
+  - TGFoursquareLocationDetail (1.0.1)
   - UIFloatLabelTextView (1.0.8)
 
 DEPENDENCIES:
@@ -44,6 +47,8 @@ DEPENDENCIES:
   - AXRatingView
   - CHTCollectionViewWaterfallLayout
   - CSGrowingTextView
+  - DLStarRating
+  - EDStarRating
   - FXBlurView
   - IQDropDownTextField
   - JSONModel
@@ -54,24 +59,28 @@ DEPENDENCIES:
   - SVProgressHUD
   - SVPullToRefresh
   - SWTableViewCell
+  - TGFoursquareLocationDetail
   - UIFloatLabelTextView
 
 SPEC CHECKSUMS:
-  AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
-  AwesomeMenu: e151e84da2434b7deb8acd118816a1f5d8794608
-  AXRatingView: 4f6d6c96f6d0efc1deaa6cf493dbb1ffcfa79e55
-  CHTCollectionViewWaterfallLayout: 14b7950cbe45ae9297e7759148d69b022bac047d
-  CSGrowingTextView: c3f6a60ead2e6a19d6ed5d71dae0108315719f02
-  FXBlurView: abe1046285813c4f6e9008abbc324fc5ab32af90
-  IQDropDownTextField: 3a6709eea98b91900e33368ab31a99fa54cb3021
-  JSONModel: cbdef0fdff1cc70e913a860861d3072860efd3a1
-  JVFloatLabeledTextField: c1ad6b4b5bd77115cfe6c71ba4c023866df5c4cf
-  MMProgressHUD: a524179e2ece5ba76f5228f9368a6918f617510e
-  RNFrostedSidebar: f1d95d9b2627f13cc10e75d36e751a623eec079c
-  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
-  SVProgressHUD: da7a49e789af645d9279ffbca62318945a832438
-  SVPullToRefresh: d5161ebc833a38b465364412e5e307ca80bbb190
-  SWTableViewCell: 25de71898e3fcd11cf75707ef90245acf990ec03
-  UIFloatLabelTextView: ca4c8f10f3db892a9da8d556bbe54c152859001d
+  AFNetworking: 96ac9bf3eda33582701cb1fcc5b896aa1e20311e
+  AwesomeMenu: 34bad7f873e4b3cfaa6651fabbb96607d0e8f2b3
+  AXRatingView: ccaadc1bbda99a4b7e1d556059482d2b933a9f4e
+  CHTCollectionViewWaterfallLayout: 058823cc65c9d84e059b0a85eede517550da0334
+  CSGrowingTextView: 9af429caee7710e73efe4d1a5ba3cd975abd38bd
+  DLStarRating: c157ea012c9f824faebd193f4bac1f96368f4147
+  EDStarRating: a41a6440a945020745d0e9ff8ada7d1afa952114
+  FXBlurView: c6d23f3d35af2c6282296a2930f61c6e2c788d01
+  IQDropDownTextField: 4e6fc6dbfd46a922fbc3fb76ac855d05ccfdc962
+  JSONModel: 6ffcb4ffa3659c9e9a2e5d45d6c7705bab187c03
+  JVFloatLabeledTextField: 58a3a32cfb800e5b224f676987e7c13abf50a14d
+  MMProgressHUD: faa177f36f0d8555bf21e78c36d7076784067181
+  RNFrostedSidebar: 9491d8627e5e99b92334d36def432c0faf7ebae4
+  SDWebImage: ed3095af2ff88b436426037444979b917f6c5575
+  SVProgressHUD: 3afb875b9eb23acd1bed9b82495695c68621a8b2
+  SVPullToRefresh: ba2e718695a43253d8bea6852d2960097dc15d8c
+  SWTableViewCell: 2a94aadc9d47b2b611fa064566bf57948b95b579
+  TGFoursquareLocationDetail: e2255e26b6c12d97b34fb95d88b67ab84cba1128
+  UIFloatLabelTextView: f6e623a5c00284a30e3038374cb2499b7aca454c
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.36.3

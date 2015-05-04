@@ -10,6 +10,7 @@
 #import "Event.h"
 #import "GroceryList.h"
 #import <CloudKit/CloudKit.h>
+#import "RecipeJournalHelper.h"
 
 @interface RecipeCloudManager : NSObject
 

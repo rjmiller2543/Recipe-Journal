@@ -50,25 +50,6 @@ bool isEditingIngredients = false;
     _headerLabel.font = [UIFont fontWithName:@"Copperplate" size:19.0f];
     _headerLabel.text = @"Ingredients:";
     [self addSubview:_headerLabel];
-    /*[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-5-[headerLabel]-0-|"
-                                                                      options:NSLayoutFormatAlignAllBaseline
-                                                                      metrics:nil
-                                                                        views:NSDictionaryOfVariableBindings(_headerLabel)]];
-    
-    // Vertical
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[headerLabel(15)]"
-                                                                      options:0
-                                                                      metrics:nil
-                                                                        views:NSDictionaryOfVariableBindings(_headerLabel)]];
-   */
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_headerLabel attribute:NSLayoutAttributeTop
-                                                     relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:0.0 constant:5.0]];
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_headerLabel attribute:NSLayoutAttributeLeft
-                                                     relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:0.0 constant:5.0]];
-    
-    [_headerLabel addConstraint:[NSLayoutConstraint constraintWithItem:_headerLabel attribute:NSLayoutAttributeHeight
-                                                            relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:0.0 constant:15.0]];
     
     _tableView = [[UITableView alloc] init];
     [_tableView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -76,12 +57,34 @@ bool isEditingIngredients = false;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self addSubview:_tableView];
+    //[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-5-[headerLabel]-0-|"
+    //                                                                  options:NSLayoutFormatAlignAllBaseline
+    //                                                                  metrics:nil
+    //                                                                    views:NSDictionaryOfVariableBindings(_headerLabel)]];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeTop
-                                                           relatedBy:NSLayoutRelationEqual toItem:_headerLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:2.0]];
+    NSDictionary *viewBindings = NSDictionaryOfVariableBindings(self, _headerLabel, _tableView);
+    
+    // Vertical
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_headerLabel(15)]-2-[_tableView]-0-|"
+                                                                      options:0
+                                                                      metrics:nil
+                                                                        views:viewBindings]];
+   
+    //[self addConstraint:[NSLayoutConstraint constraintWithItem:_headerLabel attribute:NSLayoutAttributeTop
+    //                                                 relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:5.0]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_headerLabel attribute:NSLayoutAttributeLeft
+                                                     relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:5.0]];
+    
+    [_headerLabel addConstraint:[NSLayoutConstraint constraintWithItem:_headerLabel attribute:NSLayoutAttributeHeight
+                                                            relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:0.0 constant:15.0]];
+    
+    
+    //[self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeTop
+    //                                                       relatedBy:NSLayoutRelationEqual toItem:_headerLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:2.0]];
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeLeft
-                                                     relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:0.0 constant:0.0]];
+                                                     relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeWidth
                                                            relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
