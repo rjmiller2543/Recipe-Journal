@@ -691,7 +691,7 @@
 				504864791A850C5E00655655 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		5048647A1A850C5E00655655 /* Build configuration list for PBXNativeTarget "Recipe Journal" */ = {
 			isa = XCConfigurationList;
@@ -700,7 +700,7 @@
 				5048647C1A850C5E00655655 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		5048647D1A850C5E00655655 /* Build configuration list for PBXNativeTarget "Recipe JournalTests" */ = {
 			isa = XCConfigurationList;
@@ -709,7 +709,7 @@
 				5048647F1A850C5E00655655 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
