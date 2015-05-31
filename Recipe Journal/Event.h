@@ -16,7 +16,7 @@
 
 @property (nonatomic, retain) NSDate * timeStamp;
 @property (nonatomic, retain) NSNumber * cookTimeMinutes;
-@property (nonatomic, retain) NSNumber * cookingProcess;
+@property (nonatomic, retain) NSString * cookingProcess;
 @property (nonatomic, retain) NSNumber * difficulty;
 @property (nonatomic, retain) NSString * imageURL;
 @property (nonatomic, retain) id ingredients;
@@ -31,7 +31,7 @@
 @property (nonatomic, retain) NSString * winePairing;
 @property (nonatomic, retain) NSData *recipeIconImage;
 @property (nonatomic, retain) NSNumber * favorited;
-@property (nonatomic, retain) NSNumber * lowCalorie;
+@property (nonatomic, retain) NSString * lowCalorie;
 @property (nonatomic, retain) NSString * mealType;
 @property (nonatomic, retain) NSString * publicRecordID;
 

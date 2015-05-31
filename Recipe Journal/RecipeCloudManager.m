@@ -78,6 +78,7 @@ bool notCompleted = true;
         [record setValue:[sender lowCalorie] forKey:@"LowCalorie"];
         [record setValue:[sender mealType] forKey:@"MealType"];
         [record setValue:[sender isPublic] forKey:@"IsPublic"];
+        [record setValue:[sender timeStamp] forKey:@"TimeStamp"];
         [record setValue:[sender publicRecordID] forKey:@"PublicRecordID"];
         
         CKAsset *photoAsset = [[CKAsset alloc] initWithFileURL:[NSURL fileURLWithPath:[sender imageURL]]];
@@ -121,6 +122,7 @@ bool notCompleted = true;
     [newRecord setValue:[sender lowCalorie] forKey:@"LowCalorie"];
     [newRecord setValue:[sender mealType] forKey:@"MealType"];
     [newRecord setValue:[sender isPublic] forKey:@"IsPublic"];
+    [newRecord setValue:[sender timeStamp] forKey:@"TimeStamp"];
     [newRecord setValue:[sender publicRecordID] forKey:@"PublicRecordID"];
     
     if (![sender imageURL]) {
@@ -352,6 +354,8 @@ bool notCompleted = true;
                     [newEvent setName:[record objectForKey:@"name"]];
                     [newEvent setAmount:[record objectForKey:@"amount"]];
                     [newEvent setType:[record objectForKey:@"size"]];
+                    [newEvent setTimeStamp:[record objectForKey:@"timeStamp"]];
+                    [newEvent setMarked:[record objectForKey:@"marked"]];
                     
                     if (![dataCenter save:&error]) {
                         // Replace this implementation with code to handle the error appropriately.
@@ -373,6 +377,8 @@ bool notCompleted = true;
     [record setValue:[list name] forKey:@"name"];
     [record setValue:[list amount] forKey:@"amount"];
     [record setValue:[list type] forKey:@"size"];
+    [record setValue:[list timeStamp] forKey:@"timeStamp"];
+    [record setValue:[list marked] forKey:@"marked"];
     
     [_privateDatabase saveRecord:record completionHandler:^(CKRecord *record, NSError *error) {
         if (error) {

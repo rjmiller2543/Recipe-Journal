@@ -138,7 +138,8 @@
     
     _tableViewDataSource = [self.fetchedResultsController fetchedObjects];
     
-    if ([[[UIDevice currentDevice] model] isEqualToString:@"iPad"]) {
+    NSLog(@"model: %@", [[UIDevice currentDevice] model]);
+    if ([[[UIDevice currentDevice] model] isEqualToString:@"iPad"] || [[[UIDevice currentDevice] model] isEqualToString:@"iPad Simulator"]) {
         NSLog(@"device is iPad");
         self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
         if ([_tableViewDataSource count] != 0) {
@@ -727,6 +728,18 @@
     
 }
 
+// In split delegate
+-(void)hideMaster:(BOOL)hideState
+{
+    if (UIInterfaceOrientationIsPortrait([UIDevice currentDevice].orientation)) {
+        [UIView animateWithDuration:0.7 animations:^{
+            self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+        } completion:^(BOOL finished) {
+            self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAutomatic;
+        }];
+    }
+}
+
 - (void)insertNewObject:(id)sender {
     
     id rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
@@ -735,9 +748,17 @@
         rootViewController = [((UINavigationController *)rootViewController).viewControllers objectAtIndex:0];
     }
     NewRecipeViewController *newView = [[NewRecipeViewController alloc] init];
-    [rootViewController presentViewController:newView animated:YES completion:^{
+    if ([[[UIDevice currentDevice] model] isEqualToString:@"iPad"] || [[[UIDevice currentDevice] model] isEqualToString:@"iPad Simulator"]) {
+        [self hideMaster:YES];
+        [self.detailViewController presentViewController:newView animated:YES completion:^{
+            //up up
+        }];
+    }
+    else {
+        [rootViewController presentViewController:newView animated:YES completion:^{
         //up up
-    }];
+        }];
+    }
     
 }
 

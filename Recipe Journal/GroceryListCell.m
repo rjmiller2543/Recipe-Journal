@@ -38,8 +38,14 @@
     
     self.textLabel.text = cellString;
     
-    self.imageView.image = [UIImage imageNamed:@"unchecked-50.png"];
-    self.imageView.userInteractionEnabled = YES;
+    if ([[_ingredient marked] boolValue]) {
+        self.imageView.image = [UIImage imageNamed:@"checked-50.png"];
+        self.imageView.userInteractionEnabled = YES;
+    }
+    else {
+        self.imageView.image = [UIImage imageNamed:@"unchecked-50.png"];
+        self.imageView.userInteractionEnabled = YES;
+    }
     
     UIButton *checkButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     [checkButton addTarget:self action:@selector(toggleCheckButton) forControlEvents:UIControlEventTouchUpInside];
@@ -48,7 +54,7 @@
 
 -(void)toggleCheckButton {
     
-    if ([[_ingredient marked] isEqualToNumber:[NSNumber numberWithBool:true]]) {
+    if ([[_ingredient marked] boolValue]) {
         [_ingredient setMarked:[NSNumber numberWithBool:false]];
         
         NSManagedObjectContext *context = [[AppDelegate sharedInstance] managedObjectContext];

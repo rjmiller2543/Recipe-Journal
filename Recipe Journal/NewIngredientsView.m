@@ -57,7 +57,7 @@ bool isEditingIngredients = false;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self addSubview:_tableView];
-    //[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-5-[headerLabel]-0-|"
+    //[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-5-[_headerLabel]-0-|"
     //                                                                  options:NSLayoutFormatAlignAllBaseline
     //                                                                  metrics:nil
     //                                                                    views:NSDictionaryOfVariableBindings(_headerLabel)]];
@@ -65,13 +65,13 @@ bool isEditingIngredients = false;
     NSDictionary *viewBindings = NSDictionaryOfVariableBindings(self, _headerLabel, _tableView);
     
     // Vertical
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_headerLabel(15)]-2-[_tableView]-0-|"
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_headerLabel(15)]-4-[_tableView]-0-|"
                                                                       options:0
                                                                       metrics:nil
                                                                         views:viewBindings]];
    
-    //[self addConstraint:[NSLayoutConstraint constraintWithItem:_headerLabel attribute:NSLayoutAttributeTop
-    //                                                 relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:5.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_headerLabel attribute:NSLayoutAttributeTop
+                                                     relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:5.0]];
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_headerLabel attribute:NSLayoutAttributeLeft
                                                      relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:5.0]];
@@ -80,8 +80,8 @@ bool isEditingIngredients = false;
                                                             relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:0.0 constant:15.0]];
     
     
-    //[self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeTop
-    //                                                       relatedBy:NSLayoutRelationEqual toItem:_headerLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:2.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeTop
+                                                           relatedBy:NSLayoutRelationEqual toItem:_headerLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:2.0]];
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeLeft
                                                      relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];

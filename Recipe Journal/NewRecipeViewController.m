@@ -43,9 +43,11 @@
 @property(nonatomic,retain) JVFloatLabeledTextField *prepTimeTextView;
 @property(nonatomic,retain) JVFloatLabeledTextField *cookTimeTextView;
 @property(nonatomic,retain) NewIngredientsView *ingredientsView;
-@property(nonatomic,retain) JVFloatLabeledTextField *cookProcessTextView;
+@property(nonatomic,retain) IQDropDownTextField *cookProcessTextView;
 @property(nonatomic,retain) UISegmentedControl *processChoice;
 @property(nonatomic,retain) JVFloatLabeledTextField *winePairingTextView;
+@property(nonatomic,retain) IQDropDownTextField *mealtTypeTextView;
+@property(nonatomic,retain) IQDropDownTextField *lowCalorieTextView;
 @property(nonatomic,retain) NewPreparationView *preparationView;
 @property(nonatomic,retain) CSGrowingTextView *notesTextView;
 @property(nonatomic,retain) UIImageView *imageView;
@@ -73,6 +75,8 @@
 #define PREPARATIONTEXTVIEW 0xa
 #define NOTESTEXTVIEW       0xb
 #define IMAGEVIEW           0xc
+#define MEALTYPEVIEW        0xd
+#define LOWCALORIEVIEW      0xe
 #define CONTAINERVIEW       0xff
 
 - (void)viewDidLoad {
@@ -125,6 +129,12 @@
     [self.view addSubview:_scrollView];
     [_scrollView addSubview:containerView];
     
+    //Create toolbar to remove number pad
+    UIToolbar  *numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
+    numberToolbar.items = [NSArray arrayWithObjects:
+                           [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                           [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneWithNumberPad:)],
+                           nil];
     
     //Setup and add Recipe Name Text View
     _recipeTextView = [[JVFloatLabeledTextField alloc] init];
@@ -165,6 +175,7 @@
     _servingSizeTextView.tag = SERVINGSIZETEXTVIEW;
     _servingSizeTextView.placeholder = @"No. Servings";
     _servingSizeTextView.keyboardType = UIKeyboardTypeNumberPad;
+    _servingSizeTextView.inputAccessoryView = numberToolbar;
     _servingSizeTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
     _servingSizeTextView.floatingLabelFont = [UIFont fontWithName:@"Copperplate" size:12.0f];
     _servingSizeTextView.textAlignment = NSTextAlignmentCenter;
@@ -245,6 +256,7 @@
     _prepTimeTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
     _prepTimeTextView.layer.borderWidth = 2.0;
     _prepTimeTextView.keyboardType = UIKeyboardTypeNumberPad;
+    _prepTimeTextView.inputAccessoryView = numberToolbar;
     [containerView addSubview:_prepTimeTextView];
     
     
@@ -260,6 +272,7 @@
     _cookTimeTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
     _cookTimeTextView.layer.borderWidth = 2.0;
     _cookTimeTextView.keyboardType = UIKeyboardTypeNumberPad;
+    _cookTimeTextView.inputAccessoryView = numberToolbar;
     [containerView addSubview:_cookTimeTextView];
     
     
@@ -276,16 +289,19 @@
     
     
     //Setup and add the Cook Process View and Segment Controller for the Cook Process Type
-    _cookProcessTextView = [JVFloatLabeledTextField new];
+    _cookProcessTextView = [IQDropDownTextField new];
     [_cookProcessTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    _cookProcessTextView.isOptionalDropDown = NO;
+    [_cookProcessTextView setItemList:@[@"Stovetop", @"Baked", @"Raw", @"Mixed", @"Other"]];
+    _cookProcessTextView.inputAccessoryView = numberToolbar;
     //cookProcessTextView.delegate = self;
     _cookProcessTextView.tag = COOKPROCESSTEXTVIEW;
-    _cookProcessTextView.placeholder = @"Cooking Process";
-    _cookProcessTextView.floatingLabel.text = @"Cooking Process";
-    _cookProcessTextView.textColor = [UIColor clearColor];
+    _cookProcessTextView.text = @"Cooking Process";
+    //_cookProcessTextView.floatingLabel.text = @"Cooking Process";
+    //_cookProcessTextView.textColor = [UIColor clearColor];
     //[cookProcessTextView toggleFloatLabel:UIFloatLabelAnimationTypeShow];
     _cookProcessTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
-    _cookProcessTextView.floatingLabelFont = [UIFont fontWithName:@"Copperplate" size:12.0f];
+    //_cookProcessTextView.floatingLabelFont = [UIFont fontWithName:@"Copperplate" size:12.0f];
     _cookProcessTextView.textAlignment = NSTextAlignmentCenter;
     _cookProcessTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
     _cookProcessTextView.layer.borderWidth = 2.0;
@@ -297,12 +313,38 @@
     [_cookProcessTextView addSubview:_processChoice];
     [containerView addSubview:_cookProcessTextView];
     
-   
+    //Setting up Meal Type
+    _mealtTypeTextView = [IQDropDownTextField new];
+    [_mealtTypeTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    _mealtTypeTextView.isOptionalDropDown = NO;
+    [_mealtTypeTextView setItemList:@[@"Appetizer", @"Dinner", @"Side Dish", @"Dessert", @"Breakfast and Brunch", @"Lunch", @"Snack", @"Drink"]];
+    _mealtTypeTextView.inputAccessoryView = numberToolbar;
+    _mealtTypeTextView.tag = MEALTYPEVIEW;
+    _mealtTypeTextView.text = @"Meal Type";
+    _mealtTypeTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
+    _mealtTypeTextView.textAlignment = NSTextAlignmentCenter;
+    _mealtTypeTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    _mealtTypeTextView.layer.borderWidth = 2.0;
+    [containerView addSubview:_mealtTypeTextView];
+    
+    //Setting up Low Cal View
+    _lowCalorieTextView = [IQDropDownTextField new];
+    [_lowCalorieTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    _lowCalorieTextView.isOptionalDropDown = NO;
+    [_lowCalorieTextView setItemList:@[@"Low Calorie", @"High Calorie"]];
+    _lowCalorieTextView.inputAccessoryView = numberToolbar;
+    _lowCalorieTextView.tag = LOWCALORIEVIEW;
+    _lowCalorieTextView.text = @"Calorie Meal";
+    _lowCalorieTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
+    _lowCalorieTextView.textAlignment = NSTextAlignmentCenter;
+    _lowCalorieTextView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    _lowCalorieTextView.layer.borderWidth = 2.0;
+    [containerView addSubview:_lowCalorieTextView];
     
     //Setting up the Float Label to display entire Text
     [_cookProcessTextView setNeedsLayout];
     [_cookProcessTextView layoutIfNeeded];
-    [_cookProcessTextView.floatingLabel sizeToFit];
+    //[_cookProcessTextView.floatingLabel sizeToFit];
     
     
     //Setup and add the Wine Pairing Text View
@@ -389,7 +431,7 @@
     
     UIView *view = self.view;
     //Add all the views to the view bindings
-    NSDictionary *viewBindings = NSDictionaryOfVariableBindings(view, _scrollView, containerView, _recipeTextView, _ratingTextView, _servingSizeTextView, _difficultyTextView, _prepTimeTextView, _cookTimeTextView, _ingredientsView, _cookProcessTextView, _winePairingTextView, _preparationView, notesLabel, _notesTextView, _imageView, cancelButton, saveButton);
+    NSDictionary *viewBindings = NSDictionaryOfVariableBindings(view, _scrollView, containerView, _recipeTextView, _ratingTextView, _servingSizeTextView, _difficultyTextView, _prepTimeTextView, _cookTimeTextView, _ingredientsView, _cookProcessTextView, _winePairingTextView, _mealtTypeTextView, _lowCalorieTextView, _preparationView, notesLabel, _notesTextView, _imageView, cancelButton, saveButton);
     
     //Add the scrollview to the constraints to the main view.. The content size will be set dynamically by the Container View
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_scrollView]-0-|" options:0 metrics:0 views:viewBindings]];
@@ -402,7 +444,7 @@
     //Setting the constraints to the container view to set the width to the view size and the height to the size of all the subviews added together
     [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[containerView(==view)]" options:0 metrics:0 views:viewBindings]];
     
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[_recipeTextView]-(-2)-[_ratingTextView]-(-2)-[_prepTimeTextView]-(-2)-[_ingredientsView]-(-2)-[_cookProcessTextView]-(-2)-[_preparationView]-(-2)-[notesLabel]-(-2)-[_notesTextView]-40-[_imageView]-0-[cancelButton]-0-|" options:0 metrics:0 views:viewBindings]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[_recipeTextView]-(-2)-[_ratingTextView]-(-2)-[_prepTimeTextView]-(-2)-[_ingredientsView]-(-2)-[_cookProcessTextView]-(-2)-[_mealtTypeTextView]-(-2)-[_preparationView]-(-2)-[notesLabel]-(-2)-[_notesTextView]-40-[_imageView]-0-[cancelButton]-0-|" options:0 metrics:0 views:viewBindings]];
     
     
 #pragma mark - layout for recipe text view
@@ -571,6 +613,7 @@
     [_cookProcessTextView addConstraint:[NSLayoutConstraint constraintWithItem:_processChoice
                                                                     attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_cookProcessTextView attribute:NSLayoutAttributeHeight multiplier:0.58 constant:0.0]];
     
+    
 #pragma mark - layout for Wine Pairing text view
     [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_winePairingTextView attribute:NSLayoutAttributeTop
                                                               relatedBy:NSLayoutRelationEqual toItem:_ingredientsView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
@@ -584,6 +627,26 @@
     [_winePairingTextView addConstraint:[NSLayoutConstraint constraintWithItem:_winePairingTextView
                                                                     attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:_textHeight]];
     
+#pragma mark - layout for Meal Type Text View
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_mealtTypeTextView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-1.0]];
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_mealtTypeTextView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
+    
+    [_mealtTypeTextView addConstraint:[NSLayoutConstraint constraintWithItem:_mealtTypeTextView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:_textHeight]];
+    
+#pragma mark - layout for Calorie Text View
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_lowCalorieTextView attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual toItem:_cookProcessTextView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-2.0]];
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_lowCalorieTextView attribute:NSLayoutAttributeLeft
+                                                              relatedBy:NSLayoutRelationEqual toItem:_mealtTypeTextView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-2.0]];
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:_lowCalorieTextView attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:4.0]];
+    
+    [_lowCalorieTextView addConstraint:[NSLayoutConstraint constraintWithItem:_lowCalorieTextView
+                                                                     attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeHeight multiplier:0.0 constant:_textHeight]];
+
 #pragma mark - layout for preparation view
     //Note the height is set within the custom UIView (NewPreparationView)
     //[containerView addConstraint:[NSLayoutConstraint constraintWithItem:preparationView attribute:NSLayoutAttributeTop
@@ -699,11 +762,18 @@
     
 }
 
+-(void)doneWithNumberPad:(id)sender {
+    //UITextField *textField = (UITextField*)sender;
+    //[textField resignFirstResponder];
+    [self.view endEditing:YES];
+}
+
 #pragma mark - image picker delegate methods
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *chosenPhoto = (UIImage*)info[UIImagePickerControllerOriginalImage];
     UIImageView *tempIV = (UIImageView*)[self.view viewWithTag:IMAGEVIEW];
+    tempIV.contentMode = UIViewContentModeScaleAspectFit;
     tempIV.image = chosenPhoto;
     if (_imageURL == nil) {
         _imageURL = [[NSString alloc] init];
@@ -789,10 +859,17 @@
                 break;
             }
             case COOKPROCESSTEXTVIEW:
-                _processChoice.selectedSegmentIndex = [[record objectForKey:@"CookingProcess"] integerValue];
+                //_processChoice.selectedSegmentIndex = [[record objectForKey:@"CookingProcess"] integerValue];
+                _cookProcessTextView.text = [record objectForKey:@"CookingProcess"];
                 break;
             case WINEPAIRTEXTVIEW:
                 _winePairingTextView.text = [record objectForKey:@"WinePairing"];
+                break;
+            case MEALTYPEVIEW:
+                _mealtTypeTextView.text = [record objectForKey:@"MealType"];
+                break;
+            case LOWCALORIEVIEW:
+                _lowCalorieTextView.text = [record objectForKey:@"LowCalorie"];
                 break;
             case PREPARATIONTEXTVIEW:
                 _preparationView.steps = [record objectForKey:@"Preparation"];
@@ -920,7 +997,8 @@
                 [SVProgressHUD showProgress:7/12 status:@"Now We're Cooking With Gas!!"];
                 break;
             case COOKPROCESSTEXTVIEW:
-                [newEvent setValue:[NSNumber numberWithInteger:_processChoice.selectedSegmentIndex] forKey:@"cookingProcess"];
+                //[newEvent setValue:[NSNumber numberWithInteger:_processChoice.selectedSegmentIndex] forKey:@"cookingProcess"];
+                [newEvent setValue:_cookProcessTextView.text forKey:@"CookingProcess"];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -931,6 +1009,26 @@
                 break;
             case WINEPAIRTEXTVIEW:
                 [newEvent setValue:_winePairingTextView.text forKey:@"winePairing"];
+                if (![context save:&error]) {
+                    // Replace this implementation with code to handle the error appropriately.
+                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                    abort();
+                }
+                [SVProgressHUD showProgress:9/12 status:@"Nearly There.."];
+                break;
+            case MEALTYPEVIEW:
+                [newManagedObject setValue:_mealtTypeTextView.text forKey:@"mealType"];
+                if (![context save:&error]) {
+                    // Replace this implementation with code to handle the error appropriately.
+                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                    abort();
+                }
+                [SVProgressHUD showProgress:9/12 status:@"Nearly There.."];
+                break;
+            case LOWCALORIEVIEW:
+                [newManagedObject setValue:_lowCalorieTextView.text forKey:@"lowCalorie"];
                 if (![context save:&error]) {
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

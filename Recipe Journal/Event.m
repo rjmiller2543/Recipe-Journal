@@ -45,6 +45,9 @@
         [self setNotes:[record objectForKey:@"Notes"]];
         [self setRecipeIconImage:[record objectForKey:@"RecipeIconImage"]];
         [self setIsPublic:[record objectForKey:@"IsPublic"]];
+        [self setTimeStamp:[record objectForKey:@"TimeStamp"]];
+        [self setMealType:[record objectForKey:@"MealType"]];
+        [self setLowCalorie:[record objectForKey:@"LowCalorie"]];
         //
     }
     return self;
@@ -68,6 +71,7 @@
     [self setLowCalorie:[record objectForKey:@"LowCalorie"]];
     [self setMealType:[record objectForKey:@"MealType"]];
     [self setIsPublic:[record objectForKey:@"IsPublic"]];
+    [self setTimeStamp:[record objectForKey:@"TimeStamp"]];
     [self setPublicRecordID:[record objectForKey:@"PublicRecordID"]];
     
     CKAsset *photoAsset = [record objectForKey:@"RecipeIconImage"];
