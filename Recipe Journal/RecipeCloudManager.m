@@ -15,6 +15,8 @@
 @interface RecipeCloudManager ()
 
 @property(nonatomic) BOOL refresh;
+@property(nonatomic) BOOL status;
+@property(nonatomic) BOOL notCompleted;
 
 @end
 
@@ -32,29 +34,32 @@
     return self;
 }
 
-bool status = false;
-bool notCompleted = true;
+//bool status = false;
+//bool notCompleted = true;
 -(BOOL)isLoggedIn {
+    
+    _status = false;
+    _notCompleted = true;
     
     [_container accountStatusWithCompletionHandler:^(CKAccountStatus accountStatus, NSError *error) {
         if (error) {
             NSLog(@"error logging in with error: %@", error);
-            status = false;
+            _status = false;
         }
         else {
             if (accountStatus == CKAccountStatusAvailable) {
-                status = true;
+                _status = true;
             }
             else {
-                status = false;
+                _status = false;
             }
         }
-        notCompleted = false;
+        _notCompleted = false;
     }];
-    while (notCompleted) {
+    while (_notCompleted) {
         //don't return status until status is fetched
     }
-    return status;
+    return _status;
 }
 
 #pragma mark - Recipe Sync Methods
@@ -209,6 +214,14 @@ bool notCompleted = true;
         }
         else {
             
+            /*
+            for (CKRecord *record in results) {
+                [_privateDatabase deleteRecordWithID:[record recordID] completionHandler:^(CKRecordID *recordID, NSError *error) {
+                    NSLog(@"deleted");
+                }];
+            }
+            */
+            
             NSManagedObjectContext *dataCenter = [[AppDelegate sharedInstance] managedObjectContext];
             NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
             
@@ -250,6 +263,8 @@ bool notCompleted = true;
                 }
              
             }
+            
+            
         }
         completionHandler(error, _refresh);
     }];
@@ -324,6 +339,14 @@ bool notCompleted = true;
         }
         else {
             
+            /*
+            for (CKRecord *record in results) {
+                [_privateDatabase deleteRecordWithID:[record recordID] completionHandler:^(CKRecordID *recordID, NSError *error) {
+                    NSLog(@"deleted");
+                }];
+            }
+             */
+            
             NSManagedObjectContext *dataCenter = [[AppDelegate sharedInstance] managedObjectContext];
             NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"GroceryList"];
             
@@ -356,6 +379,7 @@ bool notCompleted = true;
                     [newEvent setType:[record objectForKey:@"size"]];
                     [newEvent setTimeStamp:[record objectForKey:@"timeStamp"]];
                     [newEvent setMarked:[record objectForKey:@"marked"]];
+                    [newEvent setRecordID:[[record recordID] recordName]];
                     
                     if (![dataCenter save:&error]) {
                         // Replace this implementation with code to handle the error appropriately.
@@ -365,6 +389,7 @@ bool notCompleted = true;
                     }
                 }
             }
+            
         }
     }];
     

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E53DC6DC5A0EFA9D0670FBC"
+               BlueprintIdentifier = "AD30D07261C1C7F892C6FC7A"
                BuildableName = "libPods-RNFrostedSidebar.a"
                BlueprintName = "Pods-RNFrostedSidebar"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -90,6 +90,12 @@
 #define COCOAPODS_VERSION_MINOR_FXBlurView 6
 #define COCOAPODS_VERSION_PATCH_FXBlurView 3
 
+// FlatUIKit
+#define COCOAPODS_POD_AVAILABLE_FlatUIKit
+#define COCOAPODS_VERSION_MAJOR_FlatUIKit 1
+#define COCOAPODS_VERSION_MINOR_FlatUIKit 6
+#define COCOAPODS_VERSION_PATCH_FlatUIKit 1
+
 // IQDropDownTextField
 #define COCOAPODS_POD_AVAILABLE_IQDropDownTextField
 // This library does not follow semantic-versioning,
@@ -114,6 +120,30 @@
 #define COCOAPODS_VERSION_MAJOR_MMProgressHUD 0
 #define COCOAPODS_VERSION_MINOR_MMProgressHUD 3
 #define COCOAPODS_VERSION_PATCH_MMProgressHUD 0
+
+// MZAppearance
+#define COCOAPODS_POD_AVAILABLE_MZAppearance
+#define COCOAPODS_VERSION_MAJOR_MZAppearance 1
+#define COCOAPODS_VERSION_MINOR_MZAppearance 1
+#define COCOAPODS_VERSION_PATCH_MZAppearance 5
+
+// MZFormSheetController
+#define COCOAPODS_POD_AVAILABLE_MZFormSheetController
+#define COCOAPODS_VERSION_MAJOR_MZFormSheetController 3
+#define COCOAPODS_VERSION_MINOR_MZFormSheetController 0
+#define COCOAPODS_VERSION_PATCH_MZFormSheetController 5
+
+// MZFormSheetController/Core
+#define COCOAPODS_POD_AVAILABLE_MZFormSheetController_Core
+#define COCOAPODS_VERSION_MAJOR_MZFormSheetController_Core 3
+#define COCOAPODS_VERSION_MINOR_MZFormSheetController_Core 0
+#define COCOAPODS_VERSION_PATCH_MZFormSheetController_Core 5
+
+// RMSwipeTableViewCell
+#define COCOAPODS_POD_AVAILABLE_RMSwipeTableViewCell
+#define COCOAPODS_VERSION_MAJOR_RMSwipeTableViewCell 0
+#define COCOAPODS_VERSION_MINOR_RMSwipeTableViewCell 6
+#define COCOAPODS_VERSION_PATCH_RMSwipeTableViewCell 0
 
 // RNFrostedSidebar
 #define COCOAPODS_POD_AVAILABLE_RNFrostedSidebar

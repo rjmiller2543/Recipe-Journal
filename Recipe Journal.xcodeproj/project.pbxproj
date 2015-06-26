@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		500B46CD1B324EEE008FD986 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 500B46CC1B324EEE008FD986 /* SearchViewController.m */; };
 		504864571A850C5E00655655 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 504864561A850C5D00655655 /* main.m */; };
 		5048645A1A850C5E00655655 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 504864591A850C5E00655655 /* AppDelegate.m */; };
 		5048645D1A850C5E00655655 /* Recipe_Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5048645B1A850C5E00655655 /* Recipe_Journal.xcdatamodeld */; };
@@ -49,7 +50,6 @@
 		50C491F51A8D3FB400C79983 /* kitchen-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F41A8D3FB400C79983 /* kitchen-25.png */; };
 		50C491F81A8D513000C79983 /* NewPreparationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C491F71A8D513000C79983 /* NewPreparationView.m */; };
 		50C491FA1A8D736D00C79983 /* no-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F91A8D736D00C79983 /* no-photo.png */; };
-		50DDC58D1AADEC3600149F22 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DDC58C1AADEC3600149F22 /* SearchView.m */; };
 		50DDD8D21AF5AD27001825B0 /* star-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50DDD8D11AF5AD27001825B0 /* star-25.png */; };
 		50DDD8D41AF5AD2E001825B0 /* star_filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50DDD8D31AF5AD2E001825B0 /* star_filled-25.png */; };
 		50DDD8D61AF6FABC001825B0 /* no_photo-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 50DDD8D51AF6FABC001825B0 /* no_photo-100.png */; };
@@ -68,6 +68,8 @@
 
 /* Begin PBXFileReference section */
 		23B56200338F9252CFBA1320 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		500B46CB1B324EEE008FD986 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		500B46CC1B324EEE008FD986 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		504864511A850C5D00655655 /* Recipe Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Recipe Journal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		504864551A850C5D00655655 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		504864561A850C5D00655655 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -128,8 +130,6 @@
 		50C491F61A8D513000C79983 /* NewPreparationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewPreparationView.h; sourceTree = "<group>"; };
 		50C491F71A8D513000C79983 /* NewPreparationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewPreparationView.m; sourceTree = "<group>"; };
 		50C491F91A8D736D00C79983 /* no-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-photo.png"; sourceTree = "<group>"; };
-		50DDC58B1AADEC3600149F22 /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
-		50DDC58C1AADEC3600149F22 /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
 		50DDD8D11AF5AD27001825B0 /* star-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-25.png"; sourceTree = "<group>"; };
 		50DDD8D31AF5AD2E001825B0 /* star_filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_filled-25.png"; sourceTree = "<group>"; };
 		50DDD8D51AF6FABC001825B0 /* no_photo-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no_photo-100.png"; sourceTree = "<group>"; };
@@ -281,6 +281,8 @@
 				504864621A850C5E00655655 /* DetailViewController.m */,
 				504864861A893FF300655655 /* NewRecipeViewController.h */,
 				504864871A893FF300655655 /* NewRecipeViewController.m */,
+				500B46CB1B324EEE008FD986 /* SearchViewController.h */,
+				500B46CC1B324EEE008FD986 /* SearchViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -296,8 +298,6 @@
 				50B8F1B21A9579B8002D3D51 /* RecipeTableViewCell.m */,
 				50B8F1B51AA6AA08002D3D51 /* GroceryListCell.h */,
 				50B8F1B61AA6AA08002D3D51 /* GroceryListCell.m */,
-				50DDC58B1AADEC3600149F22 /* SearchView.h */,
-				50DDC58C1AADEC3600149F22 /* SearchView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -484,11 +484,11 @@
 				50B8F1AA1A8B172D002D3D51 /* Ingredient.m in Sources */,
 				504864631A850C5E00655655 /* DetailViewController.m in Sources */,
 				50B8F1B31A9579B8002D3D51 /* RecipeTableViewCell.m in Sources */,
-				50DDC58D1AADEC3600149F22 /* SearchView.m in Sources */,
 				50B8F1991A868B2A002D3D51 /* RecipeCloudManager.m in Sources */,
 				50B8F1B01A8B1B27002D3D51 /* NewIngredientsView.m in Sources */,
 				50B8F1B71AA6AA08002D3D51 /* GroceryListCell.m in Sources */,
 				504864601A850C5E00655655 /* MasterViewController.m in Sources */,
+				500B46CD1B324EEE008FD986 /* SearchViewController.m in Sources */,
 				5048645A1A850C5E00655655 /* AppDelegate.m in Sources */,
 				50B8F1A41A868DF2002D3D51 /* Event.m in Sources */,
 				5048645D1A850C5E00655655 /* Recipe_Journal.xcdatamodeld in Sources */,

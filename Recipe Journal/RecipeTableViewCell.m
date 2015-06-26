@@ -7,13 +7,11 @@
 //
 
 #import "RecipeTableViewCell.h"
-#import <AXRatingView/AXRatingView.h>
+//#import <AXRatingView/AXRatingView.h>
 
 @interface RecipeTableViewCell () <UIGestureRecognizerDelegate>
 
-@property(nonatomic,retain) UILabel *label;
-@property(nonatomic,retain) AXRatingView *rating;
-@property(nonatomic,retain) UISegmentedControl *processChoice;
+
 
 @end
 
@@ -66,15 +64,15 @@
     _label.text = [_event recipeName];
     _label.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0];
     [_label sizeToFit];
-    [self addSubview:_label];
+    [self.contentView addSubview:_label];
     
     if (_rating == nil) {
         _rating = [[AXRatingView alloc] initWithFrame:CGRectMake(10, 90, 120, 20)];
     }
     _rating.value = [[_event rating] floatValue];
     _rating.enabled = NO;
-    [self addSubview:_rating];
-    
+    [self.contentView addSubview:_rating];
+    /*
     if (_processChoice == nil) {
         _processChoice = [[UISegmentedControl alloc]
                           initWithItems:@[[UIImage imageNamed:@"cooker-25.png"],
@@ -82,9 +80,9 @@
     }
     [_processChoice setFrame:CGRectMake(self.frame.size.width - 75, 70, 70, 40)];
     [self addSubview:_processChoice];
-    
+    */
     if (_favorited == nil) {
-        _favorited = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width - 120, 70, 40, 40)];
+        _favorited = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width - 75, 70, 40, 40)];
     }
     if ([[_event favorited] boolValue]) {
         _favorited.image = [UIImage imageNamed:@"favorited-50.png"];
@@ -92,7 +90,7 @@
     else {
         _favorited.image = [UIImage imageNamed:@"favorite-50.png"];
     }
-    [self addSubview:_favorited];
+    [self.contentView addSubview:_favorited];
     
 }
 

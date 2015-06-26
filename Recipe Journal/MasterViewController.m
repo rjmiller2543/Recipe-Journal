@@ -18,7 +18,9 @@
 #import <SVPullToRefresh/SVPullToRefresh.h>
 #import <RNFrostedSidebar/RNFrostedSidebar.h>
 //#import "RecipeJournalHelper.h"
-
+#import <FlatUIKit.h>
+#import <AXRatingView/AXRatingView.h>
+#import <RMSwipeTableViewCell.h>
 #import "RecipeCloudManager.h"
 #import "AppDelegate.h"
 
@@ -46,9 +48,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.title = @"Recipes";
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.8 green:0.1 blue:0.8 alpha:1.0];
-    self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0.2 green:0.9 blue:0.2 alpha:0.6];
+    self.navigationController.navigationBar.titleTextAttributes = @{UITextAttributeTextColor : [UIColor whiteColor]};
+    //self.view.backgroundColor = [UIColor colorWithRed:<#(CGFloat)#> green:<#(CGFloat)#> blue:<#(CGFloat)#> alpha:<#(CGFloat)#>]
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    //self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0.2 green:0.9 blue:0.2 alpha:0.6];
+    //[self.navigationController.navigationBar configureFlatNavigationBarWithColor:[UIColor colorWithRed:(198/255) green:(241/255) blue:(140/255) alpha:1.0]];
+    [self.navigationController.navigationBar configureFlatNavigationBarWithColor:[UIColor colorWithRed:0.537 green:0.216 blue:0.008 alpha:1.0]];
+    //[self.navigationController.navigationBar configureFlatNavigationBarWithColor:[UIColor blueColor]];
+    [UIBarButtonItem configureFlatButtonsWithColor:[UIColor colorWithRed:0.321 green:0.353 blue:0.113 alpha:1.0]
+                                  highlightedColor:[UIColor colorWithRed:255/255 green:0/255 blue:0/255 alpha:1]
+                                      cornerRadius:3];
+    self.navigationController.navigationBar.translucent = NO;
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    self.view.backgroundColor = [UIColor colorWithRed:0.937 green:0.906 blue:0.816 alpha:1.0];
     
     _tableViewSource = RECIPELISTSOURCE;
     
@@ -58,7 +70,7 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     UIEdgeInsets insets = self.tableView.contentInset;
-    insets.top = self.navigationController.navigationBar.bounds.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    //insets.top = self.navigationController.navigationBar.bounds.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
     self.tableView.contentInset = insets;
     self.tableView.scrollIndicatorInsets = insets;
     
@@ -84,36 +96,73 @@
                             [weakSelf.tableView reloadData];
                         }
                     }
-                    
+                    [weakSelf.tableView.pullToRefreshView stopAnimating];
                 }];
             }
+            //[weakSelf.tableView.pullToRefreshView stopAnimating];
         }
         else if ([weakSelf.tableViewSource isEqualToString:GROCERYLISTSOURCE]) {
             NSMutableArray *deleteIndex = [[NSMutableArray alloc] init];
             [weakSelf.fetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 GroceryList *list = (GroceryList*)obj;
+                NSMutableArray *deleteArray = [[NSMutableArray alloc] init];
                 
                 if ([[list marked] boolValue]) {
-                    NSManagedObject *object = (NSManagedObject*)obj;
                     
-                    [weakSelf.cloudManager removeItemFromCloud:(GroceryList *)object complete:^(NSError *error) {
-                        if (error) {
-                            NSLog(@"error removing from cloud with error: %@", error);
+                    [deleteArray addObject:[list recordID]];
+                    
+                    NSManagedObject *object = (NSManagedObject*)obj;
+                    /*
+                    //if ([_cloudManager isLoggedIn]) {
+                    //    [weakSelf.cloudManager removeItemFromCloud:(GroceryList *)object complete:^(NSError *error) {
+                    //        if (error) {
+                    //            NSLog(@"error removing from cloud with error: %@", error);
+                    //        }
+                    //        else {
+                                [weakSelf.managedObjectContext deleteObject:object];
+                                
+                                NSError *contextError = nil;
+                                if (![weakSelf.managedObjectContext save:&contextError]) {
+                                    // Replace this implementation with code to handle the error appropriately.
+                                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                                    NSLog(@"Unresolved error %@, %@", contextError, [contextError userInfo]);
+                                    abort();
+                                }
+                                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
+                                [deleteIndex addObject:indexPath];
+                            //}
+                       // }];
+                    //} */
+                    //else {
+                        [weakSelf.managedObjectContext deleteObject:object];
+                        
+                        NSError *contextError = nil;
+                        if (![weakSelf.managedObjectContext save:&contextError]) {
+                            // Replace this implementation with code to handle the error appropriately.
+                            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                            NSLog(@"Unresolved error %@, %@", contextError, [contextError userInfo]);
+                            abort();
                         }
-                        else {
-                            [weakSelf.managedObjectContext deleteObject:object];
-                            
-                            NSError *contextError = nil;
-                            if (![weakSelf.managedObjectContext save:&contextError]) {
-                                // Replace this implementation with code to handle the error appropriately.
-                                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                                NSLog(@"Unresolved error %@, %@", contextError, [contextError userInfo]);
-                                abort();
-                            }
-                            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
-                            [deleteIndex addObject:indexPath];
+                        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
+                        [deleteIndex addObject:indexPath];
+                    //}
+                
+                for (NSString *recordID in deleteArray) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if ([weakSelf.cloudManager isLoggedIn]) {
+                            CKRecordID *deleteThis = [[CKRecordID alloc] initWithRecordName:recordID];
+                            [weakSelf.cloudManager.privateDatabase deleteRecordWithID:deleteThis completionHandler:^(CKRecordID *recordID, NSError *error) {
+                                if (error) {
+                                    NSLog(@"error deleting record: %@", error);
+                                }
+                                else {
+                                    NSLog(@"record deleted");
+                                }
+                            }];
                         }
-                    }];
+                    });
+                }
+                    
                 }
             }];
             
@@ -127,6 +176,7 @@
     [self.tableView registerClass:[GroceryListCell class] forCellReuseIdentifier:@"GroceryCell"];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
@@ -886,6 +936,77 @@
     return height;
 }
 
+-(void)configureRecipeCell:(RecipeTableViewCell*)cell
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIImage *image = [UIImage imageWithData:[cell.event recipeIconImage]];
+        CGSize size = cell.frame.size;//set the width and height
+        
+        //UIGraphicsBeginImageContext(size);
+        
+        UIGraphicsBeginImageContextWithOptions(size, NO, 0.0f);
+        
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGRect area = CGRectMake(0, 0, size.width, size.height);
+        
+        CGContextScaleCTM(ctx, 1, -1);
+        CGContextTranslateCTM(ctx, 0, -area.size.height);
+        
+        CGContextSetBlendMode(ctx, kCGBlendModeMultiply);
+        
+        CGContextSetAlpha(ctx, 0.4);
+        
+        CGContextDrawImage(ctx, area, image.CGImage);
+        
+        //[image drawInRect:self.frame];
+        UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        //here is the scaled image which has been changed to the size specified
+        UIGraphicsEndImageContext();
+        
+        cell.backgroundColor = [UIColor colorWithPatternImage:newImage];
+        //self.backgroundColor = [UIColor redColor];
+        NSLog(@"background image done");
+    });
+    
+    [cell setOpaque:NO];
+    [[cell layer] setOpaque:NO];
+    
+    if (cell.label == nil) {
+        cell.label = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, 0, 0)];
+    }
+    cell.label.text = [cell.event recipeName];
+    cell.label.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0];
+    [cell.label sizeToFit];
+    [cell addSubview:cell.label];
+    
+    if (cell.rating == nil) {
+        cell.rating = [[AXRatingView alloc] initWithFrame:CGRectMake(10, 90, 120, 20)];
+    }
+    cell.rating.value = [[cell.event rating] floatValue];
+    cell.rating.enabled = NO;
+    [cell addSubview:cell.rating];
+    /*
+     if (_processChoice == nil) {
+     _processChoice = [[UISegmentedControl alloc]
+     initWithItems:@[[UIImage imageNamed:@"cooker-25.png"],
+     [UIImage imageNamed:@"kitchen-25.png"]]];
+     }
+     [_processChoice setFrame:CGRectMake(self.frame.size.width - 75, 70, 70, 40)];
+     [self addSubview:_processChoice];
+     */
+    if (cell.favorited == nil) {
+        cell.favorited = [[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width - 75, 70, 40, 40)];
+    }
+    if ([[cell.event favorited] boolValue]) {
+        cell.favorited.image = [UIImage imageNamed:@"favorited-50.png"];
+    }
+    else {
+        cell.favorited.image = [UIImage imageNamed:@"favorite-50.png"];
+    }
+    [cell addSubview:cell.favorited];
+}
+
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     
     [cell setFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 120)];
@@ -900,6 +1021,7 @@
         tempCell.rightUtilityButtons = [self rightButtons];
         tempCell.delegate = self;
         [tempCell configureCell];
+        //[self configureRecipeCell:tempCell];
     }
     else if ([_tableViewSource isEqualToString:GROCERYLISTSOURCE]) {
         //GroceryList *cellList = (GroceryList*)object;
@@ -941,6 +1063,10 @@
 }
 
 #pragma mark - SWTableViewDelegate
+
+-(void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state {
+    NSLog(@"swiped with state: %ld", (long)state);
+}
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
     switch (index) {

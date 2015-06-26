@@ -11,8 +11,11 @@
 #import "MasterViewController.h"
 #import "RecipeCloudManager.h"
 #import "NewRecipeViewController.h"
+#import <FlatUIKit.h>
 
-@interface AppDelegate () <UISplitViewControllerDelegate>
+@interface AppDelegate () <UISplitViewControllerDelegate, NSFetchedResultsControllerDelegate>
+
+@property(nonatomic,retain) RecipeCloudManager *cloudManager;
 
 @end
 
@@ -29,11 +32,229 @@
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
-
+    
     UINavigationController *masterNavigationController = splitViewController.viewControllers[0];
     MasterViewController *controller = (MasterViewController *)masterNavigationController.topViewController;
     controller.managedObjectContext = self.managedObjectContext;
+    
+    _cloudManager = [[RecipeCloudManager alloc] init];
+    
+    //[application registerUserNotificationSettings];
+    [application registerForRemoteNotifications];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (![defaults objectForKey:@"firstRun"]) {
+        [defaults setObject:[NSDate date] forKey:@"firstRun"];
+        [self initSubscriptions];
+    }
+    
     return YES;
+}
+
+/*
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    CKNotification *notifications = [CKNotification notificationFromRemoteNotificationDictionary:userInfo];
+    NSLog(@"notification is: %@", notifications);
+}
+ */
+
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    CKQueryNotification *notifications = [CKQueryNotification notificationFromRemoteNotificationDictionary:userInfo];
+    NSLog(@"notification is: %@", notifications);
+    
+    if ([[notifications alertActionLocalizationKey] isEqualToString:@"CREATE_ITEM_NOTIFICATION"]) {
+        [_cloudManager fetchRecordsWithSource:GROCERYLISTSOURCE completionBlock:^(NSError *error, BOOL refresh) {
+            //up up
+        }];
+    }
+    else if ([[notifications alertActionLocalizationKey] isEqualToString:@"CREATE_RECIPE_NOTIFICATION"]) {
+        [_cloudManager fetchRecordsWithSource:RECIPELISTSOURCE completionBlock:^(NSError *error, BOOL refresh) {
+            //up up
+        }];
+    }
+    else if ([[notifications alertActionLocalizationKey] isEqualToString:@"DELETE_ITEM_NOTIFICATION"]) {
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"GroceryList"];
+        
+        // Set the batch size to a suitable number.
+        [fetchRequest setFetchBatchSize:10];
+        
+        // Edit the sort key as appropriate.
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
+        NSArray *sortDescriptors = @[sortDescriptor];
+        
+        NSPredicate *prepPredicate = [NSPredicate predicateWithFormat:@"recordID = %@", [[notifications recordID] recordName]];
+        
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        [fetchRequest setPredicate:prepPredicate];
+        
+        NSFetchedResultsController *_fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+        _fetchedResultsController.delegate = self;
+        
+        NSError *error = nil;
+        if (![_fetchedResultsController performFetch:&error]) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+        
+        if ([_fetchedResultsController fetchedObjects].count == 1) {
+            NSManagedObject *object = [[_fetchedResultsController fetchedObjects] firstObject];
+            
+            [self.managedObjectContext deleteObject:object];
+            
+            NSError *contextError = nil;
+            if (![self.managedObjectContext save:&contextError]) {
+                // Replace this implementation with code to handle the error appropriately.
+                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                NSLog(@"Unresolved error %@, %@", contextError, [contextError userInfo]);
+                abort();
+            }
+        }
+        else if ( [_fetchedResultsController fetchedObjects].count > 1 ) {
+            NSLog(@"error, there are multiple records with the same ID");
+        }
+        else if ( [_fetchedResultsController fetchedObjects].count < 1) {
+            NSLog(@"error, there are no records that match this ID");
+        }
+    }
+    else if ([[notifications alertActionLocalizationKey] isEqualToString:@"DELETE_RECIPE_NOTIFICATION"]) {
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
+        
+        // Set the batch size to a suitable number.
+        [fetchRequest setFetchBatchSize:10];
+        
+        // Edit the sort key as appropriate.
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
+        NSArray *sortDescriptors = @[sortDescriptor];
+        
+        NSPredicate *prepPredicate = [NSPredicate predicateWithFormat:@"recordID = %@", [[notifications recordID] recordName]];
+        
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        [fetchRequest setPredicate:prepPredicate];
+        
+        NSFetchedResultsController *_fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+        _fetchedResultsController.delegate = self;
+        
+        NSError *error = nil;
+        if (![_fetchedResultsController performFetch:&error]) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+        
+        if ([_fetchedResultsController fetchedObjects].count == 1) {
+            NSManagedObject *object = [[_fetchedResultsController fetchedObjects] firstObject];
+            
+            [self.managedObjectContext deleteObject:object];
+            
+            NSError *contextError = nil;
+            if (![self.managedObjectContext save:&contextError]) {
+                // Replace this implementation with code to handle the error appropriately.
+                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                NSLog(@"Unresolved error %@, %@", contextError, [contextError userInfo]);
+                abort();
+            }
+        }
+        else if ( [_fetchedResultsController fetchedObjects].count > 1 ) {
+            NSLog(@"error, there are multiple records with the same ID");
+        }
+        else if ( [_fetchedResultsController fetchedObjects].count < 1) {
+            NSLog(@"error, there are no records that match this ID");
+        }
+    }
+    
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+-(void)initSubscriptions
+{
+    /* creating the subscriptions.. possible Apple bug, but I need to let the cloud manager complete the save subscription before i can save a new prescription.. this is why they are nested
+     
+        save create item {
+            save delete item {
+                save create recipe {
+                    save delete recipe {
+     
+                    }
+                }
+            }
+        }
+     */
+    
+    NSPredicate *predicate = [NSPredicate predicateWithValue:true];
+    
+    CKSubscription *createItemSubscription = [[CKSubscription alloc] initWithRecordType:@"Items" predicate:predicate options:CKSubscriptionOptionsFiresOnRecordCreation];
+    
+    CKNotificationInfo *createNotificationInfo = [CKNotificationInfo new];
+    createNotificationInfo.alertActionLocalizationKey = @"CREATE_ITEM_NOTIFICATION";
+    //notificationInfo.soundName = nil;
+    createNotificationInfo.shouldBadge = NO;
+    createItemSubscription.notificationInfo = createNotificationInfo;
+    
+    [_cloudManager.privateDatabase saveSubscription:createItemSubscription completionHandler:^(CKSubscription *subscription, NSError *error) {
+        if (error) {
+            NSLog(@"error saving create item subscription: %@", error);
+        }
+        else {
+            NSLog(@"create item subscription saved");
+        }
+        CKSubscription *deleteItemSubscription = [[CKSubscription alloc] initWithRecordType:@"Items" predicate:predicate options:CKSubscriptionOptionsFiresOnRecordDeletion];
+        
+        CKNotificationInfo *deleteNotificationInfo = [CKNotificationInfo new];
+        deleteNotificationInfo.alertActionLocalizationKey = @"DELETE_ITEM_NOTIFICATION";
+        //notificationInfo.soundName = nil;
+        deleteNotificationInfo.shouldBadge = NO;
+        deleteItemSubscription.notificationInfo = deleteNotificationInfo;
+        
+        [_cloudManager.privateDatabase saveSubscription:deleteItemSubscription completionHandler:^(CKSubscription *subscription, NSError *error) {
+            if (error) {
+                NSLog(@"error saving delete item subscription: %@", error);
+            }
+            else {
+                NSLog(@"delete item subscriptions saved");
+            }
+            CKSubscription *createRecipeSubscription = [[CKSubscription alloc] initWithRecordType:@"Recipe" predicate:predicate options:CKSubscriptionOptionsFiresOnRecordCreation];
+            
+            CKNotificationInfo *createRecipeNotificationInfo = [CKNotificationInfo new];
+            createRecipeNotificationInfo.alertActionLocalizationKey = @"CREATE_RECIPE_NOTIFICATION";
+            //notificationInfo.soundName = nil;
+            createRecipeNotificationInfo.shouldBadge = NO;
+            createRecipeSubscription.notificationInfo = createRecipeNotificationInfo;
+            
+            [_cloudManager.privateDatabase saveSubscription:createRecipeSubscription completionHandler:^(CKSubscription *subscription, NSError *error) {
+                if (error) {
+                    NSLog(@"error saving create recipe subscription: %@", error);
+                }
+                else {
+                    NSLog(@"create recipe subscriptions saved");
+                }
+                CKSubscription *deleteRecipeSubscription = [[CKSubscription alloc] initWithRecordType:@"Recipe" predicate:predicate options:CKSubscriptionOptionsFiresOnRecordDeletion];
+                
+                CKNotificationInfo *deleteRecipeNotificationInfo = [CKNotificationInfo new];
+                deleteRecipeNotificationInfo.alertActionLocalizationKey = @"DELETE_RECIPE_NOTIFICATION";
+                //notificationInfo.soundName = nil;
+                deleteRecipeNotificationInfo.shouldBadge = NO;
+                deleteRecipeSubscription.notificationInfo = deleteRecipeNotificationInfo;
+                
+                [_cloudManager.privateDatabase saveSubscription:deleteRecipeSubscription completionHandler:^(CKSubscription *subscription, NSError *error) {
+                    if (error) {
+                        NSLog(@"error saving delete recipe subscription: %@", error);
+                    }
+                    else {
+                        NSLog(@"delete reipe subscriptions saved");
+                    }
+                }];
+            }];
+        }];
+    }];
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -66,9 +287,9 @@
     NSLog(@"url scheme: %@", [url scheme]);
     NSLog(@"url query: %@", [url query]);
     
-    RecipeCloudManager *cloudManager = [[RecipeCloudManager alloc] init];
+    //RecipeCloudManager *cloudManager = [[RecipeCloudManager alloc] init];
     
-    [cloudManager fetchRecipeFromPublic:[url query] complete:^(NSError *error, CKRecord *record) {
+    [_cloudManager fetchRecipeFromPublic:[url query] complete:^(NSError *error, CKRecord *record) {
         NewRecipeViewController *newRecipe = [[NewRecipeViewController alloc] init];
         //[newRecipe newRecipeFromRecord:record];
         [self.window.rootViewController presentViewController:newRecipe animated:YES completion:^{

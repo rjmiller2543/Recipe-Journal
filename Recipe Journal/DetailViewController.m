@@ -172,6 +172,8 @@
         [_difficultyTextView setEnabled:NO];
         _difficultyTextView.tag = DIFFICULTYTEXTVIEW;
         _difficultyTextView.placeholder = @"Difficulty";
+        _difficultyTextView.text = @" ";
+        _difficultyTextView.clearsOnBeginEditing = YES;
         _difficultyTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
         _difficultyTextView.floatingLabelFont = [UIFont fontWithName:@"Copperplate" size:12.0f];
         _difficultyTextView.textAlignment = NSTextAlignmentCenter;
@@ -756,6 +758,10 @@
                 [self alertNoAccount];
             }
         }
+    }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        //Do nothing
     }]];
     
     [self presentViewController:alert animated:YES completion:^{

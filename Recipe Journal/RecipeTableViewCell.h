@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import <SWTableViewCell/SWTableViewCell.h>
+#import <RMSwipeTableViewCell/RMSwipeTableViewCell.h>
 #import "Event.h"
+#import <AXRatingView.h>
 
 @interface RecipeTableViewCell : SWTableViewCell
 
 @property(nonatomic,retain) Event *event;
 @property(nonatomic,retain) UIImageView *favorited;
+
+@property(nonatomic,retain) IBOutlet UILabel *label;
+@property(nonatomic,retain) AXRatingView *rating;
+@property(nonatomic,retain) UISegmentedControl *processChoice;
 
 -(void)configureCell;
 

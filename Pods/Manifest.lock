@@ -26,11 +26,19 @@ PODS:
   - CSGrowingTextView (1.0.4)
   - DLStarRating (1.1)
   - EDStarRating (1.1)
+  - FlatUIKit (1.6.1)
   - FXBlurView (1.6.3)
   - IQDropDownTextField (1.0.4.1)
   - JSONModel (1.0.2)
   - JVFloatLabeledTextField (1.0.2)
   - MMProgressHUD (0.3.0)
+  - MZAppearance (1.1.5)
+  - MZFormSheetController (3.0.5):
+    - MZAppearance
+    - MZFormSheetController/Core (= 3.0.5)
+  - MZFormSheetController/Core (3.0.5):
+    - MZAppearance
+  - RMSwipeTableViewCell (0.6)
   - RNFrostedSidebar (0.2.0)
   - SDWebImage (3.7.1):
     - SDWebImage/Core (= 3.7.1)
@@ -49,11 +57,14 @@ DEPENDENCIES:
   - CSGrowingTextView
   - DLStarRating
   - EDStarRating
+  - FlatUIKit
   - FXBlurView
   - IQDropDownTextField
   - JSONModel
   - JVFloatLabeledTextField
   - MMProgressHUD
+  - MZFormSheetController
+  - RMSwipeTableViewCell
   - RNFrostedSidebar
   - SDWebImage (= 3.7.1)
   - SVProgressHUD
@@ -70,11 +81,15 @@ SPEC CHECKSUMS:
   CSGrowingTextView: 9af429caee7710e73efe4d1a5ba3cd975abd38bd
   DLStarRating: c157ea012c9f824faebd193f4bac1f96368f4147
   EDStarRating: a41a6440a945020745d0e9ff8ada7d1afa952114
+  FlatUIKit: c602127a0c4a347e0632b2c5aef5c8c5f386f2cf
   FXBlurView: c6d23f3d35af2c6282296a2930f61c6e2c788d01
   IQDropDownTextField: 4e6fc6dbfd46a922fbc3fb76ac855d05ccfdc962
   JSONModel: 6ffcb4ffa3659c9e9a2e5d45d6c7705bab187c03
   JVFloatLabeledTextField: 58a3a32cfb800e5b224f676987e7c13abf50a14d
   MMProgressHUD: faa177f36f0d8555bf21e78c36d7076784067181
+  MZAppearance: 6e9dc64e42074c0a19812a327f590746c3283bab
+  MZFormSheetController: 4b351d487e6abaf2d208eba04581723a5b73c4de
+  RMSwipeTableViewCell: ef3a5fc804cf0d5fb70fe1195c088cc40b3fde3c
   RNFrostedSidebar: 9491d8627e5e99b92334d36def432c0faf7ebae4
   SDWebImage: ed3095af2ff88b436426037444979b917f6c5575
   SVProgressHUD: 3afb875b9eb23acd1bed9b82495695c68621a8b2
@@ -83,4 +98,4 @@ SPEC CHECKSUMS:
   TGFoursquareLocationDetail: e2255e26b6c12d97b34fb95d88b67ab84cba1128
   UIFloatLabelTextView: f6e623a5c00284a30e3038374cb2499b7aca454c
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.35.0

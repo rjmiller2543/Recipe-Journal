@@ -1,13 +1,13 @@
 //
-//  SearchView.h
+//  SearchViewController.h
 //  Recipe Journal
 //
-//  Created by Robert Miller on 3/9/15.
+//  Created by Robert Miller on 6/17/15.
 //  Copyright (c) 2015 Robert Miller. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface SearchView : UIView
+@interface SearchViewController : UIViewController
 
 @end
