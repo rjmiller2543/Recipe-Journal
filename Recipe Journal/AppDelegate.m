@@ -46,8 +46,14 @@
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if (![defaults objectForKey:@"firstRun"]) {
-        [defaults setObject:[NSDate date] forKey:@"firstRun"];
-        [self initSubscriptions];
+        [self initSubscriptionsWithCompletionHandler:^(NSError *error) {
+            if (error) {
+                NSLog(@"error initializing subscriptions: %@", error);
+            }
+            else {
+                [defaults setObject:[NSDate date] forKey:@"firstRun"];
+            }
+        }];
     }
     
     return YES;
@@ -173,7 +179,7 @@
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
--(void)initSubscriptions
+-(void)initSubscriptionsWithCompletionHandler:(void (^)(NSError *error))completionHandler
 {
     /* creating the subscriptions.. possible Apple bug, but I need to let the cloud manager complete the save subscription before i can save a new prescription.. this is why they are nested
      
@@ -201,6 +207,8 @@
     [_cloudManager.privateDatabase saveSubscription:createItemSubscription completionHandler:^(CKSubscription *subscription, NSError *error) {
         if (error) {
             NSLog(@"error saving create item subscription: %@", error);
+            completionHandler(error);
+            return;
         }
         else {
             NSLog(@"create item subscription saved");
@@ -216,6 +224,8 @@
         [_cloudManager.privateDatabase saveSubscription:deleteItemSubscription completionHandler:^(CKSubscription *subscription, NSError *error) {
             if (error) {
                 NSLog(@"error saving delete item subscription: %@", error);
+                completionHandler(error);
+                return;
             }
             else {
                 NSLog(@"delete item subscriptions saved");
@@ -231,6 +241,8 @@
             [_cloudManager.privateDatabase saveSubscription:createRecipeSubscription completionHandler:^(CKSubscription *subscription, NSError *error) {
                 if (error) {
                     NSLog(@"error saving create recipe subscription: %@", error);
+                    completionHandler(error);
+                    return;
                 }
                 else {
                     NSLog(@"create recipe subscriptions saved");
@@ -246,9 +258,11 @@
                 [_cloudManager.privateDatabase saveSubscription:deleteRecipeSubscription completionHandler:^(CKSubscription *subscription, NSError *error) {
                     if (error) {
                         NSLog(@"error saving delete recipe subscription: %@", error);
+                        completionHandler(error);
                     }
                     else {
                         NSLog(@"delete reipe subscriptions saved");
+                        completionHandler(error);
                     }
                 }];
             }];
