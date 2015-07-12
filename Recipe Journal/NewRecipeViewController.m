@@ -25,6 +25,7 @@
 #import <IQDropDownTextField.h>
 #import <DLStarRatingControl.h>
 //#import "RecipeJournalHelper.h"
+#import "MasterViewController.h"
 
 
 @interface NewRecipeViewController () <UITextViewDelegate, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate>
@@ -351,7 +352,7 @@
     //Setup and add the Wine Pairing Text View
     _winePairingTextView = [JVFloatLabeledTextField new];
     [_winePairingTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    //winePairingTextView.delegate = self;
+    _winePairingTextView.delegate = self;
     _winePairingTextView.tag = WINEPAIRTEXTVIEW;
     _winePairingTextView.placeholder = @"Wine Pairings";
     _winePairingTextView.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
@@ -1107,17 +1108,28 @@
 }
 
 -(void)recipeCancelled:(UIButton*)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
-        //i just like having this just in case
-    }];
+    if ([[[UIDevice currentDevice] model] isEqualToString:@"iPad"] || [[[UIDevice currentDevice] model] isEqualToString:@"iPad Simulator"]) {
+        MasterViewController *mvc = (MasterViewController*)_hostViewController;
+        [mvc closeNewRecipeView];
+    }
+    else {
+        [self dismissViewControllerAnimated:YES completion:^{
+            //i just like having this just in case
+        }];
+    }
 }
 
 -(void)recipeSaved:(UIButton*)sender {
     [self saveRecipe];
-    [self dismissViewControllerAnimated:YES completion:^{
-        //up up
-        NSLog(@"recipe saved");
-    }];
+    if ([[[UIDevice currentDevice] model] isEqualToString:@"iPad"] || [[[UIDevice currentDevice] model] isEqualToString:@"iPad Simulator"]) {
+        MasterViewController *mvc = (MasterViewController*)_hostViewController;
+        [mvc closeNewRecipeView];
+    }
+    else {
+        [self dismissViewControllerAnimated:YES completion:^{
+            //i just like having this just in case
+        }];
+    }
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField {

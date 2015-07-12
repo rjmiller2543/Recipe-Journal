@@ -50,6 +50,7 @@
 		50C491F51A8D3FB400C79983 /* kitchen-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F41A8D3FB400C79983 /* kitchen-25.png */; };
 		50C491F81A8D513000C79983 /* NewPreparationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C491F71A8D513000C79983 /* NewPreparationView.m */; };
 		50C491FA1A8D736D00C79983 /* no-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C491F91A8D736D00C79983 /* no-photo.png */; };
+		50C5E2D41B4F2D08001034F4 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C5E2D31B4F2D08001034F4 /* InfoViewController.m */; };
 		50DDD8D21AF5AD27001825B0 /* star-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50DDD8D11AF5AD27001825B0 /* star-25.png */; };
 		50DDD8D41AF5AD2E001825B0 /* star_filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 50DDD8D31AF5AD2E001825B0 /* star_filled-25.png */; };
 		50DDD8D61AF6FABC001825B0 /* no_photo-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 50DDD8D51AF6FABC001825B0 /* no_photo-100.png */; };
@@ -130,6 +131,8 @@
 		50C491F61A8D513000C79983 /* NewPreparationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewPreparationView.h; sourceTree = "<group>"; };
 		50C491F71A8D513000C79983 /* NewPreparationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewPreparationView.m; sourceTree = "<group>"; };
 		50C491F91A8D736D00C79983 /* no-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-photo.png"; sourceTree = "<group>"; };
+		50C5E2D21B4F2D08001034F4 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
+		50C5E2D31B4F2D08001034F4 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
 		50DDD8D11AF5AD27001825B0 /* star-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-25.png"; sourceTree = "<group>"; };
 		50DDD8D31AF5AD2E001825B0 /* star_filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_filled-25.png"; sourceTree = "<group>"; };
 		50DDD8D51AF6FABC001825B0 /* no_photo-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no_photo-100.png"; sourceTree = "<group>"; };
@@ -283,6 +286,8 @@
 				504864871A893FF300655655 /* NewRecipeViewController.m */,
 				500B46CB1B324EEE008FD986 /* SearchViewController.h */,
 				500B46CC1B324EEE008FD986 /* SearchViewController.m */,
+				50C5E2D21B4F2D08001034F4 /* InfoViewController.h */,
+				50C5E2D31B4F2D08001034F4 /* InfoViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -491,6 +496,7 @@
 				500B46CD1B324EEE008FD986 /* SearchViewController.m in Sources */,
 				5048645A1A850C5E00655655 /* AppDelegate.m in Sources */,
 				50B8F1A41A868DF2002D3D51 /* Event.m in Sources */,
+				50C5E2D41B4F2D08001034F4 /* InfoViewController.m in Sources */,
 				5048645D1A850C5E00655655 /* Recipe_Journal.xcdatamodeld in Sources */,
 				504864571A850C5E00655655 /* main.m in Sources */,
 				50C491F81A8D513000C79983 /* NewPreparationView.m in Sources */,

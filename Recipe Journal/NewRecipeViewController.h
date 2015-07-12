@@ -15,6 +15,7 @@
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property(nonatomic) id hostViewController;
 
 -(void)newRecipeFromRecord:(CKRecord*)record;
 

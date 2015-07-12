@@ -21,5 +21,9 @@
 
 @property(nonatomic,retain) NSArray *tableViewDataSource;
 
+-(void)doSearch:(id)searchController;
+-(void)cancelSearch;
+-(void)closeNewRecipeView;
+
 @end
 

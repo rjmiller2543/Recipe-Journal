@@ -23,6 +23,9 @@
 #import <RMSwipeTableViewCell.h>
 #import "RecipeCloudManager.h"
 #import "AppDelegate.h"
+#import "SearchViewController.h"
+#import <MZFormSheetController.h>
+#import "InfoViewController.h"
 
 @interface MasterViewController () <RNFrostedSidebarDelegate, SWTableViewCellDelegate>
 
@@ -184,6 +187,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu.png"] style:UIBarButtonItemStylePlain target:self action:@selector(showMenu:)];
     
     _callout = [[RNFrostedSidebar alloc] initWithImages:@[[UIImage imageNamed:@"cutlery-50.png"], [UIImage imageNamed:@"favorite-50.png"], [UIImage imageNamed:@"sort-50.png"], [UIImage imageNamed:@"search-50.png"], [UIImage imageNamed:@"checklist-50.png"], [UIImage imageNamed:@"info-50.png"], [UIImage imageNamed:@"cross-50.png"]]];
+    
     _callout.delegate = self;
     
     _tableViewDataSource = [self.fetchedResultsController fetchedObjects];
@@ -226,7 +230,9 @@
 
 -(void)showMenu:(UIBarButtonItem*)senders {
     NSLog(@"up up");
-    
+    if ([[[UIDevice currentDevice] model] isEqualToString:@"iPad"] || [[[UIDevice currentDevice] model] isEqualToString:@"iPad Simulator"]) {
+        [self hideMaster:YES];
+    }
     [_callout show];
 }
 
@@ -489,130 +495,17 @@
         case 3: {
             //bring up the search page
             NSLog(@"Load The Search Page");
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Search:" message:@"Enter any or all of the search criteria:" preferredStyle:UIAlertControllerStyleAlert];
             
-            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                textField.placeholder = @"Recipe Name";
-            }];
-            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                textField.placeholder = @"Contains Ingredient";
-            }];
-            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                textField.placeholder = @"Max Prep Time";
-            }];
-            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                textField.placeholder = @"Max Cook Time";
-            }];
-            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                textField.placeholder = @"Max Total Time";
-            }];
-            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                textField.placeholder = @"Wine Pairing";
-            }];
+            SearchViewController *searchPage = [[SearchViewController alloc] init];
+            searchPage.hostViewController = self;
             
-            [alert addAction:[UIAlertAction actionWithTitle:@"Search!" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                
-                //Do the Search
-                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
-                
-                // Set the batch size to a suitable number.
-                [fetchRequest setFetchBatchSize:10];
-                
-                NSMutableArray *predicateArray = [[NSMutableArray alloc] init];
-                
-                NSPredicate *predicate = [NSPredicate predicateWithValue:true];
-                [predicateArray addObject:predicate];
-                NSString *predicateString = @"";
-                
-                UITextField *textField = [[alert textFields] objectAtIndex:0];
-                if (![textField.text isEqualToString:@""]) {
-                    predicateString = textField.text;
-                    NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@"recipeName CONTAINS[c] %@", predicateString];
-                    [predicateArray addObject:namePredicate];
-                }
-                
-                /*textField = [[alert textFields] objectAtIndex:1];
-                if (![textField.text isEqualToString:@""]) {
-                    predicateString = textField.text;
-                    //Figure out a way to go through ingredients
-                    
-                    NSPredicate *ingredientPredicate = [NSPredicate predicateWithFormat:@"ANY SELF.ingredients.ingredient like[c] %@", predicateString];
-                    //[predicateArray addObject:ingredientPredicate];
-                }*/
-                
-                textField = [[alert textFields] objectAtIndex:2];
-                if (![textField.text isEqualToString:@""]) {
-                    predicateString = textField.text;
-                    NSPredicate *prepPredicate = [NSPredicate predicateWithFormat:@"prepTimeMinutes = %@", [NSNumber numberWithInteger:[predicateString integerValue]]];
-                    [predicateArray addObject:prepPredicate];
-                }
-                
-                textField = [[alert textFields] objectAtIndex:3];
-                if (![textField.text isEqualToString:@""]) {
-                    predicateString = textField.text;
-                    NSPredicate *cookPredicate = [NSPredicate predicateWithFormat:@"cookTimeMinutes = %@", [predicateString integerValue]];
-                    [predicateArray addObject:cookPredicate];
-                }
-                
-                textField = [[alert textFields] objectAtIndex:4];
-                if (![textField.text isEqualToString:@""]) {
-                    predicateString = textField.text;
-                    NSPredicate *totalPredicate = [NSPredicate predicateWithFormat:@"cookTimeMinutes + prepTimeMinutes = %@", [NSNumber numberWithInteger:[predicateString integerValue]]];
-                    [predicateArray addObject:totalPredicate];
-                }
-                
-                textField = [[alert textFields] objectAtIndex:5];
-                if (![textField.text isEqualToString:@""]) {
-                    predicateString = textField.text;
-                    NSPredicate *winePredicate = [NSPredicate predicateWithFormat:@"winePairing CONTAINS[c] %@", predicateString];
-                    [predicateArray addObject:winePredicate];
-                }
-                
-                NSPredicate *fetchPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:predicateArray];
-                
-                [fetchRequest setPredicate:fetchPredicate];
-                
-                // Edit the sort key as appropriate.
-                NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
-                NSArray *sortDescriptors = @[sortDescriptor];
-                
-                [fetchRequest setSortDescriptors:sortDescriptors];
-                
-                _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-                _fetchedResultsController.delegate = self;
-                
-                NSError *error = nil;
-                if (![self.fetchedResultsController performFetch:&error]) {
-                    // Replace this implementation with code to handle the error appropriately.
-                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-                    abort();
-                }
-                
-                _tableViewDataSource = [_fetchedResultsController fetchedObjects];
-                
-                textField = [[alert textFields] objectAtIndex:1];
-                if (![textField.text isEqualToString:@""]) {
-                    predicateString = textField.text;
-                    //Figure out a way to go through ingredients
-                    
-                    NSPredicate *ingredientPredicate = [NSPredicate predicateWithFormat:@"ANY SELF.ingredients.ingredient like[c] %@", predicateString];
-                    _tableViewDataSource = [_tableViewDataSource filteredArrayUsingPredicate:ingredientPredicate];
-                    //[predicateArray addObject:ingredientPredicate];
-                }
-                
-                NSLog(@"Done with search");
-                
-                [self.tableView reloadData];
-                
-                
-            }]];
-            [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                //Do nothing
-            }]];
-            [self presentViewController:alert animated:YES completion:^{
-                //Up up
+            [self mz_presentFormSheetWithViewController:searchPage animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+                //formSheetController.shouldDismissOnBackgroundViewTap = NO;
+                //[searchPage.view setFrame:CGRectMake(([UIScreen mainScreen].bounds.size.width - formSheetController.presentedFormSheetSize.width)/2, formSheetController.portraitTopInset, formSheetController.presentedFormSheetSize.width, formSheetController.presentedFormSheetSize.height)];
+                [formSheetController setPresentedFormSheetSize:CGSizeMake(self.view.frame.size.width - 20, self.view.frame.size.height - 30)];
+                [searchPage layoutSearchView];
             }];
+
             break;
         }
         case 4: {
@@ -685,9 +578,13 @@
             //open up the info page
             NSLog(@"open info page");
 
-            if (!_infoPage) {
-                _infoPage = [[UIView alloc] init];
-            }
+            InfoViewController *infoPage = [[InfoViewController alloc] init];
+            
+            [self mz_presentFormSheetWithViewController:infoPage animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+                formSheetController.shouldDismissOnBackgroundViewTap = YES;
+                //[infoPage.view setFrame:CGRectMake(([UIScreen mainScreen].bounds.size.width - formSheetController.presentedFormSheetSize.width)/2, formSheetController.portraitTopInset, formSheetController.presentedFormSheetSize.width, formSheetController.presentedFormSheetSize.height)];
+                //[infoPage configureView];
+            }];
             
             break;
         }
@@ -704,6 +601,105 @@
     
     [sidebar dismissAnimated:YES];
     
+}
+
+-(void)doSearch:(id)search {
+    [self mz_dismissFormSheetControllerAnimated:YES completionHandler:nil];
+    SearchViewController *searcher = (SearchViewController*)search;
+    
+    //Do the Search
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
+    
+    // Set the batch size to a suitable number.
+    [fetchRequest setFetchBatchSize:10];
+    
+    NSMutableArray *predicateArray = [[NSMutableArray alloc] init];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithValue:true];
+    [predicateArray addObject:predicate];
+    NSString *predicateString = @"";
+    
+    if (!(searcher.recipeName == nil)) {
+        predicateString = searcher.recipeName;
+        NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@"recipeName CONTAINS[c] %@", predicateString];
+        [predicateArray addObject:namePredicate];
+    }
+    
+    if (!(searcher.maxPrepTime == nil)) {
+        predicateString = [searcher.maxPrepTime stringValue];
+        NSPredicate *prepPredicate = [NSPredicate predicateWithFormat:@"prepTimeMinutes = %@", [NSNumber numberWithInteger:[predicateString integerValue]]];
+        [predicateArray addObject:prepPredicate];
+    }
+    
+    if (!(searcher.maxCookTime == nil)) {
+        predicateString = [searcher.maxCookTime stringValue];
+        NSPredicate *cookPredicate = [NSPredicate predicateWithFormat:@"cookTimeMinutes = %@", [predicateString integerValue]];
+        [predicateArray addObject:cookPredicate];
+    }
+    
+    if (!(searcher.maxTotalTime == nil)) {
+        predicateString = [searcher.maxTotalTime stringValue];
+        NSPredicate *totalPredicate = [NSPredicate predicateWithFormat:@"cookTimeMinutes + prepTimeMinutes = %@", [NSNumber numberWithInteger:[predicateString integerValue]]];
+        [predicateArray addObject:totalPredicate];
+    }
+    
+    if (!(searcher.winePairing == nil)) {
+        predicateString = searcher.winePairing;
+        NSPredicate *winePredicate = [NSPredicate predicateWithFormat:@"winePairing CONTAINS[c] %@", predicateString];
+        [predicateArray addObject:winePredicate];
+    }
+    
+    if (!(searcher.mealType == nil)) {
+        predicateString = searcher.mealType;
+        NSPredicate *mealPredicate = [NSPredicate predicateWithFormat:@"mealType CONTAINS[c] %@", predicateString];
+        [predicateArray addObject:mealPredicate];
+    }
+    
+    if (!(searcher.lowCalorie == nil)) {
+        predicateString = searcher.lowCalorie;
+        NSPredicate *calPredicate = [NSPredicate predicateWithFormat:@"lowCalorie CONTAINS[c] %@", predicateString];
+        [predicateArray addObject:calPredicate];
+    }
+    
+    NSPredicate *fetchPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:predicateArray];
+    
+    [fetchRequest setPredicate:fetchPredicate];
+    
+    // Edit the sort key as appropriate.
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
+    NSArray *sortDescriptors = @[sortDescriptor];
+    
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    _fetchedResultsController.delegate = self;
+    
+    NSError *error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    _tableViewDataSource = [_fetchedResultsController fetchedObjects];
+    
+    if (!(searcher.ingredient == nil)) {
+        predicateString = searcher.ingredient;
+        //Figure out a way to go through ingredients
+        
+        NSPredicate *ingredientPredicate = [NSPredicate predicateWithFormat:@"ANY SELF.ingredients.ingredient like[c] %@", predicateString];
+        _tableViewDataSource = [_tableViewDataSource filteredArrayUsingPredicate:ingredientPredicate];
+        //[predicateArray addObject:ingredientPredicate];
+    }
+    
+    NSLog(@"Done with search");
+    
+    [self.tableView reloadData];
+}
+
+-(void)cancelSearch {
+    [self mz_dismissFormSheetControllerAnimated:YES completionHandler:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -790,6 +786,15 @@
     }
 }
 
+-(void)closeNewRecipeView {
+    id rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+    if([rootViewController isKindOfClass:[UINavigationController class]])
+    {
+        rootViewController = [((UINavigationController *)rootViewController).viewControllers objectAtIndex:0];
+    }
+    [rootViewController mz_dismissFormSheetControllerAnimated:YES completionHandler:nil];
+}
+
 - (void)insertNewObject:(id)sender {
     
     id rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
@@ -800,9 +805,15 @@
     NewRecipeViewController *newView = [[NewRecipeViewController alloc] init];
     if ([[[UIDevice currentDevice] model] isEqualToString:@"iPad"] || [[[UIDevice currentDevice] model] isEqualToString:@"iPad Simulator"]) {
         [self hideMaster:YES];
-        [self.detailViewController presentViewController:newView animated:YES completion:^{
-            //up up
+        [rootViewController mz_presentFormSheetWithViewController:newView animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+            
+            newView.hostViewController = self;
+            [formSheetController setPresentedFormSheetSize:CGSizeMake(self.detailViewController.view.frame.size.width - 120, self.view.frame.size.height - 220)];
+            //[searchPage layoutSearchView];
         }];
+        //[self.detailViewController presentViewController:newView animated:YES completion:^{
+            //up up
+        //}];
     }
     else {
         [rootViewController presentViewController:newView animated:YES completion:^{
