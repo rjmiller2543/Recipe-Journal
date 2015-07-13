@@ -383,6 +383,7 @@
         _imageView.tag = IMAGEVIEW;
         _imageView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
         _imageView.layer.borderWidth = 2.0;
+        _imageView.contentMode = UIViewContentModeScaleAspectFit;
         //_imageView.image = [UIImage imageNamed:@"no-photo.png"];
         [_containerView addSubview:_imageView];
         

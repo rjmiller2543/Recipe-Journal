@@ -24,6 +24,9 @@
 }
 
 -(void)configureCell {
+    
+    self.contentView.backgroundColor = [UIColor colorWithRed:0.937 green:0.906 blue:0.816 alpha:1.0];
+    
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDone:)];
     longPress.minimumPressDuration = 0.2;
     longPress.delegate = self;
@@ -37,6 +40,7 @@
     cellString = [cellString stringByAppendingString:[_ingredient name]];
     
     self.textLabel.text = cellString;
+    self.textLabel.backgroundColor = [UIColor colorWithRed:0.937 green:0.906 blue:0.816 alpha:1.0];
     
     if ([[_ingredient marked] boolValue]) {
         self.imageView.image = [UIImage imageNamed:@"checked-50.png"];

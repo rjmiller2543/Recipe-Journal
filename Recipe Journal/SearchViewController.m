@@ -212,6 +212,9 @@
     [_calorieTextField setItemList:@[@"Low Calorie", @"High Calorie"]];
     [_cookProcessTextField setItemList:@[@"Stovetop", @"Baked", @"Raw", @"Mixed", @"Other"]];
     
+    float heightM = 1.0f/12.0f;
+    float heightC = 0;
+    
     NSDictionary *viewBindings = NSDictionaryOfVariableBindings(self.view, searchLabel, _recipeNameTextField, _ingredientTextField, _maxPrepTimeTextField, _maxCookTimeTextField, _maxTotalTimeTextField, _winePairingTextField, _mealTypeTextField, _calorieTextField, _cookProcessTextField, closeButton, searchButton);
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[searchLabel]-5-[_recipeNameTextField]-0-[_ingredientTextField]-0-[_maxPrepTimeTextField]-0-[_maxCookTimeTextField]-0-[_maxTotalTimeTextField]-0-[_winePairingTextField]-0-[_mealTypeTextField]-0-[_calorieTextField]-(0)-[_cookProcessTextField]-0-[closeButton]-0-|" options:0 metrics:0 views:viewBindings]];
@@ -221,21 +224,21 @@
                                                                           metrics:nil
                                                                             views:viewBindings]];
     
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:searchLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0.0 constant:45]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:searchLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:heightM constant:heightC]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_recipeNameTextField attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
     
     [_recipeNameTextField addConstraint:[NSLayoutConstraint
                                          constraintWithItem:_recipeNameTextField attribute:NSLayoutAttributeHeight
-                                         relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:45]];
+                                         relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:heightM constant:heightC]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ingredientTextField attribute:NSLayoutAttributeLeft
                                                               relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
     
     [_ingredientTextField addConstraint:[NSLayoutConstraint
                                       constraintWithItem:_ingredientTextField attribute:NSLayoutAttributeHeight
-                                      relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:45]];
+                                      relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:heightM constant:heightC]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ingredientTextField attribute:NSLayoutAttributeWidth
                                                               relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
@@ -245,7 +248,7 @@
     
     [_maxPrepTimeTextField addConstraint:[NSLayoutConstraint
                                          constraintWithItem:_maxPrepTimeTextField attribute:NSLayoutAttributeHeight
-                                         relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:45]];
+                                         relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:heightM constant:heightC]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maxPrepTimeTextField attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
@@ -255,7 +258,7 @@
     
     [_maxCookTimeTextField addConstraint:[NSLayoutConstraint
                                           constraintWithItem:_maxCookTimeTextField attribute:NSLayoutAttributeHeight
-                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:45]];
+                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:heightM constant:heightC]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maxCookTimeTextField attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
@@ -265,7 +268,7 @@
     
     [_maxTotalTimeTextField addConstraint:[NSLayoutConstraint
                                           constraintWithItem:_maxTotalTimeTextField attribute:NSLayoutAttributeHeight
-                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:45]];
+                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:heightM constant:heightC]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maxTotalTimeTextField attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
@@ -275,7 +278,7 @@
     
     [_winePairingTextField addConstraint:[NSLayoutConstraint
                                           constraintWithItem:_winePairingTextField attribute:NSLayoutAttributeHeight
-                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:45]];
+                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:heightM constant:heightC]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_winePairingTextField attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
@@ -285,7 +288,7 @@
     
     [_calorieTextField addConstraint:[NSLayoutConstraint
                                           constraintWithItem:_calorieTextField attribute:NSLayoutAttributeHeight
-                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:45]];
+                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:heightM constant:heightC]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_calorieTextField attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
@@ -295,7 +298,7 @@
     
     [_mealTypeTextField addConstraint:[NSLayoutConstraint
                                           constraintWithItem:_mealTypeTextField attribute:NSLayoutAttributeHeight
-                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:45]];
+                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:heightM constant:heightC]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_mealTypeTextField attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
@@ -305,7 +308,7 @@
     
     [_cookProcessTextField addConstraint:[NSLayoutConstraint
                                           constraintWithItem:_cookProcessTextField attribute:NSLayoutAttributeHeight
-                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:45]];
+                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:heightM constant:heightC]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_cookProcessTextField attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
@@ -315,7 +318,7 @@
     
     [closeButton addConstraint:[NSLayoutConstraint
                                           constraintWithItem:closeButton attribute:NSLayoutAttributeHeight
-                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:45]];
+                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:heightM constant:heightC]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:closeButton attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0]];
@@ -327,7 +330,7 @@
     
     [searchButton addConstraint:[NSLayoutConstraint
                                           constraintWithItem:searchButton attribute:NSLayoutAttributeHeight
-                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:0 constant:45]];
+                                          relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:heightM constant:heightC]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:searchButton attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0]];
