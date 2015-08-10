@@ -502,7 +502,12 @@
             [self mz_presentFormSheetWithViewController:searchPage animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
                 //formSheetController.shouldDismissOnBackgroundViewTap = NO;
                 //[searchPage.view setFrame:CGRectMake(([UIScreen mainScreen].bounds.size.width - formSheetController.presentedFormSheetSize.width)/2, formSheetController.portraitTopInset, formSheetController.presentedFormSheetSize.width, formSheetController.presentedFormSheetSize.height)];
-                [formSheetController setPresentedFormSheetSize:CGSizeMake(self.view.frame.size.width - 20, self.view.frame.size.height - 30)];
+                if ([[[UIDevice currentDevice] model] isEqualToString:@"iPad"] || [[[UIDevice currentDevice] model] isEqualToString:@"iPad Simulator"]) {
+                    [formSheetController setPresentedFormSheetSize:CGSizeMake(self.detailViewController.view.frame.size.width - 120, self.detailViewController.view.frame.size.height - 150)];
+                }
+                else {
+                    [formSheetController setPresentedFormSheetSize:CGSizeMake(self.view.frame.size.width - 20, self.view.frame.size.height - 30)];
+                }
                 [searchPage layoutSearchView];
             }];
 
@@ -1059,7 +1064,7 @@
     
     if ([_tableViewSource isEqualToString:RECIPELISTSOURCE]) {
         Event *object = (Event*)[[self fetchedResultsController] objectAtIndexPath:indexPath];
-        if ([[[UIDevice currentDevice] model] isEqualToString:@"iPad"]) {
+        if ([[[UIDevice currentDevice] model] isEqualToString:@"iPad"] || [[[UIDevice currentDevice] model] isEqualToString:@"iPad Simulator"]) {
             [self.detailViewController setDetailItem:[_tableViewDataSource objectAtIndex:indexPath.row]];
         }
         else {
