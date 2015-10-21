@@ -740,12 +740,14 @@
     imagePicker.delegate = self;
     
     UIAlertController *imagePickerAlert = [UIAlertController alertControllerWithTitle:@"Choose Photo Option" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
-    [imagePickerAlert addAction:[UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
-        [self presentViewController:imagePicker animated:YES completion:^{
-            NSLog(@"imgae picker controller presented");
-        }];
-    }]];
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [imagePickerAlert addAction:[UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
+            [self presentViewController:imagePicker animated:YES completion:^{
+                NSLog(@"imgae picker controller presented");
+            }];
+        }]];
+    }
     [imagePickerAlert addAction:[UIAlertAction actionWithTitle:@"Choose Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self presentViewController:imagePicker animated:YES completion:^{
             NSLog(@"imgae picker controller presented");
